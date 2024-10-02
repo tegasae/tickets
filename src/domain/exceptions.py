@@ -12,9 +12,9 @@ class CommonException(Exception):
 
 class InvalidStatus(CommonException):
     def create_message(self):
-        self.base_message = f'The status isn''t correct {self.m}'
+        self.base_message = f'The status isn\'t correct {self.m}'
 
 class InvalidTicket(CommonException):
     def create_message(self):
-        self.base_message = f'The ticket isn''t correct {self.m}'
+        self.base_message = f'The ticket isn\'t correct {self.m}'
 

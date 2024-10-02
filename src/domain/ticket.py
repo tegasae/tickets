@@ -1,6 +1,6 @@
-from typing import List, Set
+from typing import List
 
-from src.domain.exceptions import InvalidStatus
+from src.domain.exceptions import InvalidStatus, InvalidTicket
 from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusExecuted, TicketStatusCancelledUser, \
     TicketStatusAccepted, TicketStatusCancelledOperator, UserStatus, ClientStatus, ClientStatusEnabled, \
     UserStatusEnabled
@@ -11,7 +11,7 @@ class Client:
 
     def __init__(self, client_id: int, name: str, status: ClientStatus):
         self.client_id = client_id
-        self.name = str
+        self.name = name
         self.status = status
 
     def is_active(self):
@@ -26,7 +26,10 @@ class Ticket:
 
     def __init__(self, ticket_id: int, describe: str, statuses: List[TicketStatus]):
         """Иницилизация. Если список статусов пуст, то создается статус Принято"""
-        self.ticked_id = ticket_id
+        self.ticket_id = ticket_id
+        if type(describe) != str or len(describe.lstrip()) == 0:
+            raise InvalidTicket()
+
         self.describe = describe
         self.statuses = []
         if not statuses:
@@ -35,7 +38,7 @@ class Ticket:
             self.statuses = statuses
 
     def __hash__(self):
-        return hash(self.ticked_id)
+        return hash(self.ticket_id)
 
     @property
     def active_status(self):
@@ -81,19 +84,19 @@ class User:
         self.tickets = {}
         if tickets:
             for t in tickets:
-                self.tickets[t.ticked_id] = t
+                self.tickets[t.ticket_id] = t
 
         self.status = status
 
     def is_active(self):
-        if self.client.is_active() == True and type(self.status) == UserStatusEnabled:
+        if self.client.is_active() and type(self.status) == UserStatusEnabled:
             return True
         else:
             return False
 
     def create_ticket(self, ticket: Ticket):
         if self.is_active():
-            self.tickets[ticket.ticked_id] = ticket
+            self.tickets[ticket.ticket_id] = ticket
 
     def cancel_ticket(self, ticket_id: int):
         if ticket_id in self.tickets:
