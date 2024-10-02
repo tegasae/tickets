@@ -1,48 +1,82 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 
+"""Модуль определяющий статусы клиента, пользователя и заявки"""
 
-@dataclass
+"""Классы статусов пользователя"""
+@dataclass(frozen=True)
 class UserStatus:
-    name: str="User Status"
+    """Базовый класс для статуса пользователя"""
+    name:str= field(default="User status")
+    date: datetime = field(default_factory=datetime.now)
 
-
-@dataclass
+@dataclass(frozen=True)
 class UserStatusEnabled(UserStatus):
-    name: str="Enable"
+    """Пользователь включен"""
+    name: str = field(default="Enable")
 
-@dataclass
+
+@dataclass(frozen=True)
 class UserStatusDisabled(UserStatus):
-    name="Disable"
+    """Пользоввтеь отключен"""
+    name: str = field(default="Disable")
 
 
-@dataclass
+"""Классы статусов заявки"""
+@dataclass(frozen=True)
 class TicketStatus:
-    name="Status"
+    """Базовый класс статусов заявок"""
+    name: str = field(default="Ticket status")
+    date: datetime = field(default_factory=datetime.now)
 
-@dataclass
+@dataclass(frozen=True)
 class TicketStatusAccepted(TicketStatus):
-    name="Accept from an user"
+    """Заявка принята"""
+    name: str = field(default="Accepted")
 
 
-@dataclass
+@dataclass(frozen=True)
 class TicketStatusConfirmed(TicketStatus):
-    name="Confirmed by an operator"
+    """Заявка подтверждена оператором"""
+    name: str = field(default="Confirmed by an operator")
 
-@dataclass
+
+@dataclass(frozen=True)
 class TicketStatusExecuted(TicketStatus):
-    name="Executed"
+    """Заявка выполнена"""
+    name: str = field(default="Executed")
 
 
-@dataclass
+@dataclass(frozen=True)
 class TicketStatusCancelledUser(TicketStatus):
-    name="Cancelled by an user"
+    """Заявка снята пользователем"""
+    name: str = field(default="Cancelled by an user")
+
+
+
+@dataclass(frozen=True)
+class TicketStatusCancelledOperator(TicketStatus):
+    """Заявка снята оператором"""
+    name: str = field(default="Cancelled by an operator")
+
+"""Статусы клиентов"""
+@dataclass
+class ClientStatus:
+    """Базовый класс статусов клиента"""
+    name:str=field(default="This is the client status")
+    date: datetime = field(default_factory=datetime.now)
+
 
 
 @dataclass
-class TicketStatusCancelledOperator(TicketStatus):
-    name="Cancelled by an operator"
+class ClientStatusEnabled(ClientStatus):
+    """Клиент вклдючен"""
+    name:str=field(default="The client is enabled")
 
 
 
+@dataclass
+class ClientStatusDisabled(ClientStatus):
+    """Клиент отключен"""
+    name: str = field(default="The client is disabled")
 

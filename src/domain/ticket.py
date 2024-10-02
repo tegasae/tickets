@@ -1,27 +1,100 @@
-from dataclasses import dataclass
-from datetime import datetime
+from typing import List, Set
 
 from src.domain.exceptions import InvalidStatus
-from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusExecuted, TicketStatusCancelledUser
+from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusExecuted, TicketStatusCancelledUser, \
+    TicketStatusAccepted, TicketStatusCancelledOperator, UserStatus, ClientStatus, ClientStatusEnabled, \
+    UserStatusEnabled
 
 
-@dataclass
 class Client:
-    client_id:int
-    name: str
+    """Класс клиент"""
+
+    def __init__(self, client_id: int, name: str, status: ClientStatus):
+        self.client_id = client_id
+        self.name = str
+        self.status = status
+
+    def is_active(self):
+        if type(self.status) == ClientStatusEnabled:
+            return True
+        else:
+            return False
+
 
 class Ticket:
-    ticket_id:int
-    client:Client
-    date_create: datetime
-    date_executed: datetime
-    status: TicketStatus
-    describe: str
-    comment: str
+    """Класс заявка"""
+
+    def __init__(self, ticket_id: int, describe: str, statuses: List[TicketStatus]):
+        """Иницилизация. Если список статусов пуст, то создается статус Принято"""
+        self.ticked_id = ticket_id
+        self.describe = describe
+        self.statuses = []
+        if not statuses:
+            self.statuses.append(TicketStatusAccepted())
+        else:
+            self.statuses = statuses
+
+    def __hash__(self):
+        return hash(self.ticked_id)
+
+    @property
+    def active_status(self):
+        """Возврщаем самый последний статус"""
+        return self.statuses[-1]
+
+    def status_to_confirmed(self):
+        """Перевод заявки в Подтверждено"""
+        if type(self.active_status) == TicketStatusAccepted:
+            self.statuses.append(TicketStatusConfirmed())
+        else:
+            raise InvalidStatus()
 
     def status_to_executed(self):
-        if type(self.status)==TicketStatusConfirmed:
-            self.status=TicketStatusExecuted()
-            return
-        raise InvalidStatus()
+        """Перевод заяаки в Выполнено"""
+        if type(self.active_status) == TicketStatusAccepted:
+            self.statuses.append(TicketStatusExecuted())
+        else:
+            raise InvalidStatus()
 
+    def status_to_cancelled_user(self):
+        """Перевод заявки в снято пользователем"""
+        if type(self.active_status) == TicketStatusAccepted or type(self.active_status) == TicketStatusConfirmed:
+            self.statuses.append(TicketStatusCancelledUser())
+        else:
+            raise InvalidStatus()
+
+    def status_to_cancelled_operator(self):
+        """Перевод заявки в снято оператором"""
+        if type(self.active_status) == TicketStatusAccepted or type(self.active_status) == TicketStatusConfirmed:
+            self.statuses.append(TicketStatusCancelledOperator())
+        else:
+            raise InvalidStatus()
+
+
+class User:
+    """Класс пользовветлью Может создавать заявки и отменять их"""
+
+    def __init__(self, user_id: int, name: str, client: Client, tickets: List[Ticket], status: UserStatus):
+        self.user_id = user_id
+        self.name = name
+        self.client = client
+        self.tickets = {}
+        if tickets:
+            for t in tickets:
+                self.tickets[t.ticked_id] = t
+
+        self.status = status
+
+    def is_active(self):
+        if self.client.is_active() == True and type(self.status) == UserStatusEnabled:
+            return True
+        else:
+            return False
+
+    def create_ticket(self, ticket: Ticket):
+        if self.is_active():
+            self.tickets[ticket.ticked_id] = ticket
+
+    def cancel_ticket(self, ticket_id: int):
+        if ticket_id in self.tickets:
+            self.tickets[ticket_id].status_to_cancelled_user()
