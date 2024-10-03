@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ab790a4-224d-4069-9b83-02f6754160ae" name="Changes" comment="domain">
-      <change afterPath="$PROJECT_DIR$/tests/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/unit/test_exception.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/unit/test_status.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/unit/test_ticket.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/unit/test_user.py" afterDir="false" />
+    <list default="true" id="4ab790a4-224d-4069-9b83-02f6754160ae" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/adapters/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adapters/repository.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/adapters/repository_sqlite.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/status.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/status.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/ticket.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,19 +32,26 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2mq2ss2Vi23pFBUJi9Ee5iHRmZH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for test_exception.test_invalid_ticket.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.ticket.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for test_exception.test_invalid_ticket.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ticket.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tickets" />
@@ -147,7 +149,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="domain" />
-    <option name="LAST_COMMIT_MESSAGE" value="domain" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
