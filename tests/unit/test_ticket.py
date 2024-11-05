@@ -15,11 +15,10 @@ def test_create_space_ticket():
         ticket = Ticket(123, "      ", [])
 
 
-
-
 def test_client_is_active_enabled():
     client = Client(1, "Test Client", ClientStatusEnabled())
     assert client.is_active() == True
+
 
 def test_client_is_active_disabled():
     client = Client(2, "Test Client", ClientStatusDisabled())

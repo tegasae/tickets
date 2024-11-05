@@ -12,3 +12,4 @@ class SQLiteRepository(AbstractRepository):
 
     def get(self, client_id) -> Client:
         cur = self.connect.cursor()
+

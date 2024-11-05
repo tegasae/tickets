@@ -27,7 +27,7 @@ class Ticket:
     def __init__(self, ticket_id: int, describe: str, statuses: List[TicketStatus]):
         """Иницилизация. Если список статусов пуст, то создается статус Принято"""
         self.ticket_id = ticket_id
-        if type(describe) != str or len(describe.lstrip()) == 0:
+        if type(describe) is not str or len(describe.lstrip()) == 0:
             raise InvalidTicket()
 
         self.describe = describe
@@ -75,7 +75,7 @@ class Ticket:
 
 
 class User:
-    """Класс пользовветлью Может создавать заявки и отменять их"""
+    """Класс пользователь. Может создавать заявки и отменять их"""
 
     def __init__(self, user_id: int, name: str, client: Client, tickets: List[Ticket], status: UserStatus):
         self.user_id = user_id
@@ -89,7 +89,7 @@ class User:
         self.status = status
 
     def is_active(self):
-        if self.client.is_active() and type(self.status) == UserStatusEnabled:
+        if self.client.is_active() and type(self.status) is UserStatusEnabled:
             return True
         else:
             return False
