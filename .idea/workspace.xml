@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4ab790a4-224d-4069-9b83-02f6754160ae" name="Changes" comment="repositary">
-      <change afterPath="$PROJECT_DIR$/data/tickets.db" afterDir="false" />
+    <list default="true" id="4ab790a4-224d-4069-9b83-02f6754160ae" name="Changes" comment="domain">
+      <change afterPath="$PROJECT_DIR$/tests/unit/test_change_status.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapters/repository_sqlite.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapters/repository_sqlite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/exceptions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/status.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/status.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/ticket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unit/test_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_status.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/unit/test_ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_ticket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/unit/test_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_user.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +27,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_HOME_DIR$/plugins/python-ce/helpers/typeshed/stdlib/dataclasses.pyi" root0="SKIP_INSPECTION" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -35,26 +37,19 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2mq2ss2Vi23pFBUJi9Ee5iHRmZH" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for test_exception.test_invalid_ticket.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ticket.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for test_exception.test_invalid_ticket.executor": "Run",
+    "Python.main.executor": "Debug",
+    "Python.ticket.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src" />
-    </key>
-  </component>
+}]]></component>
   <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tickets" />
@@ -126,7 +121,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-d68999036c7f-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.14475.56" />
+        <option value="bundled-python-sdk-7a29c1521ef0-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.11799.298" />
       </set>
     </attachedChunks>
   </component>
@@ -147,29 +142,12 @@
       <option name="project" value="LOCAL" />
       <updated>1727877299316</updated>
     </task>
-    <task id="LOCAL-00002" summary="domain">
-      <option name="closed" value="true" />
-      <created>1727960115311</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1727960115311</updated>
-    </task>
-    <task id="LOCAL-00003" summary="repositary">
-      <option name="closed" value="true" />
-      <created>1727967137350</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1727967137350</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="domain" />
-    <MESSAGE value="repositary" />
-    <option name="LAST_COMMIT_MESSAGE" value="repositary" />
+    <option name="LAST_COMMIT_MESSAGE" value="domain" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -178,6 +156,26 @@
           <url>file://$PROJECT_DIR$/tests/unit/test_exception.py</url>
           <line>12</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/domain/ticket.py</url>
+          <line>56</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/unit/test_change_status.py</url>
+          <line>19</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/unit/test_change_status.py</url>
+          <line>39</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/domain/ticket.py</url>
+          <line>49</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

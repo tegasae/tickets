@@ -28,14 +28,14 @@ class UserStatusDisabled(UserStatus):
 """Классы статусов заявки"""
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True,kw_only=True)
 class TicketStatus:
     """Базовый класс статусов заявок"""
     name: str = field(default="Ticket status")
     date: datetime = field(default_factory=datetime.now)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True,kw_only=True)
 class TicketStatusAccepted(TicketStatus):
     """Заявка принята"""
     name: str = field(default="Accepted")
@@ -52,18 +52,17 @@ class TicketStatusExecuted(TicketStatus):
     """Заявка выполнена"""
     name: str = field(default="Executed")
 
-
-@dataclass(frozen=True)
+@dataclass(frozen=True,kw_only=True)
 class TicketStatusCancelledUser(TicketStatus):
     """Заявка снята пользователем"""
     name: str = field(default="Cancelled by an user")
+    comment:str
 
-
-@dataclass(frozen=True)
+@dataclass(frozen=True,kw_only=True)
 class TicketStatusCancelledOperator(TicketStatus):
     """Заявка снята оператором"""
     name: str = field(default="Cancelled by an operator")
-
+    comment:str
 
 """Статусы клиентов"""
 

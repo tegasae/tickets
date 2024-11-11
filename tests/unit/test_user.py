@@ -64,29 +64,3 @@ def test_user_cancel_ticket():
     assert isinstance(user.tickets[1].active_status, TicketStatusCancelledUser)
 
 
-def test_ticket_status_transition_to_confirmed():
-    ticket_status = TicketStatusAccepted()
-    ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
-    ticket.status_to_confirmed()
-    assert isinstance(ticket.active_status, TicketStatusConfirmed)
-
-
-def test_ticket_status_transition_invalid():
-    ticket_status = TicketStatusCancelledUser()
-    ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
-    with pytest.raises(InvalidStatus):
-        ticket.status_to_confirmed()
-
-
-def test_ticket_status_to_executed():
-    ticket_status = TicketStatusAccepted()
-    ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
-    ticket.status_to_executed()
-    assert isinstance(ticket.active_status, TicketStatusExecuted)
-
-
-def test_ticket_status_to_cancelled_operator():
-    ticket_status = TicketStatusConfirmed()
-    ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
-    ticket.status_to_cancelled_operator()
-    assert isinstance(ticket.active_status, TicketStatusCancelledOperator)

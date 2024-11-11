@@ -15,7 +15,7 @@ class Client:
         self.status = status
 
     def is_active(self):
-        if type(self.status) == ClientStatusEnabled:
+        if type(self.status) is ClientStatusEnabled:
             return True
         else:
             return False
@@ -47,29 +47,29 @@ class Ticket:
 
     def status_to_confirmed(self):
         """Перевод заявки в Подтверждено"""
-        if type(self.active_status) == TicketStatusAccepted:
+        if type(self.active_status) is TicketStatusAccepted:
             self.statuses.append(TicketStatusConfirmed())
         else:
             raise InvalidStatus()
 
     def status_to_executed(self):
         """Перевод заяаки в Выполнено"""
-        if type(self.active_status) == TicketStatusAccepted:
+        if type(self.active_status)==TicketStatusConfirmed or type(self.active_status)==TicketStatusCancelledUser:
             self.statuses.append(TicketStatusExecuted())
         else:
             raise InvalidStatus()
 
-    def status_to_cancelled_user(self):
+    def status_to_cancelled_user(self,comment:str):
         """Перевод заявки в снято пользователем"""
-        if type(self.active_status) == TicketStatusAccepted or type(self.active_status) == TicketStatusConfirmed:
-            self.statuses.append(TicketStatusCancelledUser())
+        if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
+            self.statuses.append(TicketStatusCancelledUser(comment=comment))
         else:
             raise InvalidStatus()
 
-    def status_to_cancelled_operator(self):
+    def status_to_cancelled_operator(self,comment:str):
         """Перевод заявки в снято оператором"""
-        if type(self.active_status) == TicketStatusAccepted or type(self.active_status) == TicketStatusConfirmed:
-            self.statuses.append(TicketStatusCancelledOperator())
+        if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
+            self.statuses.append(TicketStatusCancelledOperator(comment=comment))
         else:
             raise InvalidStatus()
 

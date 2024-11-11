@@ -1,8 +1,9 @@
 import pytest
 
-from src.domain.exceptions import InvalidTicket
+from src.domain.exceptions import InvalidTicket, InvalidStatus
 from src.domain.ticket import Client, Ticket
-from src.domain.status import ClientStatusEnabled, ClientStatusDisabled, TicketStatusAccepted
+from src.domain.status import ClientStatusEnabled, ClientStatusDisabled, TicketStatusAccepted, TicketStatusConfirmed, \
+    TicketStatusExecuted, TicketStatusCancelledUser, TicketStatusCancelledOperator
 
 
 def test_create_empty_ticket():
@@ -46,3 +47,7 @@ def test_ticket_active_status():
 def test_ticket_hash():
     ticket = Ticket(126, "Test Ticket", [])
     assert hash(ticket) == hash(ticket.ticket_id)
+
+
+
+
