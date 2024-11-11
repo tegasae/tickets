@@ -1,8 +1,8 @@
 from typing import List
 
 from src.domain.exceptions import InvalidStatus, InvalidTicket
-from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusExecuted, TicketStatusCancelledUser, \
-    TicketStatusAccepted, TicketStatusCancelledOperator, UserStatus, ClientStatus, ClientStatusEnabled, \
+from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
+    TicketStatusAccepted, UserStatus, ClientStatus, ClientStatusEnabled, \
     UserStatusEnabled
 
 
@@ -45,31 +45,10 @@ class Ticket:
         """Возврщаем самый последний статус"""
         return self.statuses[-1]
 
-    def status_to_confirmed(self):
-        """Перевод заявки в Подтверждено"""
-        if type(self.active_status) is TicketStatusAccepted:
-            self.statuses.append(TicketStatusConfirmed())
-        else:
-            raise InvalidStatus()
-
-    def status_to_executed(self):
-        """Перевод заяаки в Выполнено"""
-        if type(self.active_status)==TicketStatusConfirmed or type(self.active_status)==TicketStatusCancelledUser:
-            self.statuses.append(TicketStatusExecuted())
-        else:
-            raise InvalidStatus()
-
-    def status_to_cancelled_user(self,comment:str):
+    def cancelled_by_user(self, comment: str):
         """Перевод заявки в снято пользователем"""
         if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
             self.statuses.append(TicketStatusCancelledUser(comment=comment))
-        else:
-            raise InvalidStatus()
-
-    def status_to_cancelled_operator(self,comment:str):
-        """Перевод заявки в снято оператором"""
-        if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
-            self.statuses.append(TicketStatusCancelledOperator(comment=comment))
         else:
             raise InvalidStatus()
 
@@ -98,6 +77,6 @@ class User:
         if self.is_active():
             self.tickets[ticket.ticket_id] = ticket
 
-    def cancel_ticket(self, ticket_id: int):
+    def cancel_ticket(self, ticket_id: int, comment: str):
         if ticket_id in self.tickets:
-            self.tickets[ticket_id].status_to_cancelled_user()
+            self.tickets[ticket_id].cancelled_by_user(comment=comment)

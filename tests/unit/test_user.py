@@ -1,9 +1,5 @@
-import pytest
-
-from src.domain.exceptions import InvalidStatus
 from src.domain.status import UserStatusEnabled, ClientStatusEnabled, ClientStatusDisabled, UserStatusDisabled, \
-    TicketStatusAccepted, TicketStatusCancelledUser, TicketStatusConfirmed, TicketStatusExecuted, \
-    TicketStatusCancelledOperator
+    TicketStatusAccepted, TicketStatusCancelledUser
 from src.domain.ticket import Client, User, Ticket
 
 
@@ -23,7 +19,7 @@ def test_user_is_inactive_due_to_client():
     client = Client(client_id=1, name="Test Client", status=ClientStatusDisabled())
     user_status = UserStatusEnabled()
     user = User(user_id=1, name="Test User", client=client, tickets=[], status=user_status)
-    assert user.is_active()  is False
+    assert user.is_active() is False
 
 
 def test_user_is_inactive_due_to_status():
@@ -60,7 +56,5 @@ def test_user_cancel_ticket():
     ticket_status = TicketStatusAccepted()
     ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
     user.create_ticket(ticket)
-    user.cancel_ticket(ticket_id=1)
+    user.cancel_ticket(ticket_id=1, comment="comment")
     assert isinstance(user.tickets[1].active_status, TicketStatusCancelledUser)
-
-
