@@ -24,7 +24,7 @@ class Client:
 class Ticket:
     """Класс заявка"""
 
-    def __init__(self, ticket_id: int, describe: str, statuses: List[TicketStatus]):
+    def __init__(self, ticket_id: int, describe: str, statuses: List[TicketStatus] | None = None):
         """Иницилизация. Если список статусов пуст, то создается статус Принято"""
         self.ticket_id = ticket_id
         if type(describe) is not str or len(describe.lstrip()) == 0:
@@ -32,13 +32,17 @@ class Ticket:
 
         self.describe = describe
         self.statuses = []
-        if not statuses:
+        if statuses is None or not statuses:
             self.statuses.append(TicketStatusAccepted())
         else:
             self.statuses = statuses
 
     def __hash__(self):
         return hash(self.ticket_id)
+
+    @property
+    def date_created(self):
+        return self.statuses[0].date
 
     @property
     def active_status(self):

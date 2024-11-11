@@ -1,5 +1,8 @@
+import pytest
+
+from src.domain.exceptions import InvalidStatus
 from src.domain.status import UserStatusEnabled, ClientStatusEnabled, ClientStatusDisabled, UserStatusDisabled, \
-    TicketStatusAccepted, TicketStatusCancelledUser
+    TicketStatusAccepted, TicketStatusCancelledUser, TicketStatusExecuted
 from src.domain.ticket import Client, User, Ticket
 
 
@@ -58,3 +61,23 @@ def test_user_cancel_ticket():
     user.create_ticket(ticket)
     user.cancel_ticket(ticket_id=1, comment="comment")
     assert isinstance(user.tickets[1].active_status, TicketStatusCancelledUser)
+
+
+def test_user_cannot_cancel_ticket():
+    client = Client(client_id=1, name="Test Client", status=ClientStatusEnabled())
+    user_status = UserStatusEnabled()
+    user = User(user_id=1, name="Test User", client=client, tickets=[], status=user_status)
+    ticket_status = TicketStatusAccepted()
+    ticket_status_executed = TicketStatusExecuted()
+    ticket = Ticket(ticket_id=1, statuses=[ticket_status,ticket_status_executed], describe="describe")
+    user.create_ticket(ticket)
+
+    with pytest.raises(InvalidStatus):
+        user.cancel_ticket(ticket_id=1, comment="comment")
+
+
+def test_user_create_tickets():
+    client = Client(client_id=1, name="Test Client", status=ClientStatusEnabled())
+    user_status = UserStatusEnabled()
+    user = User(user_id=1, name="Test User", client=client, tickets=[Ticket(ticket_id=1,describe="decribe1"),Ticket(ticket_id=2, describe="describe2")], status=user_status)
+    assert len(user.tickets)==2

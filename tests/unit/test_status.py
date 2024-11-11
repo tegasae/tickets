@@ -50,13 +50,13 @@ def test_ticket_status_executed():
 
 
 def test_ticket_status_cancelled_user():
-    status = TicketStatusCancelledUser()
+    status = TicketStatusCancelledUser(comment="comment")
     assert status.name == "Cancelled by an user"
     assert isinstance(status.date, datetime)
 
 
 def test_ticket_status_cancelled_operator():
-    status = TicketStatusCancelledOperator()
+    status = TicketStatusCancelledOperator(comment="commnet")
     assert status.name == "Cancelled by an operator"
     assert isinstance(status.date, datetime)
 

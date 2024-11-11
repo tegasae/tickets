@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 
 from src.domain.exceptions import InvalidTicket, InvalidStatus
@@ -14,16 +16,6 @@ def test_create_empty_ticket():
 def test_create_space_ticket():
     with pytest.raises(InvalidTicket):
         ticket = Ticket(123, "      ", [])
-
-
-def test_client_is_active_enabled():
-    client = Client(1, "Test Client", ClientStatusEnabled())
-    assert client.is_active() == True
-
-
-def test_client_is_active_disabled():
-    client = Client(2, "Test Client", ClientStatusDisabled())
-    assert client.is_active() == False
 
 
 def test_ticket_initial_status_default():
@@ -49,5 +41,19 @@ def test_ticket_hash():
     assert hash(ticket) == hash(ticket.ticket_id)
 
 
+def test_get_date():
+    ticket = Ticket(126, "Test Ticket", [])
+    assert type(ticket.date_created) is datetime.datetime
 
 
+def test_cancel_ticket():
+    ticket = Ticket(126, "Test Ticket", [])
+    ticket.cancelled_by_user(comment="comment")
+    assert type(ticket.active_status) is TicketStatusCancelledUser
+
+
+def test_cannot_cancel_ticket():
+
+    ticket = Ticket(126, "Test Ticket", [TicketStatusAccepted(),TicketStatusConfirmed(),TicketStatusExecuted()])
+    with pytest.raises(InvalidStatus):
+        ticket.cancelled_by_user(comment="comment")
