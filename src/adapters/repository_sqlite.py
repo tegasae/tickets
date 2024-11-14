@@ -37,12 +37,13 @@ class SQLiteRepositoryUser(AbstractRepositoryUser):
         ticket_id=0
 
         for r in records:
+            ts=TicketStatusId[r[2]](date=datetime.datetime.fromisoformat(r[4]),comment=r[5])
             if r[0]!=ticket_id:
-                t = Ticket(ticket_id=r[0], describe=r[1],statuses=[TicketStatusId[r[2]](date=datetime.datetime.fromisoformat(r[4]),comment=r[5])])
+                t = Ticket(ticket_id=r[0], describe=r[1],statuses=[ts])
                 tickets.append(t)
                 ticket_id=r[0]
                 continue
-            tickets[-1].statuses.append(TicketStatusId[r[2]](date=datetime.datetime.fromisoformat(r[4]),comment=r[5]))
+            tickets[-1].statuses.append(ts)
 
         return tickets
 
@@ -76,4 +77,5 @@ if __name__=="__main__":
     connect=sqlite3.connect(database="../../data/tickets.db")
     s=SQLiteRepositoryUser(connect=connect)
     user=s.get(user_id=1)
-    print(user.client.name)
+    for t in user.tickets:
+        print(user.tickets[t].statuses)
