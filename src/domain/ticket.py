@@ -60,7 +60,7 @@ class Ticket:
 class User:
     """Класс пользователь. Может создавать заявки и отменять их"""
 
-    def __init__(self, user_id: int, name: str, client: Client, tickets: List[Ticket], status: UserStatus):
+    def __init__(self, user_id: int, name: str, client: Client, status: UserStatus,tickets: list[Ticket]=None):
         self.user_id = user_id
         self.name = name
         self.client = client
@@ -68,6 +68,7 @@ class User:
         if tickets:
             for t in tickets:
                 self.tickets[t.ticket_id] = t
+
 
         self.status = status
 

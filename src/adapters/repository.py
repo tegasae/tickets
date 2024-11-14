@@ -18,12 +18,21 @@ class AbstractRepositoryUser(abc.ABC):
             self.seen_users[user_id] = user
         return user
 
+    def delete(self,user_id:int):
+        if self._delete(user_id) and user_id in self.seen_users:
+            del(self.seen_users[user_id])
+
+
     @abc.abstractmethod
     def _save(self, user: User) -> User:
         raise NotImplementedError
 
     @abc.abstractmethod
     def _get(self, user_id: int) -> User:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def _delete(self, user_id: int) -> bool:
         raise NotImplementedError
 
 
