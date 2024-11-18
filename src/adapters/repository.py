@@ -46,17 +46,20 @@ class AbstractRepositoryTicket(abc.ABC):
         self.seen_user_tickets: dict[int, list[Ticket]] = {}
 
     def save(self,user_id:int,ticket:Ticket)->Ticket:
-        ticket=self._save_ticket(user_id,ticket)
+        ticket=self._save(user_id,ticket)
         try:
             index=self.seen_user_tickets[user_id].index(ticket)
             self.seen_user_tickets[user_id][index]=ticket
-        except ValueError:
+        except KeyError:
+            self.seen_user_tickets[user_id]=[]
+            self.seen_user_tickets[user_id].append(ticket)
+        except  ValueError:
             self.seen_user_tickets[user_id].append(ticket)
 
         return ticket
 
-    def get_tickets(self,user_id:int)->list[Ticket]:
-        return self._get_tickets(user_id)
+    def get(self,user_id:int)->list[Ticket]:
+        return self._get(user_id)
 
 
 
@@ -67,14 +70,14 @@ class AbstractRepositoryTicket(abc.ABC):
             raise
 
     @abc.abstractmethod
-    def _save_ticket(self, user_id: int, ticket: Ticket) -> Ticket:
+    def _save(self, user_id: int, ticket: Ticket) -> Ticket:
         raise NotImplementedError
 
     @abc.abstractmethod
-    def _get_tickets(self, user_id: int) -> list[Ticket]:
+    def _get(self, user_id: int) -> list[Ticket]:
         raise NotImplementedError
 
 
     @abc.abstractmethod
     def _delete(self, user_id: int, ticket_id: int)->bool:
-        raise NotImplementedError
+        raise NotImplemented

@@ -11,7 +11,7 @@ class SQLiteRepositoryTicket(AbstractRepositoryTicket):
         self.conn=conn
 
 
-    def _get_tickets(self,user_id:int):
+    def _get(self,user_id:int):
         tickets: [Ticket] = []
         cursor=self.conn.cursor()
         select_tickets = (
@@ -26,7 +26,10 @@ class SQLiteRepositoryTicket(AbstractRepositoryTicket):
         ticket_id = 0
 
         for r in records:
-            ts= _StoreStatus.create_status(r[2], r[4], r[5])
+            print("==================================")
+            print(r)
+            #ts= _StoreStatus.create_status(r[2], r[4], r[5])
+            ts = _StoreStatus.create_status(r[2], r[4], r[5])
             if r[0] != ticket_id:
                 t = Ticket(ticket_id=r[0], describe=r[1], statuses=[ts])
                 tickets.append(t)
@@ -37,7 +40,7 @@ class SQLiteRepositoryTicket(AbstractRepositoryTicket):
         return tickets
 
 
-    def _save_ticket(self, user_id: int, ticket: Ticket) -> Ticket:
+    def _save(self, user_id: int, ticket: Ticket) -> Ticket:
         cursor=self.conn.cursor()
         count=0
         if not ticket.ticket_id:

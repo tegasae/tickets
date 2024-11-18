@@ -31,3 +31,22 @@ CREATE TABLE tickets (
 	CONSTRAINT tickets_pk PRIMARY KEY (ticket_id),
 	CONSTRAINT tickets_users_FK FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+
+INSERT INTO statuses_ticket
+(status_ticket_id, status_ticket)
+VALUES(1, 'status');
+INSERT INTO statuses_ticket
+(status_ticket_id, status_ticket)
+VALUES(2, 'accepted');
+INSERT INTO statuses_ticket
+(status_ticket_id, status_ticket)
+VALUES(3, 'confirmed');
+INSERT INTO statuses_ticket
+(status_ticket_id, status_ticket)
+VALUES(4, 'executed');
+INSERT INTO statuses_ticket
+(status_ticket_id, status_ticket)
+VALUES(5, 'canceled_user');
+INSERT INTO statuses_ticket
+(status_ticket_id, status_ticket)
+VALUES(6, 'canceled_operator');

@@ -1,28 +1,26 @@
 import sqlite3
 from datetime import datetime
 
+from src.adapters.repositories.sqlite import SQLiteRepositoryTicket
 from src.adapters.repositories.sqlite._statues import _StoreStatus
 from src.adapters.repositories.sqlite._users import SQLiteRepositoryUser
-from src.domain.status import ClientStatusEnabled, UserStatusDisabled, TicketStatusAccepted, TicketStatusConfirmed
+from src.domain.status import ClientStatusEnabled, UserStatusDisabled, TicketStatusAccepted, TicketStatusConfirmed, \
+    TicketStatusCancelledUser
 from src.domain.ticket import Client, User, Ticket
 
 if __name__ == "__main__":
     tick: [Ticket]
-    connect = sqlite3.connect(database="../../data/tickets.db")
-    s = SQLiteRepositoryUser(conn=connect)
-    cursor = connect.cursor()
-    date = datetime.now()
-    statues = [TicketStatusAccepted(date=date), TicketStatusConfirmed(date=date, comment="comment")]
-    _StoreStatus.store_status(cursor=cursor, ticket_id=1, statuses=statues)
-    cursor.execute("SELECT ticket_id,status_ticket_id,date_,comment FROM ticket_status")
-    result = cursor.fetchall()
-    count = 0
-    r = ()
-    for r in result:
-        count += 1
+    connect = sqlite3.connect(database="../../../../data/tickets.db")
+    tr = SQLiteRepositoryTicket(conn=connect)
+    cur = connect.cursor()
+    cur.execute("DELETE FROM tickets")
+    cur.execute("DELETE FROM ticket_status")
+    cur.execute("INSERT INTO tickets (ticket_id,user_id,describes) VALUES(1,1,'123')")
+    cur.execute("INSERT INTO ticket_status (ticket_id,status_ticket_id,date_,comment) VALUES(1,2,'2024-11-19T00:19:42.816100','123')")
+    cur.execute("INSERT INTO ticket_status (ticket_id,status_ticket_id,date_,comment) VALUES(1,3,'2024-11-19T00:19:42.816100','123')")
 
-    assert r[0] == 1
-    print(r)
-    print("-------------------")
-    status = _StoreStatus.create_status(status_id=r[1], date=r[2], comment=r[3])
-    assert status.date == date
+    # ticket1 = Ticket(describe="456")
+    # tr.save(user_id=1, ticket=ticket1)
+    tickets = tr.get(user_id=1)
+    print(tickets)
+    connect.commit()

@@ -40,5 +40,11 @@ class _StoreStatus:
 
     @staticmethod
     def create_status(status_id:int,date:str,comment:str):
-        return _StoreStatus.TicketStatusId[status_id](date=datetime.datetime.fromisoformat(date), comment=comment)
+        #try:
+        print("!!!!")
+        print(status_id)
+        ts=_StoreStatus.TicketStatusId[status_id](date=datetime.datetime.fromisoformat(date), comment=comment)
+        #except KeyError:
+            #ts = _StoreStatus.TicketStatusId[1](date=datetime.datetime.fromisoformat(date), comment=comment)
+        return ts
 

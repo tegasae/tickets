@@ -24,7 +24,7 @@ class Client:
 class Ticket:
     """Класс заявка"""
 
-    def __init__(self, ticket_id: int, describe: str, statuses: List[TicketStatus] | None = None):
+    def __init__(self, ticket_id: int=0, describe: str="", statuses: List[TicketStatus] | None = None):
         """Иницилизация. Если список статусов пуст, то создается статус Принято"""
         self.ticket_id = ticket_id
         if type(describe) is not str or len(describe.lstrip()) == 0:

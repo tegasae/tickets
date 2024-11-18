@@ -20,8 +20,7 @@ def test_create_user(create_conn):
     cur = create_conn.cursor()
     cur.execute("SELECT user_id,client_id,name,is_active FROM users WHERE user_id=1")
     r = cur.fetchone()
-    print(type(user.status))
-    print(r)
+
     assert user.user_id == r[0] and r[0] == 1
     assert user.client.client_id == r[1] and r[1] == 1
     assert user.name == r[2] and r[2] == "user1"
@@ -40,8 +39,7 @@ def test_update_user(create_conn):
     cur = create_conn.cursor()
     cur.execute("SELECT user_id,client_id,name,is_active FROM users WHERE user_id=1")
     r = cur.fetchone()
-    print(type(user.status))
-    print(r)
+
     assert user.user_id == r[0] and r[0] == 1
     assert user.client.client_id == r[1] and r[1] == 1
     assert user.name == r[2] and r[2] == "user2"

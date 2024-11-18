@@ -57,14 +57,14 @@ class TicketStatusExecuted(TicketStatus):
 class TicketStatusCancelledUser(TicketStatus):
     """Заявка снята пользователем"""
     name: str = field(default="Cancelled by an user")
-
+    comment:str
 
 
 @dataclass(frozen=True, kw_only=True)
 class TicketStatusCancelledOperator(TicketStatus):
     """Заявка снята оператором"""
     name: str = field(default="Cancelled by an operator")
-
+    comment:str
 
 
 """Статусы клиентов"""
