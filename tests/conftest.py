@@ -2,8 +2,6 @@ import sqlite3
 
 import pytest
 
-from src.adapters.repository_sqlite import SQLiteRepositoryUser
-
 
 def create_db_sqlite(path=":memory:", schema="../data/schema.sql"):
     with open(schema) as f:

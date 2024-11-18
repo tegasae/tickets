@@ -1,4 +1,7 @@
-from src.adapters.repository_sqlite import SQLiteRepositoryUser
+import pytest
+
+from src.adapters.repositories.sqlite import SQLiteRepositoryUser
+from src.domain.exceptions import UserNotFound
 from src.domain.status import ClientStatusEnabled, UserStatusEnabled, UserStatusDisabled
 from src.domain.ticket import Client, User
 
@@ -45,5 +48,29 @@ def test_update_user(create_conn):
     assert type(user.status) is UserStatusEnabled and r[3]==1
 
 
+def test_get_user(create_conn):
+    cur = create_conn.cursor()
+    cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
+    ur=SQLiteRepositoryUser(conn=create_conn)
+    user=ur.get(user_id=1)
+    assert user.user_id==1
+    assert user.client.client_id==1
+    assert user.name=='user1'
+    assert len(user.tickets)==0
 
-# тест удаления пользователя
+def test_delete_user(create_conn):
+    cur = create_conn.cursor()
+    cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
+    ur=SQLiteRepositoryUser(conn=create_conn)
+    ur.delete(user_id=1)
+
+def test_cant_delete_user(create_conn):
+    cur = create_conn.cursor()
+    cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
+    ur=SQLiteRepositoryUser(conn=create_conn)
+    with pytest.raises(UserNotFound):
+        ur.delete(user_id=2)
+
+
+
+

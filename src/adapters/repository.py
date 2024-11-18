@@ -1,11 +1,13 @@
 import abc
+from abc import abstractmethod
 
+from src.domain.exceptions import UserNotFound
 from src.domain.ticket import User, Ticket
-
 
 class AbstractRepositoryUser(abc.ABC):
     def __init__(self):
         self.seen_users: dict[int, User] = {}
+
 
     def save(self, user: User):
         user = self._save(user=user)
@@ -19,7 +21,9 @@ class AbstractRepositoryUser(abc.ABC):
         return user
 
     def delete(self,user_id:int):
-        if self._delete(user_id) and user_id in self.seen_users:
+        if not self._delete(user_id):
+            raise UserNotFound()
+        if user_id in self.seen_users:
             del(self.seen_users[user_id])
 
 
@@ -36,18 +40,41 @@ class AbstractRepositoryUser(abc.ABC):
         raise NotImplementedError
 
 
+
 class AbstractRepositoryTicket(abc.ABC):
     def __init__(self):
-        self.seen_ticketes: dict[int, Ticket] = {}
+        self.seen_user_tickets: dict[int, list[Ticket]] = {}
+
+    def save(self,user_id:int,ticket:Ticket)->Ticket:
+        ticket=self._save_ticket(user_id,ticket)
+        try:
+            index=self.seen_user_tickets[user_id].index(ticket)
+            self.seen_user_tickets[user_id][index]=ticket
+        except ValueError:
+            self.seen_user_tickets[user_id].append(ticket)
+
+        return ticket
+
+    def get_tickets(self,user_id:int)->list[Ticket]:
+        return self._get_tickets(user_id)
+
+
+
+    def delete(self,user_id:int,ticket_id:int):
+        if self._delete(user_id,ticket_id) and user_id in self.seen_user_tickets:
+            del(self.seen_user_tickets[user_id])
+        else:
+            raise
 
     @abc.abstractmethod
-    def save(self, ticket: Ticket):
+    def _save_ticket(self, user_id: int, ticket: Ticket) -> Ticket:
         raise NotImplementedError
 
     @abc.abstractmethod
-    def get(self, ticket_id: Ticket) -> Ticket:
+    def _get_tickets(self, user_id: int) -> list[Ticket]:
         raise NotImplementedError
 
+
     @abc.abstractmethod
-    def get_all(self, user_id: int) -> list[Ticket]:
+    def _delete(self, user_id: int, ticket_id: int)->bool:
         raise NotImplementedError

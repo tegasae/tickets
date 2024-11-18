@@ -40,6 +40,12 @@ class Ticket:
     def __hash__(self):
         return hash(self.ticket_id)
 
+    def __eq__(self, other):
+        if self.ticket_id==other.ticket_id:
+            return True
+        else:
+            return False
+
     @property
     def date_created(self):
         return self.statuses[0].date
