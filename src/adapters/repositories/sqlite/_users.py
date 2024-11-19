@@ -15,8 +15,7 @@ class SQLiteRepositoryUser(AbstractRepositoryUser):
         super().__init__()
         self.connect = conn
 
-    #def _get_tickets(self, user_id: int) -> [Ticket]:
-
+    # def _get_tickets(self, user_id: int) -> [Ticket]:
 
     def _save(self, user: User) -> User:
         cursor = self.connect.cursor()
@@ -40,7 +39,6 @@ class SQLiteRepositoryUser(AbstractRepositoryUser):
                        {'user_id': user_id})
         r = cursor.fetchone()
         client = Client(client_id=r[3], name=r[4], status=r[5])
-
 
         user = User(user_id=r[0], name=r[1], client=client, tickets=[], status=r[2])
         return user

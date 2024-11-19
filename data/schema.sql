@@ -1,8 +1,3 @@
-CREATE TABLE IF NOT EXISTS "statuses_ticket" (
-	status_ticket_id INTEGER NOT NULL,
-	status_ticket TEXT,
-	CONSTRAINT statuses_ticket_pk PRIMARY KEY (status_ticket_id)
-);
 CREATE TABLE clients (
 	client_id INTEGER NOT NULL,
 	name TEXT,
@@ -16,13 +11,6 @@ CREATE TABLE users (
 	CONSTRAINT users_pk PRIMARY KEY (user_id),
 	CONSTRAINT users_clients_FK FOREIGN KEY (client_id) REFERENCES clients(client_id)
 );
-CREATE TABLE ticket_status (
-	ticket_id INTEGER,
-	status_ticket_id INTEGER,
-	date_ TEXT, comment TEXT,
-	CONSTRAINT ticket_status_statuses_ticket_FK FOREIGN KEY (status_ticket_id) REFERENCES "statuses_ticket"(status_ticket_id),
-	CONSTRAINT ticket_status_tickets_FK FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id)
-);
 CREATE TABLE tickets (
 	ticket_id INTEGER NOT NULL,
 	"describes" TEXT,
@@ -31,22 +19,10 @@ CREATE TABLE tickets (
 	CONSTRAINT tickets_pk PRIMARY KEY (ticket_id),
 	CONSTRAINT tickets_users_FK FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
-
-INSERT INTO statuses_ticket
-(status_ticket_id, status_ticket)
-VALUES(1, 'status');
-INSERT INTO statuses_ticket
-(status_ticket_id, status_ticket)
-VALUES(2, 'accepted');
-INSERT INTO statuses_ticket
-(status_ticket_id, status_ticket)
-VALUES(3, 'confirmed');
-INSERT INTO statuses_ticket
-(status_ticket_id, status_ticket)
-VALUES(4, 'executed');
-INSERT INTO statuses_ticket
-(status_ticket_id, status_ticket)
-VALUES(5, 'canceled_user');
-INSERT INTO statuses_ticket
-(status_ticket_id, status_ticket)
-VALUES(6, 'canceled_operator');
+CREATE TABLE ticket_status (
+	ticket_id INTEGER,
+	status_ticket_id INTEGER,
+	date_ TEXT,
+	comment TEXT,
+	CONSTRAINT ticket_status_tickets_FK FOREIGN KEY (ticket_id) REFERENCES tickets(ticket_id)
+);

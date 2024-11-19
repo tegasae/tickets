@@ -24,12 +24,13 @@ def test_create_user(create_conn):
     assert user.user_id == r[0] and r[0] == 1
     assert user.client.client_id == r[1] and r[1] == 1
     assert user.name == r[2] and r[2] == "user1"
-    assert type(user.status) is UserStatusDisabled and r[3]==0
+    assert type(user.status) is UserStatusDisabled and r[3] == 0
+
 
 # тест смены данных пользователя
 def test_update_user(create_conn):
     ur = SQLiteRepositoryUser(conn=create_conn)
-    cur=create_conn.cursor()
+    cur = create_conn.cursor()
     cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
 
     user = User(user_id=1, name="user2", client=get_client(), status=UserStatusEnabled())
@@ -43,32 +44,34 @@ def test_update_user(create_conn):
     assert user.user_id == r[0] and r[0] == 1
     assert user.client.client_id == r[1] and r[1] == 1
     assert user.name == r[2] and r[2] == "user2"
-    assert type(user.status) is UserStatusEnabled and r[3]==1
+    assert type(user.status) is UserStatusEnabled and r[3] == 1
 
 
 def test_get_user(create_conn):
     cur = create_conn.cursor()
     cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
-    ur=SQLiteRepositoryUser(conn=create_conn)
-    user=ur.get(user_id=1)
-    assert user.user_id==1
-    assert user.client.client_id==1
-    assert user.name=='user1'
-    assert len(user.tickets)==0
+    ur = SQLiteRepositoryUser(conn=create_conn)
+    user = ur.get(user_id=1)
+    assert user.user_id == 1
+    assert user.client.client_id == 1
+    assert user.name == 'user1'
+    assert len(user.tickets) == 0
+
 
 def test_delete_user(create_conn):
     cur = create_conn.cursor()
-    cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
-    ur=SQLiteRepositoryUser(conn=create_conn)
+    user = User(user_id=0, name="name", client=Client(client_id=1, name="1",status=ClientStatusEnabled()), status=UserStatusEnabled())
+    # cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
+    ur = SQLiteRepositoryUser(conn=create_conn)
+    ur.save(user)
+    assert len(ur.seen_users)==1
     ur.delete(user_id=1)
+
 
 def test_cant_delete_user(create_conn):
     cur = create_conn.cursor()
     cur.execute("INSERT INTO users (user_id,client_id,name,is_active) VALUES(1,1,'user1',1)")
-    ur=SQLiteRepositoryUser(conn=create_conn)
+    ur = SQLiteRepositoryUser(conn=create_conn)
+
     with pytest.raises(UserNotFound):
         ur.delete(user_id=2)
-
-
-
-
