@@ -23,8 +23,8 @@ class SQLiteRepositoryTicket(AbstractRepositoryTicket):
         for r in records:
 
             ts = _RepositoryStatus.get_status_by_id(r[2])
-            print(r)
-            s = ts(datetime.datetime.fromisoformat(r[3]),r[4])
+            print(ts)
+            s = ts(date=datetime.datetime.fromisoformat(r[3]),comment=r[4])
 
             if r[0] != ticket_id:
                 t = Ticket(ticket_id=r[0], describe=r[1], statuses=[s])
