@@ -17,6 +17,8 @@ class AbstractRepositoryUser(abc.ABC):
 
     def get(self, user_id: int) -> User:
         user = self._get(user_id=user_id)
+        #if user.user_id==0:
+        #    raise UserNotFound()
         if user.user_id:
             self.seen_users[user_id] = user
         return user

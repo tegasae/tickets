@@ -2,6 +2,9 @@ import sqlite3
 
 import pytest
 
+from src.domain.status import ClientStatusEnabled
+from src.domain.ticket import Client
+
 
 def create_db_sqlite(path=":memory:", schema="../data/schema.sql"):
     with open(schema) as f:
@@ -21,3 +24,7 @@ def create_conn():
     con = create_db_sqlite()
     yield con
     con.close()
+
+
+def get_client():
+    return Client(client_id=1, name="client1", status=ClientStatusEnabled())

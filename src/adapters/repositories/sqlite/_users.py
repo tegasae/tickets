@@ -1,7 +1,7 @@
 import sqlite3
 
 from src.adapters.repository import AbstractRepositoryUser
-from src.domain.status import UserStatusDisabled, UserStatusEnabled
+from src.domain.status import UserStatusDisabled, UserStatusEnabled, ClientStatusDisabled
 from src.domain.ticket import User, Client
 
 UserStatusId = {
@@ -38,6 +38,9 @@ class SQLiteRepositoryUser(AbstractRepositoryUser):
                        "WHERE u.user_id=:user_id",
                        {'user_id': user_id})
         r = cursor.fetchone()
+        if r is None:
+            return User(user_id=0,name="", client=Client(client_id=0,name="",status=ClientStatusDisabled()),
+                        status=UserStatusDisabled())
         client = Client(client_id=r[3], name=r[4], status=r[5])
 
         user = User(user_id=r[0], name=r[1], client=client, tickets=[], status=r[2])

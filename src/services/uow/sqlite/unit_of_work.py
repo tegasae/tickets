@@ -1,10 +1,10 @@
 import sqlite3
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser, SQLiteRepositoryTicket
-from src.services.unit_of_work import AbstractUnitOfWork
+from src.services.uow.unit_of_work import AbstractUnitOfWork
 
 
-class SqlAlchemyUnitOfWork(AbstractUnitOfWork):
+class SQLLiteUnitOfWork(AbstractUnitOfWork):
     def __init__(self, connection:sqlite3.Connection):
         self.connection=connection
         self.users=SQLiteRepositoryUser(conn=self.connection)
