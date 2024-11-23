@@ -1,7 +1,7 @@
 import sqlite3
 
 from src.adapters.repository import AbstractRepositoryUser
-from src.domain.status import UserStatusDisabled, UserStatusEnabled, ClientStatusDisabled
+from src.domain.status import UserStatusDisabled, UserStatusEnabled, ClientStatusDisabled, ClientStatusEnabled
 from src.domain.ticket import User, Client
 
 UserStatusId = {
@@ -9,6 +9,24 @@ UserStatusId = {
     UserStatusEnabled: 1
 }
 
+
+ClientStatusId = {
+    ClientStatusDisabled: 0,
+    ClientStatusEnabled: 1
+}
+
+def get_user_status_by_id(status_id: int):
+    for i in UserStatusId.keys():
+        if UserStatusId[i] == status_id:
+            return i
+    return UserStatusDisabled
+
+
+def get_client_status_by_id(status_id: int):
+    for i in ClientStatusId.keys():
+        if ClientStatusId[i] == status_id:
+            return i
+    return ClientStatusDisabled
 
 class SQLiteRepositoryUser(AbstractRepositoryUser):
     def __init__(self, conn: sqlite3.Connection):
@@ -39,11 +57,14 @@ class SQLiteRepositoryUser(AbstractRepositoryUser):
                        {'user_id': user_id})
         r = cursor.fetchone()
         if r is None:
-            return User(user_id=0,name="", client=Client(client_id=0,name="",status=ClientStatusDisabled()),
+            return User(user_id=0, name="", client=Client(client_id=0, name="", status=ClientStatusDisabled()),
                         status=UserStatusDisabled())
-        client = Client(client_id=r[3], name=r[4], status=r[5])
+        client_status=get_client_status_by_id(r[5])
+        client = Client(client_id=r[3], name=r[4], status=client_status())
+        status = get_user_status_by_id(r[2])
 
-        user = User(user_id=r[0], name=r[1], client=client, tickets=[], status=r[2])
+        user = User(user_id=r[0], name=r[1], client=client, tickets=[], status=status())
+
         return user
 
     def _delete(self, user_id: int) -> bool:

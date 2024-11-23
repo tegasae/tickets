@@ -56,8 +56,8 @@ def test_user_cancel_ticket():
     client = Client(client_id=1, name="Test Client", status=ClientStatusEnabled())
     user_status = UserStatusEnabled()
     user = User(user_id=1, name="Test User", client=client, tickets=[], status=user_status)
-    ticket_status = TicketStatusAccepted()
-    ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
+
+    ticket = Ticket(ticket_id=1,  describe="describe")
     user.create_ticket(ticket)
     t=user.cancel_ticket(ticket_id=1, comment="comment")
     t1=user.cancel_ticket(ticket_id=2, comment="comment")

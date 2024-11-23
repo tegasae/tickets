@@ -2,7 +2,7 @@ import pytest
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser
 from src.domain.exceptions import UserNotFound
-from src.domain.status import UserStatusEnabled
+from src.domain.status import UserStatusEnabled, UserStatusDisabled
 from src.domain.ticket import User
 from tests.conftest import get_client
 
@@ -43,8 +43,12 @@ def test_get_user(create_conn):
     assert user.client.client_id == 1
     assert user.name == 'user1'
     assert len(user.tickets) == 0
+    assert type(user.status) is UserStatusEnabled
     user=ur.get(user_id=2)
     assert user.user_id==0
+
+
+
 
 
 def test_delete_user(create_conn):

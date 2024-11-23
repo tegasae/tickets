@@ -24,7 +24,7 @@ class Client:
 class Ticket:
     """Класс заявка"""
 
-    def __init__(self, ticket_id: int=0, describe: str="", statuses: List[TicketStatus] | None = None):
+    def __init__(self, ticket_id: int = 0, describe: str = "", statuses: List[TicketStatus] | None = None):
         """Иницилизация. Если список статусов пуст, то создается статус Принято"""
         self.ticket_id = ticket_id
         if type(describe) is not str or len(describe.lstrip()) == 0:
@@ -41,7 +41,7 @@ class Ticket:
         return hash(self.ticket_id)
 
     def __eq__(self, other):
-        if self.ticket_id==other.ticket_id:
+        if self.ticket_id == other.ticket_id:
             return True
         else:
             return False
@@ -66,7 +66,7 @@ class Ticket:
 class User:
     """Класс пользователь. Может создавать заявки и отменять их"""
 
-    def __init__(self, user_id: int, name: str, client: Client, status: UserStatus,tickets: list[Ticket]=None):
+    def __init__(self, user_id: int, name: str, client: Client, status: UserStatus, tickets: list[Ticket] = None):
         self.user_id = user_id
         self.name = name
         self.client = client
@@ -74,7 +74,6 @@ class User:
         if tickets:
             for t in tickets:
                 self.tickets[t.ticket_id] = t
-
 
         self.status = status
 
@@ -85,11 +84,13 @@ class User:
             return False
 
     def create_ticket(self, ticket: Ticket):
-        if self.is_active():
+        active=self.is_active()
+        if active==True:
             self.tickets[ticket.ticket_id] = ticket
 
-    def cancel_ticket(self, ticket_id: int, comment: str)->Ticket:
+    def cancel_ticket(self, ticket_id: int, comment: str) -> Ticket:
+
         if ticket_id in self.tickets:
             self.tickets[ticket_id].cancelled_by_user(comment=comment)
             return self.tickets[ticket_id]
-        return Ticket(ticket_id=0,describe="1")
+        return Ticket(ticket_id=0, describe="1")
