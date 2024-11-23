@@ -59,7 +59,11 @@ def test_user_cancel_ticket():
     ticket_status = TicketStatusAccepted()
     ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
     user.create_ticket(ticket)
-    user.cancel_ticket(ticket_id=1, comment="comment")
+    t=user.cancel_ticket(ticket_id=1, comment="comment")
+    t1=user.cancel_ticket(ticket_id=2, comment="comment")
+
+    assert t.ticket_id!=0
+    assert t1.ticket_id==0
     assert isinstance(user.tickets[1].active_status, TicketStatusCancelledUser)
 
 

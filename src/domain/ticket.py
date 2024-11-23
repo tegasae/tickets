@@ -88,6 +88,8 @@ class User:
         if self.is_active():
             self.tickets[ticket.ticket_id] = ticket
 
-    def cancel_ticket(self, ticket_id: int, comment: str):
+    def cancel_ticket(self, ticket_id: int, comment: str)->Ticket:
         if ticket_id in self.tickets:
             self.tickets[ticket_id].cancelled_by_user(comment=comment)
+            return self.tickets[ticket_id]
+        return Ticket(ticket_id=0,describe="1")
