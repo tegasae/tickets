@@ -1,7 +1,7 @@
 import sqlite3
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser, SQLiteRepositoryTicket
-from src.services.uow.unit_of_work import AbstractUnitOfWork
+from src.services.unit_of_work import AbstractUnitOfWork
 
 
 class SQLLiteUnitOfWork(AbstractUnitOfWork):

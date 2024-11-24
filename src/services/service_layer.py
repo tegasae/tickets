@@ -1,7 +1,7 @@
 from src.domain.exceptions import UserNotFound, TicketNotFound
 from src.domain.input_data import DataForTicket, DataCancelTicket
 from src.domain.ticket import Ticket
-from src.services.uow.unit_of_work import AbstractUnitOfWork
+from src.services.unit_of_work import AbstractUnitOfWork
 
 
 def create_ticket(data_for_ticket: DataForTicket, uow: AbstractUnitOfWork) -> Ticket:
