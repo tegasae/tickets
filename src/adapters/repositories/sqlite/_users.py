@@ -9,11 +9,11 @@ UserStatusId = {
     UserStatusEnabled: 1
 }
 
-
 ClientStatusId = {
     ClientStatusDisabled: 0,
     ClientStatusEnabled: 1
 }
+
 
 def get_user_status_by_id(status_id: int):
     for i in UserStatusId.keys():
@@ -27,6 +27,7 @@ def get_client_status_by_id(status_id: int):
         if ClientStatusId[i] == status_id:
             return i
     return ClientStatusDisabled
+
 
 class SQLiteRepositoryUser(AbstractRepositoryUser):
     def __init__(self, conn: sqlite3.Connection):
@@ -59,7 +60,7 @@ class SQLiteRepositoryUser(AbstractRepositoryUser):
         if r is None:
             return User(user_id=0, name="", client=Client(client_id=0, name="", status=ClientStatusDisabled()),
                         status=UserStatusDisabled())
-        client_status=get_client_status_by_id(r[5])
+        client_status = get_client_status_by_id(r[5])
         client = Client(client_id=r[3], name=r[4], status=client_status())
         status = get_user_status_by_id(r[2])
 

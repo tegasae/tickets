@@ -26,3 +26,7 @@ class UserNotFound(CommonException):
 class TicketNotFound(CommonException):
     def create_message(self):
         self.base_message = f'The ticket isn\'t found{self.m}'
+
+class CommentNotFill(CommonException):
+    def create_message(self):
+        self.base_message = f'The comment must be filled in {self.m}'

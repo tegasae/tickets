@@ -1,8 +1,9 @@
 import pytest
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser
+from src.adapters.repositories.sqlite._users import get_user_status_by_id, get_client_status_by_id
 from src.domain.exceptions import UserNotFound
-from src.domain.status import UserStatusEnabled, UserStatusDisabled
+from src.domain.status import UserStatusEnabled, UserStatusDisabled, ClientStatusEnabled, ClientStatusDisabled
 from src.domain.ticket import User
 from tests.conftest import get_client
 
@@ -23,7 +24,7 @@ def test_save_user(create_conn):
     assert user.name == r[2] and r[2] == "user1"
     assert type(user.status) is UserStatusEnabled and r[3] == 1
 
-    user.name='user2'
+    user.name = 'user2'
     ur.save(user=user)
 
     cur.execute("SELECT user_id,client_id,name,is_active FROM users WHERE user_id=1")
@@ -44,11 +45,8 @@ def test_get_user(create_conn):
     assert user.name == 'user1'
     assert len(user.tickets) == 0
     assert type(user.status) is UserStatusEnabled
-    user=ur.get(user_id=2)
-    assert user.user_id==0
-
-
-
+    user = ur.get(user_id=2)
+    assert user.user_id == 0
 
 
 def test_delete_user(create_conn):
@@ -60,3 +58,9 @@ def test_delete_user(create_conn):
     with pytest.raises(UserNotFound):
         ur.delete(user_id=1)
 
+
+def test_status():
+    assert get_user_status_by_id(1) is UserStatusEnabled
+    assert get_user_status_by_id(10) is UserStatusDisabled
+    assert get_client_status_by_id(1) is ClientStatusEnabled
+    assert get_client_status_by_id(10) is ClientStatusDisabled

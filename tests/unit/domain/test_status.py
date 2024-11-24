@@ -1,3 +1,6 @@
+import pytest
+
+from src.domain.exceptions import CommentNotFill
 from src.domain.status import (
     UserStatus, UserStatusEnabled, UserStatusDisabled,
     TicketStatus, TicketStatusAccepted, TicketStatusConfirmed,
@@ -53,13 +56,16 @@ def test_ticket_status_cancelled_user():
     status = TicketStatusCancelledUser(comment="comment")
     assert status.name == "Cancelled by an user"
     assert isinstance(status.date, datetime)
+    with pytest.raises(CommentNotFill):
+        status = TicketStatusCancelledUser(comment="")
 
 
 def test_ticket_status_cancelled_operator():
     status = TicketStatusCancelledOperator(comment="commnet")
     assert status.name == "Cancelled by an operator"
     assert isinstance(status.date, datetime)
-
+    with pytest.raises(CommentNotFill):
+        status = TicketStatusCancelledOperator(comment="")
 
 def test_client_status():
     status = ClientStatus()

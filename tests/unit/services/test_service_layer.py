@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.exceptions import UserNotFound
+from src.domain.exceptions import UserNotFound, TicketNotFound
 from src.domain.input_data import DataForTicket, DataCancelTicket
 from src.domain.status import UserStatusEnabled
 from src.domain.ticket import Ticket, User
@@ -27,6 +27,14 @@ def test_cancel_ticket(create_conn, get_user):
     uow.users.save(user=user)
     uow.tickets.save(user_id=user.user_id, ticket=ticket)
     user.create_ticket(ticket)
-    dct = DataCancelTicket(user_id=user.user_id, ticket_id=1)
+    dct = DataCancelTicket(user_id=user.user_id, ticket_id=1,comment="123")
     r = cancel_ticket(data_cancel_ticket=dct, uow=uow)
-    assert r == True
+
+    assert r is True
+    with pytest.raises(TicketNotFound):
+        dct = DataCancelTicket(user_id=user.user_id, ticket_id=2)
+        r = cancel_ticket(data_cancel_ticket=dct, uow=uow)
+
+    dct = DataCancelTicket(user_id=user.user_id+1, ticket_id=1)
+    with pytest.raises(UserNotFound):
+        r = cancel_ticket(data_cancel_ticket=dct, uow=uow)
