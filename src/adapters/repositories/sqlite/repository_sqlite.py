@@ -2,10 +2,7 @@ import sqlite3
 from datetime import datetime
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryTicket
-from src.adapters.repositories.sqlite._statues import _StoreStatus
-from src.adapters.repositories.sqlite._users import SQLiteRepositoryUser
-from src.domain.status import ClientStatusEnabled, UserStatusDisabled, TicketStatusAccepted, TicketStatusConfirmed, \
-    TicketStatusCancelledUser
+
 from src.domain.ticket import Client, User, Ticket
 
 if __name__ == "__main__":

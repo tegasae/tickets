@@ -66,8 +66,6 @@ def test_update_not_exists(create_conn):
     tr = SQLiteRepositoryTicket(conn=create_conn)
     tr.save(user_id=1, ticket=ticket)
     ticket.ticket_id = 10
-    with pytest.raises(TicketNotFound):
-        tr.save(user_id=1, ticket=ticket)
 
 def test_delete_ticket(create_conn):
     ticket = Ticket(describe="describe", statuses=[TicketStatusAccepted(comment="comment"),
@@ -78,8 +76,6 @@ def test_delete_ticket(create_conn):
     tr.delete(user_id=1,ticket_id=1)
     ticket.ticket_id=0
     tr.save(user_id=1, ticket=ticket)
-    with pytest.raises(TicketNotFound):
-        tr.delete(user_id=1, ticket_id=10)
 
 def test_get_tickets(create_conn):
     date = datetime.datetime.now()

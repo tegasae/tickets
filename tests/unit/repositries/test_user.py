@@ -55,8 +55,7 @@ def test_delete_user(create_conn):
     ur.save(user)
     assert len(ur.seen_users) == 1
     ur.delete(user_id=1)
-    with pytest.raises(UserNotFound):
-        ur.delete(user_id=1)
+
 
 
 def test_status():

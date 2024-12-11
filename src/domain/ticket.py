@@ -1,6 +1,6 @@
 from typing import List
 
-from src.domain.exceptions import InvalidStatus, InvalidTicket
+from src.domain.exceptions import InvalidStatus, InvalidTicket, CommentNotFill
 from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
     TicketStatusAccepted, UserStatus, ClientStatus, ClientStatusEnabled, \
     UserStatusEnabled
@@ -13,6 +13,7 @@ class Client:
         self.client_id = client_id
         self.name = name
         self.status = status
+        self.events=[]
 
     def is_active(self):
         if type(self.status) is ClientStatusEnabled:
@@ -37,6 +38,8 @@ class Ticket:
         else:
             self.statuses = statuses
 
+        self.events=[]
+
     def __hash__(self):
         return hash(self.ticket_id)
 
@@ -57,6 +60,8 @@ class Ticket:
 
     def cancelled_by_user(self, comment: str):
         """Перевод заявки в снято пользователем"""
+        if comment=="":
+            raise CommentNotFill()
         if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
             self.statuses.append(TicketStatusCancelledUser(comment=comment))
         else:

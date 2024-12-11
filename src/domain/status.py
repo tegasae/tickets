@@ -1,8 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from src.domain.exceptions import CommentNotFill
-
 """Модуль определяющий статусы клиента, пользователя и заявки"""
 
 """Классы статусов пользователя"""
@@ -35,7 +33,8 @@ class TicketStatus:
     """Базовый класс статусов заявок"""
     name: str = field(default="Ticket status")
     date: datetime = field(default_factory=datetime.now)
-    comment:str=""
+    comment: str = ""
+
 
 @dataclass(frozen=True, kw_only=True)
 class TicketStatusAccepted(TicketStatus):
@@ -59,22 +58,14 @@ class TicketStatusExecuted(TicketStatus):
 class TicketStatusCancelledUser(TicketStatus):
     """Заявка снята пользователем"""
     name: str = field(default="Cancelled by an user")
-    comment:str
-    def __post_init__(self):
-        # Check that age is a non-negative integer
-        if len(self.comment)==0:
-            raise CommentNotFill()
+    comment: str
+
 
 @dataclass(frozen=True, kw_only=True)
 class TicketStatusCancelledOperator(TicketStatus):
     """Заявка снята оператором"""
     name: str = field(default="Cancelled by an operator")
-    comment:str
-
-    def __post_init__(self):
-        # Check that age is a non-negative integer
-        if len(self.comment)==0:
-            raise CommentNotFill()
+    comment: str
 
 
 """Статусы клиентов"""
