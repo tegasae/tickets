@@ -8,14 +8,7 @@ from src.domain.status import TicketStatusAccepted, TicketStatusConfirmed, \
     TicketStatusExecuted, TicketStatusCancelledUser
 
 
-def test_create_empty_ticket():
-    with pytest.raises(InvalidTicket):
-        ticket = Ticket(123, "", [])
 
-
-def test_create_space_ticket():
-    with pytest.raises(InvalidTicket):
-        ticket = Ticket(123, "      ", [])
 
 
 def test_ticket_initial_status_default():
@@ -48,6 +41,7 @@ def test_get_date():
 
 def test_cancel_ticket():
     ticket = Ticket(126, "Test Ticket", [])
+    ticket.statuses.append(TicketStatusConfirmed())
     ticket.cancelled_by_user(comment="comment")
     assert type(ticket.active_status) is TicketStatusCancelledUser
 

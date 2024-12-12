@@ -31,8 +31,7 @@ class SQLiteRepositoryTicket(AbstractRepositoryTicket):
                 tickets.append(t)
                 ticket_id = r[0]
                 continue
-            tickets[-1].statuses.append(ts)
-
+            tickets[-1].statuses.append(s)
         return tickets
 
     def _save(self, user_id: int, ticket: Ticket) -> Ticket:

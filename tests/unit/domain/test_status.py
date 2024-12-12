@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.exceptions import CommentNotFill
+
 from src.domain.status import (
     UserStatus, UserStatusEnabled, UserStatusDisabled,
     TicketStatus, TicketStatusAccepted, TicketStatusConfirmed,

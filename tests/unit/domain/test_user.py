@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.exceptions import InvalidStatus
+from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate
 from src.domain.status import UserStatusEnabled, ClientStatusEnabled, ClientStatusDisabled, UserStatusDisabled, \
     TicketStatusAccepted, TicketStatusCancelledUser, TicketStatusExecuted
 from src.domain.ticket import Client, User, Ticket
@@ -48,8 +48,9 @@ def test_user_cannot_create_ticket_when_inactive():
     user = User(user_id=1, name="Test User", client=client, tickets=[], status=user_status)
     ticket_status = TicketStatusAccepted()
     ticket = Ticket(ticket_id=1, statuses=[ticket_status], describe="describe")
-    user.create_ticket(ticket)
-    assert ticket.ticket_id not in user.tickets
+    with pytest.raises(UserCantCreate):
+        user.create_ticket(ticket)
+
 
 
 def test_user_cancel_ticket():
@@ -60,10 +61,11 @@ def test_user_cancel_ticket():
     ticket = Ticket(ticket_id=1,  describe="describe")
     user.create_ticket(ticket)
     t=user.cancel_ticket(ticket_id=1, comment="comment")
-    t1=user.cancel_ticket(ticket_id=2, comment="comment")
+
+    with pytest.raises(TicketNotFound):
+        user.cancel_ticket(ticket_id=2, comment="comment")
 
     assert t.ticket_id!=0
-    assert t1.ticket_id==0
     assert isinstance(user.tickets[1].active_status, TicketStatusCancelledUser)
 
 

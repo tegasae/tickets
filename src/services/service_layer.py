@@ -32,3 +32,8 @@ def cancel_ticket(data_cancel_ticket: DataCancelTicket, uow: AbstractUnitOfWork)
         uow.tickets.save(user_id=user.user_id, ticket=ticket)
         uow.commit()
         return True
+
+def get_all_tickets(user_id:int, uow:AbstractUnitOfWork)->list[Ticket]:
+        return uow.tickets.get(user_id=user_id)
+
+    

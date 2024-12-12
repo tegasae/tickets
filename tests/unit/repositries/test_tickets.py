@@ -92,6 +92,7 @@ def test_get_tickets(create_conn):
     assert len(tickets)==2
     assert tickets[0].ticket_id==1
     assert type(tickets[1].statuses[0])==TicketStatusAccepted
+    assert type(tickets[1].statuses[-1]) == TicketStatusConfirmed
 
 def test_unknown_status():
     class T(TicketStatus):

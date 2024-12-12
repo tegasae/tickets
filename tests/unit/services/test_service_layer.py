@@ -12,10 +12,10 @@ from tests.conftest import get_client
 def test_create_ticket(create_conn, get_user):
     uow = SQLLiteUnitOfWork(connection=create_conn)
 
-    dft = DataForTicket(user_id=get_user.user_id, describe="123")
+    dft = DataForTicket(user_id=get_user.user_id, describe="123",comment="")
     ticket = create_ticket(data_for_ticket=dft, uow=uow)
     assert ticket.ticket_id == 1
-    dft = DataForTicket(user_id=10, describe="123")
+    dft = DataForTicket(user_id=10, describe="123",comment="1")
     with pytest.raises(UserNotFound):
         ticket = create_ticket(data_for_ticket=dft, uow=uow)
 
@@ -32,9 +32,9 @@ def test_cancel_ticket(create_conn, get_user):
 
     assert r is True
     with pytest.raises(TicketNotFound):
-        dct = DataCancelTicket(user_id=user.user_id, ticket_id=2)
+        dct = DataCancelTicket(user_id=user.user_id, ticket_id=2,comment="1111")
         r = cancel_ticket(data_cancel_ticket=dct, uow=uow)
 
-    dct = DataCancelTicket(user_id=user.user_id+1, ticket_id=1)
+    dct = DataCancelTicket(user_id=user.user_id+1, ticket_id=1,comment="1234")
     with pytest.raises(UserNotFound):
         r = cancel_ticket(data_cancel_ticket=dct, uow=uow)
