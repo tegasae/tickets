@@ -15,7 +15,11 @@ class TicketView:
     statuses:list[StatusView]
     active_status:StatusView= field(init=False)
     def __post_init__(self):
-        self.active_status=self.statuses[-1]
+        if len(self.statuses)!=0:
+            self.active_status = self.statuses[-1]
+        else:
+            self.active_status=StatusView(id=0,date="",name="",comment="")
+
 
     def __repr__(self):
         return repr(asdict(self))

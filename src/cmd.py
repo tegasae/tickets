@@ -2,10 +2,11 @@
 import sqlite3
 from dataclasses import dataclass
 
+from src.domain.exceptions import TicketNotFound
 from src.domain.input_data import DataForTicket
 from src.domain.status import ClientStatusEnabled, UserStatusEnabled
 from src.domain.ticket import User, Client
-from src.services.service_layer import create_ticket, get_all_tickets
+from src.services.service_layer import create_ticket, get_all_tickets, get_ticket
 from src.services.uow.sqlite.unit_of_work import SQLLiteUnitOfWork
 
 @dataclass
@@ -17,10 +18,10 @@ def parse_cmd(cmd_str:str)->Cmd:
     index = cmd_str.find(" ")
 
     if index != -1:  # Check if a space exists
-        cmd = Cmd(command=cmd_str[:index], arg=cmd_str[index + 1:])
+        c = Cmd(command=cmd_str[:index], arg=cmd_str[index + 1:])
     else:
-        cmd = Cmd(command=cmd_str)
-    return cmd
+        c = Cmd(command=cmd_str)
+    return c
 
 
 if __name__ == "__main__":
@@ -38,20 +39,21 @@ if __name__ == "__main__":
             dft = DataForTicket(user_id=user.user_id, describe="123", comment='')
             ticket = create_ticket(data_for_ticket=dft, uow=uow)
         if cmd.command == 'list':
-            if cmd.arg=="":
-                ticket_id=0
-            else:
-                try:
-                    ticket_id=int(cmd.arg)
-                except ValueError:
-                    print("Error value")
-                    continue
+            try:
+                if cmd.arg=="":
+                    ticket_id=0
+                else:
+                    ticket_id = int(cmd.arg)
 
-            if ticket_id:
-                print(f"Ticket {ticket_id}")
-            else:
-                print(get_all_tickets(user_id=user.user_id,uow=uow))
-
-
+                if ticket_id:
+                    print(get_ticket(user_id=user.user_id, ticket_id=ticket_id, uow=uow))
+                else:
+                    print(get_all_tickets(user_id=user.user_id, uow=uow))
+            except ValueError:
+                print("Error value")
+            except TicketNotFound:
+                print("Ticket not found")
+            finally:
+                continue
 
     conn.close()

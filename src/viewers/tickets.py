@@ -8,3 +8,6 @@ class AbstractTicketViewer(abc.ABC):
     def get_all_tickets(self,user_id:int)->ListTicketView:
         raise NotImplementedError
 
+    @abc.abstractmethod
+    def get_ticket(self, user_id: int,ticket_id:int) -> TicketView:
+        raise NotImplementedError
