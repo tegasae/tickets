@@ -2,6 +2,7 @@ import sqlite3
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser, SQLiteRepositoryTicket
 from src.services.unit_of_work import AbstractUnitOfWork
+from src.viewers.sqlite.tickets import SQLiteTicketViewer
 
 
 class SQLLiteUnitOfWork(AbstractUnitOfWork):
@@ -9,7 +10,7 @@ class SQLLiteUnitOfWork(AbstractUnitOfWork):
         self.connection=connection
         self.users=SQLiteRepositoryUser(conn=self.connection)
         self.tickets = SQLiteRepositoryTicket(conn=self.connection)
-
+        self.view_tickets=SQLiteTicketViewer(conn=self.connection)
     def __enter__(self):
         return super().__enter__()
 

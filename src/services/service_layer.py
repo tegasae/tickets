@@ -2,6 +2,7 @@ from src.domain.exceptions import UserNotFound, TicketNotFound
 from src.domain.input_data import DataForTicket, DataCancelTicket
 from src.domain.ticket import Ticket
 from src.services.unit_of_work import AbstractUnitOfWork
+from src.viewers.data import ListTicketView
 
 
 def create_ticket(data_for_ticket: DataForTicket, uow: AbstractUnitOfWork) -> Ticket:
@@ -33,7 +34,7 @@ def cancel_ticket(data_cancel_ticket: DataCancelTicket, uow: AbstractUnitOfWork)
         uow.commit()
         return True
 
-def get_all_tickets(user_id:int, uow:AbstractUnitOfWork)->list[Ticket]:
-        return uow.tickets.get(user_id=user_id)
+def get_all_tickets(user_id:int, uow:AbstractUnitOfWork)->ListTicketView:
+        return uow.view_tickets.get_all_tickets(user_id=user_id)
 
     

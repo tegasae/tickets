@@ -31,7 +31,8 @@ class UserStatusDisabled(UserStatus):
 @dataclass(frozen=True, kw_only=True)
 class TicketStatus:
     """Базовый класс статусов заявок"""
-    name: str = field(default="Ticket status")
+    id=0
+    name: str = "Ticket status"
     date: datetime = field(default_factory=datetime.now)
     comment: str = ""
 
@@ -39,34 +40,57 @@ class TicketStatus:
 @dataclass(frozen=True, kw_only=True)
 class TicketStatusAccepted(TicketStatus):
     """Заявка принята"""
-    name: str = field(default="Accepted")
+    id=1
+    name: str = "Accepted"
 
 
 @dataclass(frozen=True)
 class TicketStatusConfirmed(TicketStatus):
     """Заявка подтверждена оператором"""
-    name: str = field(default="Confirmed by an operator")
+    id=2
+    name: str = "Confirmed by an operator"
 
 
 @dataclass(frozen=True)
 class TicketStatusExecuted(TicketStatus):
     """Заявка выполнена"""
-    name: str = field(default="Executed")
+    id=3
+    name: str = "Executed"
 
 
 @dataclass(frozen=True, kw_only=True)
 class TicketStatusCancelledUser(TicketStatus):
     """Заявка снята пользователем"""
-    name: str = field(default="Cancelled by an user")
+    id=4
+    name: str = "Cancelled by an user"
     comment: str
 
 
 @dataclass(frozen=True, kw_only=True)
 class TicketStatusCancelledOperator(TicketStatus):
     """Заявка снята оператором"""
-    name: str = field(default="Cancelled by an operator")
+    id=5
+    name: str = "Cancelled by an operator"
     comment: str
 
+
+
+def get_status_by_id(status_id:int)->type(TicketStatus):
+    if status_id==0:
+        return TicketStatus
+    if status_id==1:
+        return TicketStatusAccepted
+    if status_id==2:
+        return TicketStatusConfirmed
+    if status_id==3:
+        return TicketStatusExecuted
+    if status_id==4:
+        return TicketStatusCancelledUser
+    if status_id==5:
+        return TicketStatusCancelledOperator
+
+def get_id_by_status(status:TicketStatus)->int:
+    return status.id
 
 """Статусы клиентов"""
 
