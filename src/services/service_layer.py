@@ -1,4 +1,4 @@
-from src.domain.exceptions import UserNotFound, TicketNotFound
+from src.domain.exceptions import UserNotFound, TicketNotFound, InvalidTicket
 from src.domain.input_data import DataForTicket, DataCancelTicket
 from src.domain.ticket import Ticket
 from src.services.unit_of_work import AbstractUnitOfWork
@@ -24,13 +24,19 @@ def cancel_ticket(data_cancel_ticket: DataCancelTicket, uow: AbstractUnitOfWork)
             raise UserNotFound()
 
         tickets = uow.tickets.get(user_id=user.user_id)
+#############################################
+
         for t in tickets:
+            if t.describe=="":
+                continue
             user.create_ticket(t)
+
         ticket = user.cancel_ticket(ticket_id=data_cancel_ticket.ticket_id, comment=data_cancel_ticket.comment)
         if ticket.ticket_id == 0:
             raise TicketNotFound()
-
         uow.tickets.save(user_id=user.user_id, ticket=ticket)
+
+##############################################
         uow.commit()
         return True
 

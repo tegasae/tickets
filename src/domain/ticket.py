@@ -1,6 +1,6 @@
 from typing import List
 
-from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate
+from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate, InvalidTicket
 from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
     TicketStatusAccepted, UserStatus, ClientStatus, ClientStatusEnabled, \
     UserStatusEnabled
@@ -87,8 +87,11 @@ class User:
             return False
 
     def create_ticket(self, ticket: Ticket):
+        if ticket.describe.lstrip()=="":
+            raise InvalidTicket()
         if not self.is_active():
             raise UserCantCreate(f"user_id={self.user_id}")
+
         self.tickets[ticket.ticket_id] = ticket
 
     def cancel_ticket(self, ticket_id: int, comment: str) -> Ticket:

@@ -81,12 +81,12 @@ class AbstractRepositoryTicket(abc.ABC):
 
 class _RepositoryStatus:
     TicketStatusId = {
-        1: TicketStatus,
-        2: TicketStatusAccepted,
-        3: TicketStatusConfirmed,
-        4: TicketStatusExecuted,
-        5: TicketStatusCancelledUser,
-        6: TicketStatusCancelledOperator
+        0: TicketStatus,
+        1: TicketStatusAccepted,
+        2: TicketStatusConfirmed,
+        3: TicketStatusExecuted,
+        4: TicketStatusCancelledUser,
+        5: TicketStatusCancelledOperator
     }
 
     @staticmethod
@@ -98,4 +98,4 @@ class _RepositoryStatus:
         for s in _RepositoryStatus.TicketStatusId:
             if type(status) is _RepositoryStatus.TicketStatusId[s]:
                 return s
-        return 1
+        return 0
