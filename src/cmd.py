@@ -39,10 +39,11 @@ if __name__ == "__main__":
                 dct=DataCancelTicket(user_id=d['user_id'],ticket_id=d['id'],comment=d['comment'])
                 cancel_ticket(dct,uow=uow)
                 print(dct.ticket_id)
-            except ValueError:
+            except (ValueError,TypeError):
                 print("Error value")
             except TicketNotFound:
                 print("Ticket not found")
+
 
             #finally:
             #    continue

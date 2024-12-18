@@ -59,7 +59,6 @@ class Ticket:
 
     def cancelled_by_user(self, comment: str):
         """Перевод заявки в снято пользователем"""
-
         if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
             self.statuses.append(TicketStatusCancelledUser(comment=comment))
         else:
@@ -93,6 +92,11 @@ class User:
             raise UserCantCreate(f"user_id={self.user_id}")
 
         self.tickets[ticket.ticket_id] = ticket
+
+    def add_tickets(self, tickets: list[Ticket]):
+        for t in tickets:
+            self.create_ticket(t)
+
 
     def cancel_ticket(self, ticket_id: int, comment: str) -> Ticket:
         if ticket_id in self.tickets:

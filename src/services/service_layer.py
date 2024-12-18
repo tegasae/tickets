@@ -25,12 +25,7 @@ def cancel_ticket(data_cancel_ticket: DataCancelTicket, uow: AbstractUnitOfWork)
 
         tickets = uow.tickets.get(user_id=user.user_id)
 #############################################
-
-        for t in tickets:
-            if t.describe=="":
-                continue
-            user.create_ticket(t)
-
+        user.add_tickets(tickets=tickets)
         ticket = user.cancel_ticket(ticket_id=data_cancel_ticket.ticket_id, comment=data_cancel_ticket.comment)
         if ticket.ticket_id == 0:
             raise TicketNotFound()
