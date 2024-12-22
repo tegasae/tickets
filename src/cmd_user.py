@@ -1,15 +1,31 @@
-from src.api.cmd.cmd import command, cmd_process
+from src.api.cmd.cmd import command_wrapper, cmd_process
+from src.api.cmd.descriptor import Command, CommandInt, CommandJSON
 
 
-@command(name="exit")
-def exit_cmd(argument: str):
+@command_wrapper(name="exit",descriptor=Command)
+def exit_cmd(argument:Command):
     exit()
 
 
-@command(name="exit1")
-def exit_new(argument: str):
+@command_wrapper(name="exit1",descriptor=Command)
+def exit_new(argument:Command):
+    print(argument.input_line)
     print(argument)
-    print("exit_new")
+    print(type(argument))
+
+@command_wrapper(name="get",descriptor=CommandInt)
+def get(argument:Command):
+    print(argument.input_line)
+    print(argument)
+    print(type(argument))
+
+@command_wrapper(name="get_json",descriptor=CommandJSON)
+def get_json(argument:Command):
+    print(argument.input_line)
+    print(argument)
+    print(type(argument))
+
+
 
 
 if __name__ == '__main__':
