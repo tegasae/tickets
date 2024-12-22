@@ -25,7 +25,7 @@ def parse_cmd(cmd_str: str):
         return cmd_str.lower(), ""
 
 
-def cmd_process():
+def cmd_process(**kwargs):
     while True:
         (command_str,raw_arg) = parse_cmd(cmd_str=input(">"))
 
@@ -35,4 +35,6 @@ def cmd_process():
         if f is None or arg is None:
             continue
         c = arg(input_line=raw_arg)
+        for k in kwargs:
+            setattr(c, k, kwargs[k])
         f(c)
