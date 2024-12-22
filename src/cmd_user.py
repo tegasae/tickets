@@ -1,4 +1,5 @@
-from src.api.cmd.cmd import command_wrapper, cmd_process
+from src.api.cmd.cmd import command_wrapper
+from src.entrypoint.cmd.tickets import cmd_process
 from src.api.cmd.descriptor import Command, CommandInt, CommandJSON
 
 
