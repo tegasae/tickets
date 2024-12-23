@@ -1,23 +1,19 @@
-from src.api.cmd.cmd import parse_cmd, HANDLERS, DESCRIPTOR, command_wrapper
-from src.api.cmd.descriptor import Command
-from src.services.service_layer import get_all_tickets
+from src.api.cmd.cmd import command_wrapper
+from src.api.cmd.descriptor import Command, CommandInt
+from src.domain.exceptions import TicketNotFound
+from src.services.service_layer import get_all_tickets, get_ticket
 
 
-def cmd_process(**kwargs):
-    while True:
-        (command_str,raw_arg) = parse_cmd(cmd_str=input(">"))
-
-        f = HANDLERS.get(command_str, None)
-        arg=DESCRIPTOR.get(command_str,None)
-
-        if f is None or arg is None:
-            continue
-        c = arg(input_line=raw_arg)
-        for k in kwargs:
-            setattr(c, k, kwargs[k])
-        f(c)
-
-
-@command_wrapper(name="list",descriptor=Command)
-def get_all(argument:Command):
-    print(get_all_tickets(user_id=argument.user.user_id, uow=argument.uow))
+@command_wrapper(name="list", descriptor=CommandInt)
+def list_tickets(argument: CommandInt) -> str:
+    print('list')
+    if argument.arg:
+        t=get_ticket(user_id=argument.addition['user'].user_id, ticket_id=argument.arg, uow=argument.addition['uow'])
+        if t.ticket_id==0:
+            return "not found"
+        return str(t)
+    else:
+        tickets=get_all_tickets(user_id=argument.addition['user'].user_id,uow=argument.addition['uow'])
+        if len(tickets.list_tickets)==0:
+            return "not found"
+        return str(tickets)

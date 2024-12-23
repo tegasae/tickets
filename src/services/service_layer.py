@@ -41,6 +41,6 @@ def get_all_tickets(user_id:int, uow:AbstractUnitOfWork)->ListTicketView:
 
 def get_ticket(user_id: int, ticket_id:int,uow: AbstractUnitOfWork) -> TicketView:
     tv=uow.view_tickets.get_ticket(user_id=user_id,ticket_id=ticket_id)
-    if tv.ticket_id==0:
-        raise TicketNotFound()
+    #if tv.ticket_id==0:
+    #    raise TicketNotFound()
     return tv
