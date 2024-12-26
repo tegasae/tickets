@@ -1,5 +1,13 @@
 import json
 
+class ArgumentWrong(Exception):
+    base_message = f'The argument is wrong'
+
+    def __init__(self, message=''):
+        if message:
+            self.base_message=message
+        super().__init__(self.base_message)
+
 
 class InputLine:
     def __set_name__(self, owner, name):
@@ -15,17 +23,23 @@ class InputLine:
 
 class InputLineInt(InputLine):
     def __set__(self, instance, value):
-        instance.__dict__[self.name] = value
-        if not value:
-            instance.arg = 0
-        else:
-            instance.arg = int(value)
+        try:
+            instance.__dict__[self.name] = value
+            if not value:
+                instance.arg = 0
+            else:
+                instance.arg = int(value)
+        except ValueError:
+            raise ArgumentWrong
 
 
 class InputLineJSON(InputLine):
     def __set__(self, instance, value):
-        instance.arg = json.loads(value)
-        instance.__dict__[self.name] = value
+        try:
+            instance.arg = json.loads(value)
+            instance.__dict__[self.name] = value
+        except json.decoder.JSONDecodeError:
+            raise ArgumentWrong
 
 
 class Command:

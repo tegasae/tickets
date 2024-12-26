@@ -3,7 +3,7 @@ from typing import List
 from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate, InvalidTicket
 from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
     TicketStatusAccepted, UserStatus, ClientStatus, ClientStatusEnabled, \
-    UserStatusEnabled
+    UserStatusEnabled, ClientStatusDisabled
 
 
 class Client:
@@ -14,6 +14,11 @@ class Client:
         self.name = name
         self.status = status
 
+    def enable(self):
+        self.status=ClientStatusEnabled()
+
+    def disable(self):
+        self.status=ClientStatusDisabled()
 
     def is_active(self):
         if type(self.status) is ClientStatusEnabled:
