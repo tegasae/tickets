@@ -34,6 +34,21 @@ def test_save_user(create_conn):
     assert user.client.client_id == r[1] and r[1] == 1
     assert user.name == r[2] and r[2] == "user2"
 
+def test_save_nonexistent_user(create_conn):
+    cur = create_conn.cursor()
+    ur = SQLiteRepositoryUser(conn=create_conn)
+    user = User(user_id=1, name="user1", client=get_client(), status=UserStatusEnabled())
+    user=ur.save(user=user)
+
+    assert user.user_id==0
+
+    print("---------------------------")
+    print(user.user_id)
+    create_conn.commit()
+
+
+
+
 
 def test_get_user(create_conn):
     cur = create_conn.cursor()
