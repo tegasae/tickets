@@ -1,6 +1,6 @@
 from typing import Callable
 
-from src.api.cmd.descriptor import Command
+from src.api.cmd.descriptor import Command, ArgumentWrong
 
 HANDLERS: dict[str, Callable] = {}
 DESCRIPTOR: dict[str, Callable] = {}
@@ -31,18 +31,21 @@ def parse_cmd(cmd_str: str):
 
 def cmd_process(**kwargs):
     while True:
-        (command_str, raw_arg) = parse_cmd(cmd_str=input(">"))
 
-        f = HANDLERS.get(command_str, None)
-        arg = DESCRIPTOR.get(command_str, None)
-
-        if f is None or arg is None:
-            continue
         try:
+            (command_str, raw_arg) = parse_cmd(cmd_str=input(">"))
+
+            f = HANDLERS[command_str]
+            arg = DESCRIPTOR.get(command_str, None)
+
+
             c = arg(input_line=raw_arg)
             for k in kwargs:
                 c.addition[k] = kwargs[k]
             s=f(c)
             print(s)
-        except ValueError:
-            print("Value Error")
+        except KeyError:
+            print("The command is wrong")
+        except ArgumentWrong:
+            print("The argument is wrong")
+

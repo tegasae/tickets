@@ -14,6 +14,12 @@ class Client:
         self.name = name
         self.status = status
 
+    def enable(self):
+        self.status=ClientStatusEnabled()
+
+    def disable(self):
+        self.status=ClientStatusDisabled()
+
     def is_active(self):
         if type(self.status) is ClientStatusEnabled:
             return True
@@ -98,3 +104,4 @@ class User:
             self.tickets[ticket_id].cancelled_by_user(comment=comment)
             return self.tickets[ticket_id]
         raise TicketNotFound(f"ticket_id={ticket_id}")
+
