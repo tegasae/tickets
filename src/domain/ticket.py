@@ -14,7 +14,6 @@ class Client:
         self.name = name
         self.status = status
 
-
     def is_active(self):
         if type(self.status) is ClientStatusEnabled:
             return True
@@ -29,15 +28,12 @@ class Ticket:
         """Иницилизация. Если список статусов пуст, то создается статус Принято"""
         self.ticket_id = ticket_id
 
-
         self.describe = describe
         self.statuses = []
         if statuses is None or not statuses:
             self.statuses.append(TicketStatusAccepted())
         else:
             self.statuses = statuses
-
-
 
     def __hash__(self):
         return hash(self.ticket_id)
@@ -86,7 +82,7 @@ class User:
             return False
 
     def create_ticket(self, ticket: Ticket):
-        if ticket.describe.lstrip()=="":
+        if ticket.describe.lstrip() == "":
             raise InvalidTicket()
         if not self.is_active():
             raise UserCantCreate(f"user_id={self.user_id}")
@@ -97,10 +93,8 @@ class User:
         for t in tickets:
             self.create_ticket(t)
 
-
     def cancel_ticket(self, ticket_id: int, comment: str) -> Ticket:
         if ticket_id in self.tickets:
             self.tickets[ticket_id].cancelled_by_user(comment=comment)
             return self.tickets[ticket_id]
         raise TicketNotFound(f"ticket_id={ticket_id}")
-
