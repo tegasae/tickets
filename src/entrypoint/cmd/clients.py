@@ -21,7 +21,7 @@ def list_client(argument: CommandInt) -> str:
 @command_wrapper(name="add_client", descriptor=CommandJSON)
 def create(argument: CommandJSON)->str:
     dc=DataClient(client_id=0,name=argument.arg['name'],status=argument.arg['status'])
-    client=create_client(dc=dc)
+    client=create_client(dc=dc,uow=argument.addition['uow'])
     if client.client_id==0:
         return "Don't create"
     return str(client.client_id)

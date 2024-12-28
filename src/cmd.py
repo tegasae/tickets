@@ -9,8 +9,6 @@ from src.entrypoint.cmd.clients import *
 
 from src.services.uow.sqlite.unit_of_work import SQLLiteUnitOfWork
 
-
-
 if __name__ == "__main__":
     client = Client(client_id=1, name='Клиент', status=ClientStatusEnabled())
     user = User(user_id=2, client=client, name="user", status=UserStatusDisabled())

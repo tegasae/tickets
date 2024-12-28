@@ -32,6 +32,18 @@ class InputLineInt(InputLine):
         except ValueError:
             raise ArgumentWrong
 
+class InputLineStr(InputLine):
+    def __set__(self, instance, value):
+        try:
+            instance.__dict__[self.name] = value
+            if not value:
+                instance.arg = ''
+            else:
+                instance.arg = str(value)
+        except ValueError:
+            raise ArgumentWrong
+
+
 
 class InputLineJSON(InputLine):
     def __set__(self, instance, value):
@@ -50,6 +62,10 @@ class Command:
     def __init__(self, input_line: str):
         self.input_line = input_line
 
+
+class CommandStr:
+    input_line = InputLineInt()
+    arg:str
 
 class CommandInt(Command):
     input_line = InputLineInt()

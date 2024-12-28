@@ -1,5 +1,6 @@
 from src.domain.exceptions import ClientCantCreate
 from src.domain.input_data import DataClient
+from src.domain.status import ClientStatusOperation
 from src.domain.ticket import Client
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.viewers.data import ClientView
@@ -7,6 +8,7 @@ from src.viewers.data import ClientView
 
 def create_client(dc: DataClient,uow:AbstractUnitOfWork)->Client:
     with uow:
+        status=ClientStatusOperation.by_type(dc.status)
         if uow.view_clients.client_exists_by_name(dc.name):
             return Client(client_id=0,name=dc.name,status=dc.status)
         client=Client(client_id=0,name=dc.name,status=dc.status)

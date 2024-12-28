@@ -1,9 +1,16 @@
 from typing import Callable
 
-from src.api.cmd.descriptor import Command, ArgumentWrong
+from src.api.cmd.descriptor import Command, ArgumentWrong, CommandStr
 
-HANDLERS: dict[str, Callable] = {}
+
+def help_cmd() -> str:
+    return str(HANDLERS)
+
+
+HANDLERS: dict[str, Callable] = {'help': help_cmd}
 DESCRIPTOR: dict[str, Callable] = {}
+
+
 
 
 def command_wrapper(name: str, descriptor: type(Command)):
@@ -34,18 +41,19 @@ def cmd_process(**kwargs):
 
         try:
             (command_str, raw_arg) = parse_cmd(cmd_str=input(">"))
+            if command_str=='help':
+                print(help_cmd())
+                continue
 
             f = HANDLERS[command_str]
             arg = DESCRIPTOR.get(command_str, None)
 
-
             c = arg(input_line=raw_arg)
             for k in kwargs:
                 c.addition[k] = kwargs[k]
-            s=f(c)
+            s = f(c)
             print(s)
         except KeyError:
             print("The command is wrong")
         except ArgumentWrong:
             print("The argument is wrong")
-

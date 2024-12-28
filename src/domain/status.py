@@ -138,3 +138,7 @@ class ClientStatusOperation:
                 return cst.id
         return _list_of_status[0].id
 
+    #@staticmethod
+    #def by_name(client_status_name:str):
+    #    for csn in _list_of_status:
+    #        if csn.name
