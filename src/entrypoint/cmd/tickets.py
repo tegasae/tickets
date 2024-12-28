@@ -1,7 +1,6 @@
 from src.api.cmd.cmd import command_wrapper
 from src.api.cmd.descriptor import Command, CommandInt
-from src.domain.exceptions import TicketNotFound
-from src.services.service_layer import get_all_tickets, get_ticket
+from src.services.service_layer.ticket import get_ticket, get_all_tickets
 
 
 @command_wrapper(name="list", descriptor=CommandInt)

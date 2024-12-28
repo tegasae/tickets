@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from src.domain.status import ClientStatus
+
 
 @dataclass(frozen=True)
 class DataForTicket:
@@ -12,3 +14,9 @@ class DataCancelTicket:
     user_id: int
     ticket_id: int
     comment: str
+
+@dataclass
+class DataClient:
+    client_id:int
+    name: str
+    status: ClientStatus

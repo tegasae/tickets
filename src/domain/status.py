@@ -98,17 +98,43 @@ def get_id_by_status(status:TicketStatus)->int:
 @dataclass
 class ClientStatus:
     """Базовый класс статусов клиента"""
+    id=0
     name: str = field(default="This is the client status")
     date: datetime = field(default_factory=datetime.now)
-
+    def enabled(self)->bool:
+        if self.id==1:
+            return True
+        else:
+            return False
 
 @dataclass
 class ClientStatusEnabled(ClientStatus):
     """Клиент вклдючен"""
+    id = 1
     name: str = field(default="The client is enabled")
 
 
 @dataclass
 class ClientStatusDisabled(ClientStatus):
     """Клиент отключен"""
+    id = 2
     name: str = field(default="The client is disabled")
+
+_list_of_status=(ClientStatus,ClientStatusEnabled,ClientStatusDisabled)
+
+class ClientStatusOperation:
+    @staticmethod
+    def by_id(status_id:int)->type(ClientStatus):
+        for i in _list_of_status:
+            if i.id==status_id:
+                return i
+
+        return _list_of_status[0]
+
+    @staticmethod
+    def by_type(client_status_type:type(ClientStatus))->int:
+        for cst in _list_of_status:
+            if client_status_type is cst:
+                return cst.id
+        return _list_of_status[0].id
+

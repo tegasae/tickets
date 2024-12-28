@@ -1,20 +1,10 @@
 import sqlite3
 
 from src.adapters.repository import AbstractRepositoryClient
-from src.domain.status import ClientStatusDisabled, ClientStatusEnabled
+from src.domain.status import ClientStatusOperation
 from src.domain.ticket import Client
 
-ClientStatusId = {
-    ClientStatusDisabled: 0,
-    ClientStatusEnabled: 1
-}
 
-
-def get_client_status_by_id(status_id: int):
-    for i in ClientStatusId.keys():
-        if ClientStatusId[i] == status_id:
-            return i
-    return ClientStatusDisabled
 
 
 class SQLiteRepositoryClient(AbstractRepositoryClient):
@@ -24,15 +14,17 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
 
     def _save(self, client: Client) -> Client:
         cursor = self.conn.cursor()
+
         try:
+            is_active=ClientStatusOperation.by_type(type(client.status))
             if not client.client_id:
                 cursor.execute("INSERT INTO clients (name,is_active) VALUES (:name,:is_active)",
-                               {'client_id': client.client_id, 'name': client.name, 'is_active': client.is_active()})
+                               {'client_id': client.client_id, 'name': client.name, 'is_active': is_active})
                 client.user_id = cursor.lastrowid
             else:
                 cursor.execute("UPDATE clients SET name=:name, is_active=:is_active "
                                "WHERE client_id=:client_id",
-                               {'name': client.name, 'is_active': client.is_active(),
+                               {'name': client.name, 'is_active': is_active,
                                 'client_id': client.client_id})
                 if cursor.rowcount == 0:
                     client.user_id = 0
@@ -48,9 +40,8 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
                        {'client_id': client_id})
         r = cursor.fetchone()
         if r is None:
-            return Client(client_id=0, name="", status=ClientStatusDisabled())
-        client_status = get_client_status_by_id(r[2])
-        client = Client(client_id=r[0], name=r[1], status=client_status())
+            return Client(client_id=0, name="", status=ClientStatusOperation.by_id(0))
+        client = Client(client_id=r[0], name=r[1], status=ClientStatusOperation.by_id(r[2]))
 
         return client
 

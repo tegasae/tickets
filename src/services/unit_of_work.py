@@ -2,13 +2,16 @@ from __future__ import annotations
 import abc
 
 from src.adapters import repository
+from src.viewers.clients import AbstractClientViewer
 from src.viewers.tickets import AbstractTicketViewer
 
 
 class AbstractUnitOfWork(abc.ABC):
     users: repository.AbstractRepositoryUser
     tickets: repository.AbstractRepositoryTicket
+    clients: repository.AbstractRepositoryClient
     view_tickets: AbstractTicketViewer
+    view_clients: AbstractClientViewer
     def __enter__(self) -> AbstractUnitOfWork:
         return self
 
