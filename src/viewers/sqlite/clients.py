@@ -6,6 +6,8 @@ from src.viewers.data import ClientView
 
 
 class SQLiteClientViewer(AbstractClientViewer):
+
+
     def __init__(self, conn: sqlite3.Connection):
         super().__init__()
         self.conn = conn
@@ -53,5 +55,7 @@ class SQLiteClientViewer(AbstractClientViewer):
         if len(r) == 0:
             return []
         for i in r:
-            list_view.append(ClientView(id=i[0], name=i[1], code1s=i[2], status=ClientStatusOperation.by_id(i[3])))
+            status=ClientStatusOperation.by_id(i[3])
+            list_view.append(ClientView(id=i[0], name=i[1], code1s=i[2], status=status))
         return list_view
+

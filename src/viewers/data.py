@@ -37,7 +37,7 @@ class ListTicketView:
         return repr(d['list_tickets'])
 
 
-@dataclass(kw_only=True)
+@dataclass
 class ClientView:
     id: int
     name: str
@@ -46,4 +46,6 @@ class ClientView:
 
 
     def __repr__(self):
+        #self.status=repr(self.status)
+        #d=asdict(self.status)
         return repr(asdict(self))

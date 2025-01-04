@@ -16,18 +16,17 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
         cursor = self.conn.cursor()
 
         try:
-            is_active=ClientStatusOperation.by_type(type(client.status))
             if not client.client_id:
                 cursor.execute("INSERT INTO clients (name,is_active) VALUES (:name,:is_active)",
-                               {'client_id': client.client_id, 'name': client.name, 'is_active': is_active})
-                client.user_id = cursor.lastrowid
+                               {'name': client.name, 'is_active': client.status.id})
+                client.client_id = cursor.lastrowid
             else:
                 cursor.execute("UPDATE clients SET name=:name, is_active=:is_active "
                                "WHERE client_id=:client_id",
-                               {'name': client.name, 'is_active': is_active,
+                               {'name': client.name, 'is_active': client.status.id,
                                 'client_id': client.client_id})
                 if cursor.rowcount == 0:
-                    client.user_id = 0
+                    client.client_id = 0
         except sqlite3.Error:
             client.client_id = 0
 

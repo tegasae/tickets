@@ -60,6 +60,9 @@ class AbstractRepositoryUser(abc.ABC):
             self.seen_users[user_id] = user
         return user
 
+
+
+
     def delete(self, user_id: int):
         if not self._delete(user_id):
             return False
@@ -78,6 +81,8 @@ class AbstractRepositoryUser(abc.ABC):
     @abc.abstractmethod
     def _delete(self, user_id: int) -> bool:
         raise NotImplementedError
+
+
 
 
 class AbstractRepositoryTicket(abc.ABC):

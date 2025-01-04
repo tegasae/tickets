@@ -20,3 +20,4 @@ class AbstractClientViewer(abc.ABC):
     @abc.abstractmethod
     def get_all_clients(self)->list[ClientView]:
         raise NotImplementedError
+

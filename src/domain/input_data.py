@@ -19,4 +19,17 @@ class DataCancelTicket:
 class DataClient:
     client_id:int
     name: str
-    status: ClientStatus
+    enable: bool
+    def __post_init__(self):
+        if type(self.client_id) is not int and self.client_id<0:
+            raise ValueError
+        self.name=self.name.lstrip()
+        if not len(self.name):
+            raise ValueError()
+        if self.enable!='true' and self.enable!='false':
+            raise ValueError
+        if self.enable=='true':
+            self.enable=True
+        if self.enable=='false':
+            self.enable=False
+

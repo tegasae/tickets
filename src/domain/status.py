@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from datetime import datetime
 
 """Модуль определяющий статусы клиента, пользователя и заявки"""
@@ -11,7 +11,8 @@ class UserStatus:
     """Базовый класс для статуса пользователя"""
     name: str = field(default="User status")
     date: datetime = field(default_factory=datetime.now)
-
+    def __repr__(self):
+        return repr(asdict(self))
 
 @dataclass(frozen=True)
 class UserStatusEnabled(UserStatus):
@@ -98,38 +99,40 @@ def get_id_by_status(status:TicketStatus)->int:
 @dataclass
 class ClientStatus:
     """Базовый класс статусов клиента"""
-    id=0
+    id:int=0
     name: str = field(default="This is the client status")
-    date: datetime = field(default_factory=datetime.now)
+    #date: datetime = field(default_factory=datetime.now)
     def enabled(self)->bool:
         if self.id==1:
             return True
         else:
             return False
 
+    def __repr__(self):
+        return repr(asdict(self))
+
 @dataclass
 class ClientStatusEnabled(ClientStatus):
     """Клиент вклдючен"""
-    id = 1
+    id:int = 1
     name: str = field(default="The client is enabled")
-
 
 @dataclass
 class ClientStatusDisabled(ClientStatus):
     """Клиент отключен"""
-    id = 2
+    id:int = 2
     name: str = field(default="The client is disabled")
 
 _list_of_status=(ClientStatus,ClientStatusEnabled,ClientStatusDisabled)
 
 class ClientStatusOperation:
     @staticmethod
-    def by_id(status_id:int)->type(ClientStatus):
+    def by_id(status_id:int)->ClientStatus:
         for i in _list_of_status:
             if i.id==status_id:
-                return i
+                return i()
 
-        return _list_of_status[0]
+        return _list_of_status[0]()
 
     @staticmethod
     def by_type(client_status_type:type(ClientStatus))->int:
@@ -138,6 +141,12 @@ class ClientStatusOperation:
                 return cst.id
         return _list_of_status[0].id
 
+    @staticmethod
+    def by_enable(enable:bool)->ClientStatus:
+        if enable:
+            return ClientStatusEnabled()
+        else:
+            return ClientStatusDisabled()
     #@staticmethod
     #def by_name(client_status_name:str):
     #    for csn in _list_of_status:

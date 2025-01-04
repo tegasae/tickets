@@ -50,8 +50,8 @@ class InputLineJSON(InputLine):
         try:
             instance.arg = json.loads(value)
             instance.__dict__[self.name] = value
-        except json.decoder.JSONDecodeError:
-            raise ArgumentWrong
+        except json.decoder.JSONDecodeError as e:
+            raise ArgumentWrong(e.msg)
 
 
 class Command:
