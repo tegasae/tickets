@@ -37,14 +37,7 @@ class SQLiteClientViewer(AbstractClientViewer):
             list_view.append(ClientView(id=i[0], name=i[1], code1s=i[2],status=ClientStatusOperation.by_id(i[3])))
         return list_view
 
-    def client_exists_by_name(self,name:str)->bool:
-        cursor=self.conn.cursor()
-        cursor.execute("SELECT count(client_id) FROM clients WHERE name=:name", {'name': name})
-        r=cursor.fetchone()
-        if r[0]>0:
-            return True
-        else:
-            return False
+
 
 
     def get_all_clients(self)->list[ClientView]:

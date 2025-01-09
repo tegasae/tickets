@@ -13,9 +13,6 @@ class AbstractClientViewer(abc.ABC):
     def get_client_by_name(self, name: str) -> list[ClientView]:
         raise NotImplementedError
 
-    @abc.abstractmethod
-    def client_exists_by_name(self, name: str) -> bool:
-        raise NotImplementedError
 
     @abc.abstractmethod
     def get_all_clients(self)->list[ClientView]:

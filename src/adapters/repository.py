@@ -30,6 +30,10 @@ class AbstractRepositoryClient(abc.ABC):
         return True
 
     @abc.abstractmethod
+    def get_by_name(self, name: str) -> bool:
+        raise NotImplementedError
+
+    @abc.abstractmethod
     def _save(self, client: Client) -> Client:
         raise NotImplementedError
 
