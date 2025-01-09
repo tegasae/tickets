@@ -37,7 +37,7 @@ def cancel_ticket(data_cancel_ticket: DataCancelTicket, uow: AbstractUnitOfWork)
 
 
 def get_all_tickets(user_id:int, uow:AbstractUnitOfWork)->ListTicketView:
-        return uow.view_tickets.get_all_tickets(user_id=user_id)
+        return uow.view_tickets.get_all_tickets_user(user_id=user_id)
 
 
 def get_ticket(user_id: int, ticket_id:int,uow: AbstractUnitOfWork) -> TicketView:
