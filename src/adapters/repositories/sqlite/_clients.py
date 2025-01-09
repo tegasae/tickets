@@ -8,6 +8,7 @@ from src.domain.ticket import Client
 
 
 class SQLiteRepositoryClient(AbstractRepositoryClient):
+
     def __init__(self, conn: sqlite3.Connection):
         super().__init__()
         self.conn = conn
@@ -51,3 +52,13 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
             return True
         else:
             return False
+
+    def get_by_name(self, name: str) -> bool:
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT count(client_id) FROM clients WHERE name=:name", {'name': name})
+        r = cursor.fetchone()
+        if r[0] > 0:
+            return True
+        else:
+            return False
+
