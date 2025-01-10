@@ -1,3 +1,6 @@
+import sqlite3
+
+
 class Query:
     def __init__(self, sql="", var=None, params=None, conn=None):
         self.sql = sql
@@ -9,55 +12,64 @@ class Query:
         self.cur = self.conn.cursor()
         self.result = None
 
-    def execute(self):
+    def _execute(self,params=None):
+        if params:
+            self.params = params
         if self.params:
-            self.result = self.cur.execute(self.sql, self.params)
+            self.cur.execute(self.sql, self.params)
         else:
-            self.result = self.cur.execute(self.sql)
-
-        self.last_row_id = self.cur.lastrowid
-        # if not self.result.returns_rows:
-        #    self.result=None
+            self.cur.execute(self.sql)
 
     def set_result(self, params=None):
-        if params:
-            self.params = params
-        self.execute()
+        self._execute(params=params)
+        self.last_row_id = self.cur.lastrowid
         if not self.result.rowcount:
-            return None
-
+            return 0
         return self.last_row_id
 
-    def get_result(self, params=None):
-        if params:
-            self.params = params
-        self.execute()
-        for r in self.result:
-            if self.var:
-                yield dict(zip(self.var, r))
-            else:
-                return r
 
-    def get_result_list(self, params=None):
-        if params:
-            self.params = params
-        self.execute()
+    def get_result(self, params=None):
+        self._execute(params=params)
+        self.result=None
+        self.result = self.cur.fetchall()
+
         res = []
         for r in self.result:
-            res.append(dict(zip(self.var, r)))
+            if self.var:
+                res.append(dict(zip(self.var, r)))
+            else:
+                res.append(r)
         return res
 
-    def one_result(self, params=None):
-        if params:
-            self.params = params
-        self.execute()
+    def get_one_result(self, params=None):
+        self._execute(params=params)
+        self.result=None
+        self.result=self.cur.fetchone()
         if self.result:
-            for r in self.result:
-                if self.var:
-                    return dict(zip(self.var, r))
-                else:
-                    return r
-        return None
+            if self.var:
+                return dict(zip(self.var, self.result))
+            else:
+                return self.result
+        else:
+            return ()
+
 
     def close(self):
         self.cur.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self,*args):
+        self.close()
+
+
+if __name__=="__main__":
+    connect=sqlite3.connect("../../../data/tickets.db")
+    q=Query(sql="SELECT ticket_id,user_id FROM tickets WHERE ticket_id=:ticket_id",conn=connect,var=['id','user'])
+    with q as q:
+        r=q.get_result(params={"ticket_id":1})
+        print(r)
+        r=q.get_one_result(params={"ticket_id":1},)
+        print(r)
+    connect.close()
