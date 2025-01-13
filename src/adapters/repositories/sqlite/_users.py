@@ -1,8 +1,5 @@
-import sqlite3
-from sqlite3 import OperationalError
 
 from src.adapters.repository import AbstractRepositoryUser
-from src.domain.exceptions import TicketNotFound
 from src.domain.status import UserStatusDisabled, UserStatusEnabled, ClientStatusDisabled, ClientStatusEnabled
 from src.domain.ticket import User, Client
 from src.utils.dbapi.connect import Connection

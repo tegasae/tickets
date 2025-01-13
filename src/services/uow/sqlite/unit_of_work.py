@@ -1,4 +1,3 @@
-import sqlite3
 from src.utils.dbapi.connect import Connection
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser, SQLiteRepositoryTicket, SQLiteRepositoryClient

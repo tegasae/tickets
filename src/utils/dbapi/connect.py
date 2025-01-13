@@ -19,7 +19,10 @@ class Connection:
         if url=="" or not engine:
             raise DBConnectError(url)
         engine.paramstyle="named"
-        connect = engine.connect(url)
+        try:
+            connect = engine.connect(url)
+        except engine.OperationalError as e:
+            raise DBConnectError(e)
 
         return cls(connect=connect,engine=engine)
 
