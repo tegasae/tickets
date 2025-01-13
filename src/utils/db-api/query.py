@@ -1,30 +1,42 @@
-import sqlite3
+from exceptions import DBOperationError
+
+
 
 
 class Query:
-    def __init__(self, sql="", var=None, params=None, conn=None):
+    def __init__(self, sql="", var=None, params:dict=None,conn=None,cursor=None):
         self.sql = sql
         self.params = params
-        self.conn = conn
+        #self.conn = conn
         self.var = var
         self.last_row_id = 0
 
-        self.cur = self.conn.cursor()
+        #self.cur = self.conn.cursor()
+        self.cur=cursor
         self.result = None
+        self.count=0
 
-    def _execute(self,params=None):
+    def _execute(self,params:dict=None):
         if params:
             self.params = params
-        if self.params:
-            self.cur.execute(self.sql, self.params)
-        else:
-            self.cur.execute(self.sql)
+        try:
+            if self.params:
+                self.cur.execute(self.sql, self.params)
+            else:
+                self.cur.execute(self.sql)
+        except self.cur.connection.OperationalError as e:
+            raise DBOperationError(e)
 
-    def set_result(self, params=None):
-        self._execute(params=params)
-        self.last_row_id = self.cur.lastrowid
-        if not self.result.rowcount:
-            return 0
+    def set_result(self, params:dict=None):
+        self.last_row_id=0
+        self.count=0
+        try:
+            self._execute(params=params)
+            self.count=self.cur.rowcount
+            if self.count:
+                self.last_row_id = self.cur.lastrowid
+        except self.cur.connection.ProgrammingError as e:
+            raise DBOperationError(e)
         return self.last_row_id
 
 
@@ -64,12 +76,3 @@ class Query:
         self.close()
 
 
-if __name__=="__main__":
-    connect=sqlite3.connect("../../../data/tickets.db")
-    q=Query(sql="SELECT ticket_id,user_id FROM tickets WHERE ticket_id=:ticket_id",conn=connect,var=['id','user'])
-    with q as q:
-        r=q.get_result(params={"ticket_id":1})
-        print(r)
-        r=q.get_one_result(params={"ticket_id":1},)
-        print(r)
-    connect.close()
