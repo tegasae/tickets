@@ -1,5 +1,3 @@
-import sqlite3
-
 from src.adapters.repository import AbstractRepositoryClient
 from src.domain.status import ClientStatusOperation
 from src.domain.ticket import Client

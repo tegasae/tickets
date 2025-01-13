@@ -4,18 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="4ab790a4-224d-4069-9b83-02f6754160ae" name="Changes" comment="repositary" />
-=======
-    <list default="true" id="4ab790a4-224d-4069-9b83-02f6754160ae" name="Changes" comment="domain">
-      <change afterPath="$PROJECT_DIR$/tests/unit/test_change_status.py" afterDir="false" />
+    <list default="true" id="86ed0daa-dbde-42fd-9800-fbd6f327cf55" name="Changes" comment="dp api in repository">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/status.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/status.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/ticket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unit/test_ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_ticket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unit/test_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/test_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_clients.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_clients.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_users.py" afterDir="false" />
     </list>
->>>>>>> parent of aece815 (domain)
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,48 +22,66 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;tegasae&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/tegasae/tickets.git&quot;,
+    &quot;accountId&quot;: &quot;1bf69d9c-2879-4acd-9662-b2b26f062ee6&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
 }</component>
-  <component name="ProjectId" id="2mq2ss2Vi23pFBUJi9Ee5iHRmZH" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2rZa5ZUo48jiSMHJnPBBpeHSjI9" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for test_exception.test_invalid_ticket.executor&quot;: &quot;Run&quot;,
+    &quot;Python.cmd.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ticket.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;uow-with-db-api&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src" />
-    </key>
-  </component>
-=======
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for test_exception.test_invalid_ticket.executor": "Run",
-    "Python.main.executor": "Debug",
-    "Python.ticket.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
-  }
-}]]></component>
->>>>>>> parent of aece815 (domain)
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.cmd">
+    <configuration name="cmd" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tickets" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/cmd.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tickets" />
       <option name="ENV_FILES" value="" />
@@ -80,161 +91,85 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/utils/db-api" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/utils/db-api/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="ticket" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="tickets" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/domain" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/domain/ticket.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for test_exception.test_invalid_ticket" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="tickets" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/unit" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_exception.test_invalid_ticket&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.cmd" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.Python tests for test_exception.test_invalid_ticket" />
-        <item itemvalue="Python.ticket" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-d68999036c7f-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.14475.56" />
+        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4ab790a4-224d-4069-9b83-02f6754160ae" name="Changes" comment="" />
-      <created>1727789995773</created>
+      <changelist id="86ed0daa-dbde-42fd-9800-fbd6f327cf55" name="Changes" comment="" />
+      <created>1736768869499</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1727789995773</updated>
+      <updated>1736768869499</updated>
     </task>
-    <task id="LOCAL-00001" summary="domain">
+    <task id="LOCAL-00001" summary="db api">
       <option name="closed" value="true" />
-      <created>1727877299316</created>
+      <created>1736772642674</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1727877299316</updated>
+      <updated>1736772642674</updated>
     </task>
-<<<<<<< HEAD
-    <task id="LOCAL-00002" summary="domain">
+    <task id="LOCAL-00002" summary="dp api in repository">
       <option name="closed" value="true" />
-      <created>1727960115311</created>
+      <created>1736789130182</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1727960115311</updated>
+      <updated>1736789130182</updated>
     </task>
-    <task id="LOCAL-00003" summary="repositary">
-      <option name="closed" value="true" />
-      <created>1727967137350</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1727967137350</updated>
-    </task>
-    <task id="LOCAL-00004" summary="repositary">
-      <option name="closed" value="true" />
-      <created>1730818060287</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1730818060287</updated>
-    </task>
-    <task id="LOCAL-00005" summary="repositary">
-      <option name="closed" value="true" />
-      <created>1731324340933</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1731324340933</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
-=======
-    <option name="localTasksCounter" value="2" />
->>>>>>> parent of aece815 (domain)
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="domain" />
-    <MESSAGE value="repositary" />
-    <option name="LAST_COMMIT_MESSAGE" value="repositary" />
+    <MESSAGE value="db api" />
+    <MESSAGE value="dp api in repository" />
+    <option name="LAST_COMMIT_MESSAGE" value="dp api in repository" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/unit/test_exception.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/src/utils/dbapi/query.py</url>
+          <line>33</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/domain/ticket.py</url>
-          <line>56</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/unit/test_change_status.py</url>
-          <line>19</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/unit/test_change_status.py</url>
-          <line>39</line>
+          <url>file://$PROJECT_DIR$/src/utils/dbapi/main.py</url>
+          <line>15</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/domain/ticket.py</url>
-          <line>49</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="self.cur.rowcount" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
