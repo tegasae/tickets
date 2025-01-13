@@ -1,6 +1,6 @@
 import logging
-from query import Query
-from exceptions import DBConnectError
+from .query import Query
+from .exceptions import DBConnectError
 
 logger = logging.getLogger(__name__)
 

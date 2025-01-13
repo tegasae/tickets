@@ -1,4 +1,5 @@
 import sqlite3
+from src.utils.dbapi.connect import Connection
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser, SQLiteRepositoryTicket, SQLiteRepositoryClient
 from src.services.unit_of_work import AbstractUnitOfWork
@@ -7,7 +8,8 @@ from src.viewers.sqlite.tickets import SQLiteTicketViewer
 
 
 class SQLLiteUnitOfWork(AbstractUnitOfWork):
-    def __init__(self, connection:sqlite3.Connection):
+    def __init__(self, connection:Connection):
+        #self.connection=connection
         self.connection=connection
         self.users=SQLiteRepositoryUser(conn=self.connection)
         self.tickets = SQLiteRepositoryTicket(conn=self.connection)
@@ -16,14 +18,16 @@ class SQLLiteUnitOfWork(AbstractUnitOfWork):
         self.view_clients = SQLiteClientViewer(conn=self.connection)
 
     def __enter__(self):
-        return super().__enter__()
+        super().__enter__()
+        self.connection.b()
+        return self
 
     def __exit__(self, *args):
         super().__exit__(*args)
         #self.connection.close()
 
     def _commit(self):
-        self.connection.commit()
+        self.connection.c()
 
     def rollback(self):
-        self.connection.rollback()
+        self.connection.r()

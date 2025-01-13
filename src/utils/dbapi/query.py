@@ -1,17 +1,17 @@
-from exceptions import DBOperationError
+from .exceptions import DBOperationError
 
 
 
 
 class Query:
-    def __init__(self, sql="", var=None, params:dict=None,conn=None,cursor=None):
+    def __init__(self, sql="", var=None, params:dict=None,cursor=None):
         self.sql = sql
         self.params = params
-        #self.conn = conn
+
         self.var = var
         self.last_row_id = 0
 
-        #self.cur = self.conn.cursor()
+
         self.cur=cursor
         self.result = None
         self.count=0
