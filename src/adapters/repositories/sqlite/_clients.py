@@ -35,9 +35,8 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
     def _get(self, client_id: int) -> Client:
         r=self.get_id.get_one_result(var={client_id:client_id})
         if len(r)==0:
-            return Client(client_id=0, name="", status=ClientStatusOperation.by_id(0))
-        client = Client(client_id=r['id'], name=r['name'], status=ClientStatusOperation.by_id(r['is_active']))
-        return client
+            return Client.empty_client()
+        return Client.empty_client()
 
     def _delete(self, client_id: int) -> bool:
         self.remove.set_result(params={"client_id":client_id})

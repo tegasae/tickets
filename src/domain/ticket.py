@@ -3,7 +3,7 @@ from typing import List
 
 from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
     TicketStatusAccepted, UserStatus, ClientStatus, ClientStatusEnabled, \
-    UserStatusEnabled, ClientStatusDisabled
+    UserStatusEnabled, ClientStatusDisabled, UserStatusDisabled
 
 
 class Client:
@@ -25,7 +25,9 @@ class Client:
             return True
         else:
             return False
-
+    @classmethod
+    def empty_client(cls):
+        return cls(client_id=0, name="",status=ClientStatusDisabled())
 
 class Ticket:
     """Класс заявка"""
@@ -67,6 +69,9 @@ class Ticket:
         else:
             return False
 
+    @classmethod
+    def empty_ticket(cls):
+        return cls(ticket_id=0, describe="", statuses=[])
 
 class User:
     """Класс пользователь. Может создавать заявки и отменять их"""
@@ -107,3 +112,6 @@ class User:
             return self.tickets[ticket_id]
         return Ticket(ticket_id=0,describe="",statuses=[])
 
+    @classmethod
+    def empty_user(cls):
+        return cls(user_id=0, name="", client=Client.empty_client(),tickets=[],status=UserStatusDisabled())

@@ -62,8 +62,7 @@ class SQLiteRepositoryUser(AbstractRepositoryUser):
         r=self.get_user.get_one_result(params={'user_id': user_id})
 
         if len(r) is None:
-            return User(user_id=0, name="", client=Client(client_id=0, name="", status=ClientStatusDisabled()),
-                        status=UserStatusDisabled())
+            return User.empty_user()
         client_status = get_client_status_by_id(r["client_status"])
         client = Client(client_id=r["client_id"], name=r["client_name"], status=client_status())
         status = get_user_status_by_id(r["status"])

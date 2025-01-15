@@ -9,11 +9,11 @@ def save_client(dc: DataClient,uow:AbstractUnitOfWork)->Client:
     with uow:
         status=ClientStatusOperation.by_enable(dc.enable)
         if uow.clients.find_by_name(dc.name):
-            return Client(client_id=0,name=dc.name,status=status)
+            return Client.empty_client()
         client=Client(client_id=dc.client_id,name=dc.name,status=status)
         client=uow.clients.save(client=client)
         if client.client_id==0:
-            return Client(client_id=0,name=dc.name,status=status)
+            return Client.empty_client()
         uow.commit()
         return client
 
