@@ -1,6 +1,6 @@
+
 from typing import List
 
-from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate, InvalidTicket
 from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
     TicketStatusAccepted, UserStatus, ClientStatus, ClientStatusEnabled, \
     UserStatusEnabled, ClientStatusDisabled
@@ -59,12 +59,13 @@ class Ticket:
         """Возврщаем самый последний статус"""
         return self.statuses[-1]
 
-    def cancelled_by_user(self, comment: str):
+    def cancelled_by_user(self, comment: str)->bool:
         """Перевод заявки в снято пользователем"""
         if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
             self.statuses.append(TicketStatusCancelledUser(comment=comment))
+            return True
         else:
-            raise InvalidStatus(f"ticket_id={self.ticket_id}")
+            return False
 
 
 class User:
@@ -87,13 +88,14 @@ class User:
         else:
             return False
 
-    def create_ticket(self, ticket: Ticket):
+    def create_ticket(self, ticket: Ticket)->bool:
         if ticket.describe.lstrip() == "":
-            raise InvalidTicket()
+            return False
         if not self.is_active():
-            raise UserCantCreate(f"user_id={self.user_id}")
+            return False
 
         self.tickets[ticket.ticket_id] = ticket
+        return True
 
     def add_tickets(self, tickets: list[Ticket]):
         for t in tickets:
@@ -103,5 +105,5 @@ class User:
         if ticket_id in self.tickets:
             self.tickets[ticket_id].cancelled_by_user(comment=comment)
             return self.tickets[ticket_id]
-        raise TicketNotFound(f"ticket_id={ticket_id}")
+        return Ticket(ticket_id=0,describe="",statuses=[])
 

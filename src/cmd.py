@@ -14,7 +14,6 @@ if __name__ == "__main__":
     user = User(user_id=2, client=client, name="user", status=UserStatusDisabled())
 
     conn = Connection.create_connection(url="../data/tickets.db",engine=sqlite3)
-    #sqlite3.connect('../data/tickets.db')
     uow = SQLLiteUnitOfWork(connection=conn)
 
     cmd_process(uow=uow, user=user)

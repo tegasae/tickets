@@ -43,7 +43,7 @@ class SQLiteClientViewer(AbstractClientViewer):
 
     def get_all_clients(self)->list[ClientView]:
         list_view = []
-        query = self.conn.create_query("SELECT client_id, name,code1s,is_activelist FROM clients",
+        query = self.conn.create_query("SELECT client_id, name,code1s,is_active FROM clients",
                                        var=["id", "name", "code1s", "status"])
         r = query.get_result()
         if len(r) == 0:
