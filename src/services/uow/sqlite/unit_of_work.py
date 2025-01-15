@@ -8,7 +8,6 @@ from src.viewers.sqlite.tickets import SQLiteTicketViewer
 
 class SQLLiteUnitOfWork(AbstractUnitOfWork):
     def __init__(self, connection:Connection):
-        #self.connection=connection
         self.connection=connection
         self.users=SQLiteRepositoryUser(conn=self.connection)
         self.tickets = SQLiteRepositoryTicket(conn=self.connection)

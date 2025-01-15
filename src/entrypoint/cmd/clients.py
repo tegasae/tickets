@@ -1,3 +1,5 @@
+from cgitb import enable
+
 from src.api.cmd.cmd import command_wrapper
 from src.api.cmd.descriptor import CommandInt, CommandJSON
 from src.domain.input_data import DataClient
@@ -19,9 +21,12 @@ def list_client(argument: CommandInt) -> str:
         return str(clients)
 
 def save(argument:CommandJSON)->str:
+    status:bool=False
 
     try:
-        dc=DataClient(client_id=argument.arg['id'],name=argument.arg['name'],enable=argument.arg['enable'])
+        if str(argument.arg['enable']).lower()=="true":
+            status=True
+        dc=DataClient(client_id=argument.arg['id'],name=argument.arg['name'],enable=status)
         client=save_client(dc=dc,uow=argument.addition['uow'])
         if client.client_id==0:
             return "The operations didn't execute"

@@ -8,7 +8,7 @@ from src.viewers.data import ClientView
 def save_client(dc: DataClient,uow:AbstractUnitOfWork)->Client:
     with uow:
         status=ClientStatusOperation.by_enable(dc.enable)
-        if uow.clients.get_by_name(dc.name):
+        if uow.clients.find_by_name(dc.name):
             return Client(client_id=0,name=dc.name,status=status)
         client=Client(client_id=dc.client_id,name=dc.name,status=status)
         client=uow.clients.save(client=client)
