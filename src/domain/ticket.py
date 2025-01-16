@@ -1,4 +1,3 @@
-
 from typing import List
 
 from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
@@ -15,19 +14,21 @@ class Client:
         self.status = status
 
     def enable(self):
-        self.status=ClientStatusEnabled()
+        self.status = ClientStatusEnabled()
 
     def disable(self):
-        self.status=ClientStatusDisabled()
+        self.status = ClientStatusDisabled()
 
     def is_active(self):
         if type(self.status) is ClientStatusEnabled:
             return True
         else:
             return False
+
     @classmethod
     def empty_client(cls):
-        return cls(client_id=0, name="",status=ClientStatusDisabled())
+        return cls(client_id=0, name="", status=ClientStatusDisabled())
+
 
 class Ticket:
     """Класс заявка"""
@@ -61,7 +62,7 @@ class Ticket:
         """Возврщаем самый последний статус"""
         return self.statuses[-1]
 
-    def cancelled_by_user(self, comment: str)->bool:
+    def cancelled_by_user(self, comment: str) -> bool:
         """Перевод заявки в снято пользователем"""
         if type(self.active_status) is TicketStatusAccepted or type(self.active_status) is TicketStatusConfirmed:
             self.statuses.append(TicketStatusCancelledUser(comment=comment))
@@ -72,6 +73,7 @@ class Ticket:
     @classmethod
     def empty_ticket(cls):
         return cls(ticket_id=0, describe="", statuses=[])
+
 
 class User:
     """Класс пользователь. Может создавать заявки и отменять их"""
@@ -93,7 +95,7 @@ class User:
         else:
             return False
 
-    def create_ticket(self, ticket: Ticket)->bool:
+    def create_ticket(self, ticket: Ticket) -> bool:
         if ticket.describe.lstrip() == "":
             return False
         if not self.is_active():
@@ -110,8 +112,8 @@ class User:
         if ticket_id in self.tickets:
             self.tickets[ticket_id].cancelled_by_user(comment=comment)
             return self.tickets[ticket_id]
-        return Ticket(ticket_id=0,describe="",statuses=[])
+        return Ticket(ticket_id=0, describe="", statuses=[])
 
     @classmethod
     def empty_user(cls):
-        return cls(user_id=0, name="", client=Client.empty_client(),tickets=[],status=UserStatusDisabled())
+        return cls(user_id=0, name="", client=Client.empty_client(), tickets=[], status=UserStatusDisabled())
