@@ -35,11 +35,13 @@ class Connection:
             self.transaction = True
 
     def c(self):
+        print("commit util")
         self.connect.commit()
         if self.transaction:
             self.transaction = False
 
     def r(self):
+        print("rollback util")
         self.connect.rollback()
         if self.transaction:
             self.transaction = False

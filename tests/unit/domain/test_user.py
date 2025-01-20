@@ -3,7 +3,8 @@ import pytest
 from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate
 from src.domain.status import UserStatusEnabled, ClientStatusEnabled, ClientStatusDisabled, UserStatusDisabled, \
     TicketStatusAccepted, TicketStatusCancelledUser, TicketStatusExecuted
-from src.domain.ticket import Client, User, Ticket
+from src.domain.ticket import User, Ticket
+from src.domain.client import Client
 
 
 # Предполагается, что необходимые классы и исключения импортированы из вашего модуля

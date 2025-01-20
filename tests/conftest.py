@@ -3,7 +3,8 @@ import sqlite3
 import pytest
 
 from src.domain.status import ClientStatusEnabled, UserStatusEnabled
-from src.domain.ticket import Client, User
+from src.domain.ticket import User
+from src.domain.client import Client
 
 
 def create_db_sqlite(path=":memory:", schema="../data/schema.sql"):

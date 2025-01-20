@@ -10,20 +10,11 @@ class CommonException(Exception):
         self.base_message = f'{self.m}'
 
 
-
-
-
-
-
 class UserNotFound(CommonException):
     def create_message(self):
         self.base_message = f'The user isn\'t found{self.m}'
 
+
 class TicketNotFound(CommonException):
     def create_message(self):
         self.base_message = f'The ticket isn\'t found {self.m}'
-
-
-
-
-

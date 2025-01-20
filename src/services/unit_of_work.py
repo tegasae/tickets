@@ -12,6 +12,7 @@ class AbstractUnitOfWork(abc.ABC):
     clients: repository.AbstractRepositoryClient
     view_tickets: AbstractTicketViewer
     view_clients: AbstractClientViewer
+
     def __enter__(self) -> AbstractUnitOfWork:
         return self
 
@@ -19,9 +20,10 @@ class AbstractUnitOfWork(abc.ABC):
         self.rollback()
 
     def commit(self):
+        print("commit")
         self._commit()
 
-    #def collect_new_events(self):
+    # def collect_new_events(self):
     #    for user in self.users.seen_users:
     #        while product.events:
     #            yield product.events.pop(0)
@@ -32,4 +34,5 @@ class AbstractUnitOfWork(abc.ABC):
 
     @abc.abstractmethod
     def rollback(self):
+        print("rollback")
         raise NotImplementedError

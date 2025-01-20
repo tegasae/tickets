@@ -3,7 +3,8 @@ import sqlite3
 from src.api.cmd.cmd import cmd_process, command_wrapper
 
 from src.domain.status import ClientStatusEnabled, UserStatusEnabled, UserStatusDisabled
-from src.domain.ticket import User, Client
+from src.domain.ticket import User
+from src.domain.client import Client
 from src.entrypoint.cmd.tickets import *
 from src.entrypoint.cmd.clients import *
 

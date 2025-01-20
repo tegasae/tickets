@@ -2,7 +2,8 @@ import abc
 
 from src.domain.status import TicketStatus, TicketStatusAccepted, TicketStatusConfirmed, TicketStatusExecuted, \
     TicketStatusCancelledUser, TicketStatusCancelledOperator
-from src.domain.ticket import User, Ticket, Client
+from src.domain.ticket import User, Ticket
+from src.domain.client import Client
 
 
 class AbstractRepositoryClient(abc.ABC):

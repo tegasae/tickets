@@ -53,7 +53,7 @@ def cmd_process(**kwargs):
                 c.addition[k] = kwargs[k]
             s = f(c)
             print(s)
-        except KeyError:
-            print("The command is wrong")
-        except ArgumentWrong:
-            print("The argument is wrong")
+        except KeyError as e:
+            print(f"The command is wrong {e}")
+        except ArgumentWrong as e:
+            print(f"The argument is wrong {e}")

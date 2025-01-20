@@ -3,7 +3,8 @@ from datetime import datetime
 
 from src.adapters.repositories.sqlite import SQLiteRepositoryTicket
 
-from src.domain.ticket import Client, User, Ticket
+from src.domain.ticket import User, Ticket
+from src.domain.client import Client
 
 if __name__ == "__main__":
     tick: [Ticket]
