@@ -7,15 +7,11 @@ from src.domain.ticket import User, Ticket
 from src.domain.client import Client
 
 
-# Предполагается, что необходимые классы и исключения импортированы из вашего модуля
-# from your_module import User, Ticket, Client, UserStatusEnabled, UserStatusDisabled, \
-#     TicketStatusAccepted, TicketStatusConfirmed, TicketStatusCancelledUser, \
-#     InvalidStatus
 
-def test_user_is_active():
+
+def test_client_is_active():
     client = Client(client_id=1, name="Test Client", status=ClientStatusEnabled())
-    user_status = UserStatusEnabled()
-    user = User(user_id=1, name="Test User", client=client, tickets=[], status=user_status)
+
     assert user.is_active() is True
 
 

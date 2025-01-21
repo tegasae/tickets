@@ -4,6 +4,7 @@ from src.domain.status import ClientStatus, ClientStatusDisabled
 
 
 def create_client(client_id: int = 0, name: str = "", status: ClientStatus = ClientStatusDisabled()) -> ClientEvents:
+
     name_prepare = name.lstrip()
     name = name_prepare.rstrip()
     if not name_prepare:

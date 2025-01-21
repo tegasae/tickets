@@ -1,5 +1,5 @@
 from src.adapters.repository import AbstractRepositoryClient
-from src.domain.client import Client
+from src.domain.client import Client, ClientWrong
 from src.utils.dbapi.connect import Connection
 from src.utils.dbapi.exceptions import DBOperationError
 
@@ -34,8 +34,8 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
     def _get(self, client_id: int) -> Client:
         r = self.get_id.get_one_result(var={client_id: client_id})
         if len(r) == 0:
-            return Client.empty_client()
-        return Client.empty_client()
+            return ClientWrong()
+        return ClientWrong()
 
     def _delete(self, client_id: int) -> bool:
         self.remove.set_result(params={"client_id": client_id})

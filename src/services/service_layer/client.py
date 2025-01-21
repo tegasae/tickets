@@ -2,7 +2,7 @@ from src.domain.input_data import DataClient
 from src.domain.messages import AlreadyExitedClient, ClientEvents, CantStoredClient, CreatedClient, DeletedClient, \
     NotDeletedClient
 from src.domain.status import ClientStatusOperation
-from src.domain.client import Client
+from src.domain.client import Client, ClientWrong
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.viewers.data import ClientView
 
@@ -34,6 +34,6 @@ def list_clients(uow: AbstractUnitOfWork) -> list[ClientView]:
 def delete_client(client_id: int, uow: AbstractUnitOfWork) -> ClientEvents:
     with uow:
         if not uow.clients.delete(client_id=client_id):
-            return NotDeletedClient(client=Client.empty_client())
+            return NotDeletedClient(client=ClientWrong())
         uow.commit()
-    return DeletedClient(client=Client.empty_client())
+    return DeletedClient(client=ClientWrong())
