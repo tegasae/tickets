@@ -23,8 +23,7 @@ def save_client(dc: DataClient, uow: AbstractUnitOfWork) -> ClientEvents:
 
 
 def get_client(client_id: int, uow: AbstractUnitOfWork) -> ClientView:
-    tc = uow.view_clients.get_client(client_id=client_id)
-    return tc
+    return uow.view_clients.get_client(client_id=client_id)
 
 
 def list_clients(uow: AbstractUnitOfWork) -> list[ClientView]:
@@ -35,5 +34,6 @@ def delete_client(client_id: int, uow: AbstractUnitOfWork) -> ClientEvents:
     with uow:
         if not uow.clients.delete(client_id=client_id):
             return NotDeletedClient(client=ClientWrong())
+        uow.client_collect.delete_client(client_id=client_id)
         uow.commit()
     return DeletedClient(client=ClientWrong())

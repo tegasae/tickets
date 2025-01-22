@@ -52,6 +52,7 @@ class ClientsCollect:
             clients = []
         self.clients = clients
         self.by_name = {}
+
         for c in clients:
             self.by_name[c.name] = c
 
@@ -60,7 +61,18 @@ class ClientsCollect:
             return False
         self.clients.append(client)
         self.by_name[client.name] = client
+
         return True
+
+    def delete_client(self, client_id: int):
+        for i in self.clients:
+            if i.client_id == client_id:
+                name = i.name
+                self.clients.remove(i)
+                try:
+                    del (self.by_name, name)
+                except KeyError:
+                    name = ""
 
     def create_client(self, client_id: int = 0, name: str = "",
                       status: ClientStatus = ClientStatusDisabled()) -> Client:
