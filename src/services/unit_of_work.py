@@ -2,6 +2,7 @@ from __future__ import annotations
 import abc
 
 from src.adapters import repository
+from src.domain.client import ClientsCollect
 from src.viewers.clients import AbstractClientViewer
 from src.viewers.tickets import AbstractTicketViewer
 
@@ -12,6 +13,10 @@ class AbstractUnitOfWork(abc.ABC):
     clients: repository.AbstractRepositoryClient
     view_tickets: AbstractTicketViewer
     view_clients: AbstractClientViewer
+    client_collect: ClientsCollect
+
+    def __init__(self):
+        self.client_collect=ClientsCollect()
 
     def __enter__(self) -> AbstractUnitOfWork:
         return self

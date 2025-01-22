@@ -10,3 +10,10 @@ exclude_also =
     if TYPE_CHECKING:
     class .*\bProtocol\):
     @(abc\.)?abstractmethod
+    @pytest.fixture
+
+[run]
+omit =
+    conftest.py
+    unit/*
+    __init__.py

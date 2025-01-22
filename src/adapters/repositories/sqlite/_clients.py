@@ -1,5 +1,6 @@
 from src.adapters.repository import AbstractRepositoryClient
-from src.domain.client import Client, ClientWrong
+from src.domain.client import Client, ClientWrong, ClientEmpty
+from src.domain.status import ClientStatusOperation
 from src.utils.dbapi.connect import Connection
 from src.utils.dbapi.exceptions import DBOperationError
 
@@ -16,7 +17,8 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
                                              "FROM clients c WHERE c.client_id=:client_id",
                                              params=['id', 'name', 'is_active'])
         self.remove = self.conn.create_query("DELETE FROM clients WHERE client_id=:client_id")
-        self.find_name = self.conn.create_query("SELECT count(client_id) FROM clients WHERE name=:name")
+        self.find_name = self.conn.create_query("SELECT c.client_id, c.name, c.is_active client_id "
+                                                "FROM clients WHERE name=:name")
 
     def _save(self, client: Client) -> Client:
         try:
@@ -34,8 +36,8 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
     def _get(self, client_id: int) -> Client:
         r = self.get_id.get_one_result(var={client_id: client_id})
         if len(r) == 0:
-            return ClientWrong()
-        return ClientWrong()
+            return ClientEmpty()
+        return Client(client_id=r[0], name=r[1], status=ClientStatusOperation.by_id(r[2]))
 
     def _delete(self, client_id: int) -> bool:
         self.remove.set_result(params={"client_id": client_id})
@@ -44,9 +46,9 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
         else:
             return False
 
-    def find_by_name(self, name: str) -> bool:
+    def find_by_name(self, name: str) -> Client:
         r = self.find_name.get_one_result(params={"name": name})
-        if r[0] > 0:
-            return True
+        if len(r) == 0:
+            return ClientEmpty()
         else:
-            return False
+            return Client(client_id=r[0], name=r[1], status=ClientStatusOperation.by_id(r[2]))

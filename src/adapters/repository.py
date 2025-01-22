@@ -31,7 +31,7 @@ class AbstractRepositoryClient(abc.ABC):
         return True
 
     @abc.abstractmethod
-    def find_by_name(self, name: str) -> bool:
+    def find_by_name(self, name: str) -> Client:
         raise NotImplementedError
 
     @abc.abstractmethod
