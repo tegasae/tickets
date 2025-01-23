@@ -9,17 +9,19 @@ from src.viewers.data import ClientView
 
 def save_client(dc: DataClient, uow: AbstractUnitOfWork) -> ClientEvents:
     with uow:
-        client_already_exists=uow.clients.find_by_name(dc.name)
-        uow.client_collect.create_client(client_id=client_already_exists.client_id,name=client_already_exists.name,status=client_already_exists.status)
-        client=uow.client_collect.create_client(client_id=dc.client_id,name=dc.name,status=ClientStatusOperation.by_enable(dc.enable))
-        if type(client) is client:
-            client = uow.clients.save(client=client)
-        else:
-            return CantStoredClient(client=client)
-        if client.client_id == 0:
-            return CantStoredClient(client=client)
-        uow.commit()
-        return CreatedClient(client=client)
+        #Создаем Client
+        client=Client(client_id=dc.client_id,name=dc.name,status=ClientStatusOperation.by_enable(dc.enable))
+
+        #uow.client_collect.create_client(client_id=client_already_exists.client_id,name=client_already_exists.name,status=client_already_exists.status)
+        #client=uow.client_collect.create_client(client_id=dc.client_id,name=dc.name,status=ClientStatusOperation.by_enable(dc.enable))
+        #if type(client) is client:
+        #    client = uow.clients.save(client=client)
+        #else:
+        #    return CantStoredClient(client=client)
+        #if client.client_id == 0:
+        #    return CantStoredClient(client=client)
+        #uow.commit()
+        #return CreatedClient(client=client)
 
 
 def get_client(client_id: int, uow: AbstractUnitOfWork) -> ClientView:

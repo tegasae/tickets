@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
+from typing import Type
 
 """Модуль определяющий статусы клиента, пользователя и заявки"""
 
@@ -99,34 +100,17 @@ def get_id_by_status(status: TicketStatus) -> int:
 """Статусы клиентов"""
 
 
-@dataclass
+
 class ClientStatus:
-    """Базовый класс статусов клиента"""
-    id: int = 0
-    name: str = field(default="This is the client status")
-
-    def enabled(self) -> bool:
-        if self.id == 1:
-            return True
-        else:
-            return False
-
-    def __repr__(self):
-        return repr(asdict(self))
+    id = 0
 
 
-@dataclass
 class ClientStatusEnabled(ClientStatus):
-    """Клиент вклдючен"""
-    id: int = 1
-    name: str = field(default="The client is enabled")
+    id = 1
 
 
-@dataclass
 class ClientStatusDisabled(ClientStatus):
-    """Клиент отключен"""
-    id: int = 2
-    name: str = field(default="The client is disabled")
+    id = 2
 
 
 _list_of_status = (ClientStatus, ClientStatusEnabled, ClientStatusDisabled)
@@ -135,26 +119,21 @@ _list_of_status = (ClientStatus, ClientStatusEnabled, ClientStatusDisabled)
 class ClientStatusOperation:
     @staticmethod
     def by_id(status_id: int) -> ClientStatus:
-        for i in _list_of_status:
-            if i.id == status_id:
-                return i()
-
-        return _list_of_status[0]()
+        """Retrieve a ClientStatus instance by its ID."""
+        for status in _list_of_status:
+            if status.id == status_id:
+                return status()
+        return _list_of_status[0]()  # Default to the first status
 
     @staticmethod
-    def by_type(client_status_type: type(ClientStatus)) -> int:
-        for cst in _list_of_status:
-            if client_status_type is cst:
-                return cst.id
-        return _list_of_status[0].id
+    def by_type(client_status_type: Type[ClientStatus]) -> int:
+        """Retrieve the ID of a given ClientStatus type."""
+        for status in _list_of_status:
+            if client_status_type is status:
+                return status.id
+        return _list_of_status[0].id  # Default to the first status ID
 
     @staticmethod
     def by_enable(enable: bool) -> ClientStatus:
-        if enable:
-            return ClientStatusEnabled()
-        else:
-            return ClientStatusDisabled()
-    # @staticmethod
-    # def by_name(client_status_name:str):
-    #    for csn in _list_of_status:
-    #        if csn.name
+        """Retrieve ClientStatus based on the enable flag."""
+        return ClientStatusEnabled() if enable else ClientStatusDisabled()
