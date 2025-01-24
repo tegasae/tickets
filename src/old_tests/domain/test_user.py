@@ -1,12 +1,10 @@
 import pytest
 
 from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate
-from src.domain.status import UserStatusEnabled, ClientStatusEnabled, ClientStatusDisabled, UserStatusDisabled, \
+from src.domain.status import UserStatusEnabled, UserStatusDisabled, \
     TicketStatusAccepted, TicketStatusCancelledUser, TicketStatusExecuted
 from src.domain.ticket import User, Ticket
-from src.domain.client import Client
-
-
+from src.domain.client import Client, ClientStatusEnabled, ClientStatusDisabled
 
 
 def test_client_is_active():

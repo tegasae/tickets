@@ -4,9 +4,9 @@ import pytest
 from src.domain.status import (
     UserStatus, UserStatusEnabled, UserStatusDisabled,
     TicketStatus, TicketStatusAccepted, TicketStatusConfirmed,
-    TicketStatusExecuted, TicketStatusCancelledUser, TicketStatusCancelledOperator,
-    ClientStatus, ClientStatusEnabled, ClientStatusDisabled
+    TicketStatusExecuted, TicketStatusCancelledUser, TicketStatusCancelledOperator
 )
+from src.domain.client import ClientStatus, ClientStatusEnabled, ClientStatusDisabled
 from datetime import datetime
 
 

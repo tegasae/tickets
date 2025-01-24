@@ -3,7 +3,8 @@ import pytest
 from src.adapters.repositories.sqlite import SQLiteRepositoryUser
 from src.adapters.repositories.sqlite._users import get_user_status_by_id, get_client_status_by_id
 from src.domain.exceptions import UserNotFound
-from src.domain.status import UserStatusEnabled, UserStatusDisabled, ClientStatusEnabled, ClientStatusDisabled
+from src.domain.status import UserStatusEnabled, UserStatusDisabled
+from src.domain.client import ClientStatusEnabled, ClientStatusDisabled
 from src.domain.ticket import User
 from tests.conftest import get_client
 

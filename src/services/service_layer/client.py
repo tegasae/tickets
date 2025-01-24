@@ -1,8 +1,7 @@
 from src.domain.input_data import DataClient
 from src.domain.messages import AlreadyExitedClient, ClientEvents, CantStoredClient, CreatedClient, DeletedClient, \
     NotDeletedClient
-from src.domain.status import ClientStatusOperation
-from src.domain.client import Client, ClientWrong, ClientsCollect
+from src.domain.client import Client, ClientWrong, ClientsCollect, ClientStatusOperation
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.viewers.data import ClientView
 

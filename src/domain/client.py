@@ -1,6 +1,43 @@
-from typing import Optional, List
 
-from src.domain.status import ClientStatus, ClientStatusEnabled, ClientStatusDisabled
+from typing import Type
+
+class ClientStatus:
+    id = 0
+
+
+class ClientStatusEnabled(ClientStatus):
+    id = 1
+
+
+class ClientStatusDisabled(ClientStatus):
+    id = 2
+
+
+_list_of_status = (ClientStatus, ClientStatusEnabled, ClientStatusDisabled)
+
+
+class ClientStatusOperation:
+    @staticmethod
+    def by_id(status_id: int) -> ClientStatus:
+        """Retrieve a ClientStatus instance by its ID."""
+        for status in _list_of_status:
+            if status.id == status_id:
+                return status()
+        return _list_of_status[0]()  # Default to the first status
+
+    @staticmethod
+    def by_type(client_status_type: Type[ClientStatus]) -> int:
+        """Retrieve the ID of a given ClientStatus type."""
+        for status in _list_of_status:
+            if client_status_type is status:
+                return status.id
+        return _list_of_status[0].id  # Default to the first status ID
+
+    @staticmethod
+    def by_enable(enable: bool) -> ClientStatus:
+        """Retrieve ClientStatus based on the enable flag."""
+        return ClientStatusEnabled() if enable else ClientStatusDisabled()
+
 
 
 class Client:
@@ -54,9 +91,12 @@ class ClientWrong(Client):
 class ClientsCollect:
     """Manages a collection of clients."""
 
-    def __init__(self, clients: Optional[List[Client]] = None):
-        self.by_name = {client.name: client for client in clients if client.client_id!=0}
-        self.by_id={client.client_id: client for client in clients if client.client_id!=0}
+    def __init__(self):
+
+        self.by_name:dict[str,Client]={}
+        self.by_id:dict[int,Client]={}
+        #self.by_name = {client.name: client for client in self.clients}
+        #self.by_id = {client.client_id: client for client in self.clients if client.client_id != 0}
 
     @staticmethod
     def create_client(client_id: int = 0, name: str = "",
@@ -69,39 +109,82 @@ class ClientsCollect:
             return ClientWrong(name=name)
         return Client(client_id=client_id, name=prepared_name, status=status)
 
-    def _add_client(self,client:Client):
-        if client.client_id!=0:
-            self.by_id[client.client_id]=client
-            self.by_name[client.name] = client
-
-    def _get_by_name(self,name:str)->Client:
-        client=self.by_name.get(name,None)
-        if client is None:
-            return ClientEmpty()
-        else:
-            return client
 
     def put_client(self, client: Client) -> Client:
         """Add or update a client in the collection."""
         if type(client) is not Client:
             return client
+        prepared_named=client.name.strip()
+        if len(prepared_named)==0:
+            return ClientWrong(name=client.name)
 
-        existing_client = self._get_by_name(client.name)
+        client.name=prepared_named
 
-        if type(existing_client) is not ClientEmpty:
-            if client.client_id==0 and client.name==existing_client.name:
-                return ClientAlreadyExists.already_exists(existing_client)
-            if client.client_id!=0 and client.client_id!=existing_client.client_id and client.name==existing_client.name:
-                return ClientAlreadyExists.already_exists(existing_client)
-        self._add_client(client)
-        return client
+        #existing_client = self.by_name.get(client.name, ClientEmpty())
 
-    def delete_client(self, client_id: int) -> bool:
-        """Delete a client by their ID."""
-        client=self.by_id.get(client_id,ClientEmpty)
+        if client.client_id==0:
+            existing_client=self.by_name.get(client.name,ClientEmpty())
+            if client.name==existing_client.name and existing_client.client_id!=0:
+                return ClientAlreadyExists.already_exists(client)
+            self.by_name[client.name]=client
+            return client
+
+        if client.client_id!=0:
+            existing_client = self.by_name.get(client.name, ClientEmpty())
+            existing_client_id = self.by_id.get(client.client_id, ClientEmpty())
+            if type(existing_client) is ClientEmpty and type(existing_client_id) is ClientEmpty:
+                self.by_name[client.name] = client
+                self.by_id[client.client_id] = client
+                return client
+
+            if existing_client.name==client.name and existing_client.client_id==0:
+                self.by_name[client.name]=client
+                self.by_id[client.client_id]=client
+                return client
+
+
+            if existing_client.name==client.name and existing_client.client_id==client.client_id and \
+                existing_client_id.name==client.name and existing_client_id.client_id==client.client_id:
+                self.by_name[client.name]=client
+                self.by_id[client.client_id]=client
+                return client
+            if existing_client.name==client.name and existing_client.client_id!=client.client_id:
+                return ClientAlreadyExists.already_exists(client)
+
+            if existing_client.name!=client.name and existing_client_id.client_id==client.client_id:
+                try:
+                    del(self.by_name[existing_client_id.name])
+                finally:
+                    self.by_name[client.name] = client
+                    self.by_id[client.client_id] = client
+                return client
+        #return ClientWrong()
+
+    def delete_name(self,name:str)->bool:
+        try:
+            client=self.by_name.get(name,ClientEmpty)
+            del(self.by_name[name])
+        except KeyError:
+            return False
+
         try:
             del(self.by_id[client.client_id])
+        finally:
+            return True
+
+    def delete_id(self, client_id: int) -> bool:
+        """Delete a client by their ID."""
+        try:
+            client=    self.by_id.get(client_id,ClientEmpty)
+            del(self.by_id[client_id])
             del(self.by_name[client.name])
             return True
         except KeyError:
             return False
+
+
+
+
+
+
+

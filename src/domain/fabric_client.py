@@ -1,6 +1,5 @@
-from src.domain.client import Client
+from src.domain.client import Client, ClientStatus, ClientStatusDisabled
 from src.domain.messages import ClientEvents, CantCreatedClient, CreatedClient
-from src.domain.status import ClientStatus, ClientStatusDisabled
 
 
 def create_client(client_id: int = 0, name: str = "", status: ClientStatus = ClientStatusDisabled()) -> ClientEvents:

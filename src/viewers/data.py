@@ -1,6 +1,6 @@
 from dataclasses import dataclass, asdict, field
 
-from src.domain.status import ClientStatus
+from src.domain.client import ClientStatus
 
 
 @dataclass

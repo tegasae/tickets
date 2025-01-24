@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
-from typing import Type
 
 """Модуль определяющий статусы клиента, пользователя и заявки"""
 
@@ -101,39 +100,3 @@ def get_id_by_status(status: TicketStatus) -> int:
 
 
 
-class ClientStatus:
-    id = 0
-
-
-class ClientStatusEnabled(ClientStatus):
-    id = 1
-
-
-class ClientStatusDisabled(ClientStatus):
-    id = 2
-
-
-_list_of_status = (ClientStatus, ClientStatusEnabled, ClientStatusDisabled)
-
-
-class ClientStatusOperation:
-    @staticmethod
-    def by_id(status_id: int) -> ClientStatus:
-        """Retrieve a ClientStatus instance by its ID."""
-        for status in _list_of_status:
-            if status.id == status_id:
-                return status()
-        return _list_of_status[0]()  # Default to the first status
-
-    @staticmethod
-    def by_type(client_status_type: Type[ClientStatus]) -> int:
-        """Retrieve the ID of a given ClientStatus type."""
-        for status in _list_of_status:
-            if client_status_type is status:
-                return status.id
-        return _list_of_status[0].id  # Default to the first status ID
-
-    @staticmethod
-    def by_enable(enable: bool) -> ClientStatus:
-        """Retrieve ClientStatus based on the enable flag."""
-        return ClientStatusEnabled() if enable else ClientStatusDisabled()

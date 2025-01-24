@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.domain.status import ClientStatus
+from src.domain.client import ClientStatus
 
 
 @dataclass(frozen=True)

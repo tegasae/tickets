@@ -1,6 +1,5 @@
 from src.adapters.repository import AbstractRepositoryClient
-from src.domain.client import Client, ClientWrong, ClientEmpty
-from src.domain.status import ClientStatusOperation
+from src.domain.client import Client, ClientWrong, ClientEmpty, ClientStatusOperation
 from src.utils.dbapi.connect import Connection
 from src.utils.dbapi.exceptions import DBOperationError
 

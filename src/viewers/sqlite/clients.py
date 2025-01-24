@@ -1,6 +1,4 @@
-
-
-from src.domain.status import ClientStatusOperation
+from src.domain.client import ClientStatusOperation
 from src.utils.dbapi.connect import Connection
 from src.viewers.clients import AbstractClientViewer
 from src.viewers.data import ClientView

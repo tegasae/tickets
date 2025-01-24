@@ -1,8 +1,8 @@
 
 from src.adapters.repository import AbstractRepositoryUser
-from src.domain.status import UserStatusDisabled, UserStatusEnabled, ClientStatusDisabled, ClientStatusEnabled
+from src.domain.status import UserStatusDisabled, UserStatusEnabled
 from src.domain.ticket import User
-from src.domain.client import Client
+from src.domain.client import Client, ClientStatusEnabled, ClientStatusDisabled
 from src.utils.dbapi.connect import Connection
 from src.utils.dbapi.exceptions import DBOperationError
 from src.utils.dbapi.query import Query
