@@ -2,93 +2,63 @@
 import datetime
 
 from dataclasses import dataclass
-from typing import Union
-
-from src.domain.client import Client
-from src.domain.ticket import Ticket
 
 
-@dataclass
+
+@dataclass(kw_only=True)
 class Message:
     date: datetime = datetime.datetime.now()
     describe = "The message"
 
 
-class Command:
+@dataclass(kw_only=True)
+class Command(Message):
     describe = "command"
-
-
-@dataclass
-class CreateTicket(Command):
-    user_id: int
-    describe: str
-
-
-@dataclass
-class CancelTicket(Command):
-    user_id: int
-    ticket_id: int
-    comment: str
 
 
 @dataclass(kw_only=True)
 class Event(Message):
-    describe = "The event"
+    describe = "event"
+
+@dataclass(kw_only=True)
+class EventClient(Event):
+    describe = "client event"
+
+@dataclass(kw_only=True)
+class EventClientCreated(EventClient):
+    describe = "client created"
+    client_id:int=0
+
+@dataclass(kw_only=True)
+class EventClientUpdated(EventClient):
+    describe = "client created"
+    client_id:int=0
 
 
 @dataclass(kw_only=True)
-class CreatedTicket(Event):
-    ticket: Ticket
-    date_created: datetime
+class EventClientAlreadyExists(EventClient):
+    describe = "client exists"
+    client_id:int=0
+
+@dataclass(kw_only=True)
+class EventClientWronged(EventClient):
+    describe = "client wrong"
+    name:str=""
 
 
 @dataclass(kw_only=True)
-class CancelledUser(Event):
-    user_id: int
-    ticket_id: int
-    date_cancelled: datetime
+class EventClientDeleted(EventClient):
+    describe = "client deleted"
 
 
 @dataclass(kw_only=True)
-class ClientEvent(Event):
-    describe = "This is the client event"
-    client: Client
+class EventClientCantDeleted(EventClient):
+    describe = "client can't deleted"
 
 
-@dataclass(kw_only=True)
-class CreatedClient(ClientEvent):
-    describe = "The client is created"
 
 
-@dataclass(kw_only=True)
-class CantCreatedClient(ClientEvent):
-    describe = "The client isn't created"
-    name: str
 
 
-@dataclass(kw_only=True)
-class AlreadyExitedClient(ClientEvent):
-    describe = "The client already exists"
-    name: str
 
 
-@dataclass(kw_only=True)
-class CantStoredClient(ClientEvent):
-    describe = "The client can't store"
-
-
-@dataclass(kw_only=True)
-class DeletedClient(ClientEvent):
-    describe = "The client is deleted"
-
-
-@dataclass(kw_only=True)
-class NotDeletedClient(ClientEvent):
-    describe = "The client isn't deleted"
-
-@dataclass(kw_only=True)
-class ClientNotFound:
-    describe = "The client doesn't find"
-
-ClientEvents = Union[
-    CreatedClient, CantCreatedClient, AlreadyExitedClient, CantStoredClient, DeletedClient, NotDeletedClient]

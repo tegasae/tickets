@@ -30,7 +30,7 @@ class Query:
         try:
             self._execute(params=params)
             self.count = self.cur.rowcount
-            if self.count:
+            if self.count and self.cur.lastrowid:
                 self.last_row_id = self.cur.lastrowid
         except self.cur.connection.ProgrammingError as e:
             raise DBOperationError(e)

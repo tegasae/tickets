@@ -44,71 +44,71 @@ def test_client_create():
 
 
 def test_client_collect():
-    # создаем коллекцию с одним клиентом
+    # создаем коллекцию
     client_collect = ClientsCollect()
-    client_collect = ClientsCollect()
+
+    #пытаемся поместить в коллекскию не Client
+    client_emmty=client_collect.put_client(ClientEmpty())
+    assert type(client_emmty) is ClientEmpty
+
+
+    #пытаемся поместить в коллекскию клиента с пустым именем
     client_wrong=client_collect.put_client(Client(client_id=1, name='   ', status=ClientStatusEnabled()))
     assert type(client_wrong) is ClientWrong and client_wrong.name=='   '
 
+    #помещаем в коллеккцию клиента с id=0
+    client=client_collect.put_client(Client(client_id=0, name='name', status=ClientStatusEnabled()))
+    assert type(client) is Client and len(client_collect.by_name) == 1 and len(client_collect.by_id)==0
 
-    client_collect.put_client(Client(client_id=1, name='name', status=ClientStatusEnabled()))
-    # пытаемся добавить неправильного клиента
-    client_wrong = ClientWrong()
-    client_wrong = client_collect.put_client(client_wrong)
-    assert type(client_wrong) is ClientWrong and len(client_collect.by_name) == 1
+    # меняем статус клиент
+    client = client_collect.put_client(Client(client_id=0, name='name', status=ClientStatusDisabled()))
+    assert type(client) is Client and len(client_collect.by_name) == 1 and len(client_collect.by_id) == 0 \
+            and type(client.status) is ClientStatusDisabled
+
+    #присваимваем id=1
+    client=client_collect.put_client(Client(client_id=1, name='name', status=ClientStatusEnabled()))
+
+    assert type(client) is Client and len(client_collect.by_name) == 1 and len(client_collect.by_id)==1 \
+            and client.client_id==1 and type(client.status) is ClientStatusEnabled
+
+    #добавляем еще клиента с id=1
+    client = client_collect.put_client(Client(client_id=2, name='name 2', status=ClientStatusEnabled()))
+
+    assert type(client) is Client and len(client_collect.by_name) == 2 and len(client_collect.by_id) == 2 \
+           and client.client_id == 2 and type(client.status) is ClientStatusEnabled
+
+    # добавляем клиента с существуюшим именем
+    client = client_collect.put_client(Client(client_id=3, name='name', status=ClientStatusEnabled()))
+    assert type(client) is ClientAlreadyExists and len(client_collect.by_name) == 2 and len(client_collect.by_id) == 2
+
+    # меняем статус у клиента
+    client = client_collect.put_client(Client(client_id=2, name='name 2', status=ClientStatusDisabled()))
+    assert type(client) is Client and len(client_collect.by_name) == 2 and len(client_collect.by_id) == 2 \
+           and client.client_id == 2 and type(client.status) is ClientStatusDisabled
+
+    # менем имя у клиента
+    client = client_collect.put_client(Client(client_id=2, name='name 3', status=ClientStatusEnabled()))
+    assert type(client) is Client and len(client_collect.by_name) == 2 and len(client_collect.by_id) == 2 \
+           and client.client_id == 2 and client_collect.by_id[2].name=='name 3' and type(client.status) is ClientStatusEnabled
+
+    # добавляем клиента id=0 с существующим именем
+    client = client_collect.put_client(Client(client_id=0, name='name 3', status=ClientStatusEnabled()))
+    assert type(client) is ClientAlreadyExists
+
 
     # добавлеяем нового клиента с id=0
     client1 = Client(client_id=0, name="new client", status=ClientStatusEnabled())
     client1 = client_collect.put_client(client1)
-    assert type(client1) is Client and len(client_collect.by_name) == 2
-
-    # добавляем нового клиента с id=0 и существущем именем
-    client1 = Client(client_id=0, name="name", status=ClientStatusEnabled())
-    client1 = client_collect.put_client(client1)
-    assert type(client1) is ClientAlreadyExists and len(client_collect.by_name) == 2
-
-    # обновляем клиента с id=0 сущуствуюещм именем и другим статусом
-    client1 = Client(client_id=0, name="new client", status=ClientStatusDisabled())
-    client1 = client_collect.put_client(client1)
-    assert type(client1) is Client and len(client_collect.by_name) == 2 and type(client1.status) is ClientStatusDisabled
-
-    ###########
-    # клиент, которые уже есть, но id=0, обновляем с id!=0
-    client1 = Client(client_id=10, name="new client", status=ClientStatusDisabled())
-    client1 = client_collect.put_client(client1)
-    assert type(client1) is Client and len(client_collect.by_name) == 2 and client1.name == 'new client' \
-           and len(client_collect.by_id) == 2 and type(client1.status) is ClientStatusDisabled
-
-    # клиент, который существует, обновляем статус
-    client1 = Client(client_id=1, name="name", status=ClientStatusDisabled())
-    client1 = client_collect.put_client(client1)
-    assert type(client1) is Client and len(client_collect.by_name) == 2 and client1.name == 'name' \
-           and client_collect.by_name[client1.name].client_id == client_collect.by_id[client1.client_id].client_id \
-           and type(client_collect.by_name[client1.name].status) is ClientStatusDisabled
-
-    # пробуем добавить нового клиента, с новым id, но сущестующим именемм
-    client1 = Client(client_id=2, name="name", status=ClientStatusEnabled())
-    client1 = client_collect.put_client(client1)
-    assert type(client1) is ClientAlreadyExists and len(client_collect.by_name) == 2
-
-    # обновляем имя клиента, с существующим id
-    client1 = Client(client_id=1, name="name1", status=ClientStatusDisabled())
-    client1 = client_collect.put_client(client1)
-    assert type(client1) is Client and len(client_collect.by_name) == 2 and len(client_collect.by_id) == 2 \
-           and client_collect.by_name['name1'].client_id == 1 and client_collect.by_id[1].name == 'name1' \
-           and client_collect.by_name['name1'].status == client_collect.by_id[1].status \
-           and type(client_collect.by_name['name1'].status) is ClientStatusDisabled
+    assert type(client1) is Client and len(client_collect.by_name) == 3
 
     r = client_collect.delete_id(client_id=1)
-    assert r == True and len(client_collect.by_name) == 1
+    assert r == True and len(client_collect.by_name) == 2
 
     r = client_collect.delete_id(client_id=1)
     assert r == False
 
     r=client_collect.delete_name(name='new client')
     assert r==True
-
-
 
     r = client_collect.delete_name(name='new client')
     assert r == False

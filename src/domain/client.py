@@ -1,6 +1,10 @@
 
 from typing import Type
 
+from src.domain.messages import Message, EventClientWronged, EventClientAlreadyExists, EventClientCreated, \
+    EventClientUpdated, EventClientCantDeleted, EventClientDeleted
+
+
 class ClientStatus:
     id = 0
 
@@ -95,8 +99,7 @@ class ClientsCollect:
 
         self.by_name:dict[str,Client]={}
         self.by_id:dict[int,Client]={}
-        #self.by_name = {client.name: client for client in self.clients}
-        #self.by_id = {client.client_id: client for client in self.clients if client.client_id != 0}
+        self.events:list[Message]=[]
 
     @staticmethod
     def create_client(client_id: int = 0, name: str = "",
@@ -109,13 +112,14 @@ class ClientsCollect:
             return ClientWrong(name=name)
         return Client(client_id=client_id, name=prepared_name, status=status)
 
-
     def put_client(self, client: Client) -> Client:
         """Add or update a client in the collection."""
         if type(client) is not Client:
+            self.events.append(EventClientWronged(name=client.name))
             return client
         prepared_named=client.name.strip()
         if len(prepared_named)==0:
+            self.events.append(EventClientWronged(name=client.name))
             return ClientWrong(name=client.name)
 
         client.name=prepared_named
@@ -125,8 +129,10 @@ class ClientsCollect:
         if client.client_id==0:
             existing_client=self.by_name.get(client.name,ClientEmpty())
             if client.name==existing_client.name and existing_client.client_id!=0:
+                self.events.append(EventClientAlreadyExists(client_id=client.client_id))
                 return ClientAlreadyExists.already_exists(client)
             self.by_name[client.name]=client
+            self.events.append(EventClientCreated(client_id=client.client_id))
             return client
 
         if client.client_id!=0:
@@ -135,11 +141,13 @@ class ClientsCollect:
             if type(existing_client) is ClientEmpty and type(existing_client_id) is ClientEmpty:
                 self.by_name[client.name] = client
                 self.by_id[client.client_id] = client
+                self.events.append(EventClientUpdated(client_id=client.client_id))
                 return client
 
             if existing_client.name==client.name and existing_client.client_id==0:
                 self.by_name[client.name]=client
                 self.by_id[client.client_id]=client
+                self.events.append(EventClientUpdated(client_id=client.client_id))
                 return client
 
 
@@ -147,8 +155,10 @@ class ClientsCollect:
                 existing_client_id.name==client.name and existing_client_id.client_id==client.client_id:
                 self.by_name[client.name]=client
                 self.by_id[client.client_id]=client
+                self.events.append(EventClientUpdated(client_id=client.client_id))
                 return client
             if existing_client.name==client.name and existing_client.client_id!=client.client_id:
+                self.events.append(EventClientAlreadyExists(client_id=client.client_id))
                 return ClientAlreadyExists.already_exists(client)
 
             if existing_client.name!=client.name and existing_client_id.client_id==client.client_id:
@@ -157,19 +167,23 @@ class ClientsCollect:
                 finally:
                     self.by_name[client.name] = client
                     self.by_id[client.client_id] = client
+                self.events.append(EventClientUpdated(client_id=client.client_id))
                 return client
-        #return ClientWrong()
+        self.events.append(EventClientWronged(name=client.name))
+        return ClientWrong()
 
     def delete_name(self,name:str)->bool:
         try:
             client=self.by_name.get(name,ClientEmpty)
             del(self.by_name[name])
         except KeyError:
+            self.events.append(EventClientCantDeleted())
             return False
 
         try:
             del(self.by_id[client.client_id])
         finally:
+            self.events.append(EventClientDeleted())
             return True
 
     def delete_id(self, client_id: int) -> bool:
@@ -178,10 +192,11 @@ class ClientsCollect:
             client=    self.by_id.get(client_id,ClientEmpty)
             del(self.by_id[client_id])
             del(self.by_name[client.name])
+            self.events.append(EventClientDeleted())
             return True
         except KeyError:
+            self.events.append(EventClientCantDeleted())
             return False
-
 
 
 

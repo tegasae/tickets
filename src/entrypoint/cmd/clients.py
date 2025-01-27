@@ -1,8 +1,8 @@
 
 from src.api.cmd.cmd import command_wrapper
 from src.api.cmd.descriptor import CommandInt, CommandJSON
+from src.domain.client import Client, ClientAlreadyExists
 from src.domain.input_data import DataClient
-from src.domain.messages import AlreadyExitedClient, CreatedClient, DeletedClient
 from src.services.service_layer.client import get_client, list_clients, save_client, delete_client
 
 
@@ -27,10 +27,10 @@ def save(argument: CommandJSON) -> str:
         if str(argument.arg['enable']).lower() == "true":
             status = True
         dc = DataClient(client_id=argument.arg['id'], name=argument.arg['name'], enable=status)
-        client_event = save_client(dc=dc, uow=argument.addition['uow'])
-        if type(client_event) is CreatedClient:
-            return str(client_event.client.client_id)
-        if type(client_event) is AlreadyExitedClient:
+        client = save_client(dc=dc, uow=argument.addition['uow'])
+        if type(client) is Client:
+            return str(client.client_id)
+        if type(client) is ClientAlreadyExists:
             return f"The {argument.arg['name']} is already exsited."
         return f"The {argument.arg['name']} isn't stored."
     except ValueError:
@@ -51,8 +51,8 @@ def change(argument: CommandJSON) -> str:
 @command_wrapper(name="delete_client", descriptor=CommandInt)
 def delete(argument: CommandInt):
     if argument.arg:
-        client_event = delete_client(client_id=argument.arg, uow=argument.addition['uow'])
-        if type(client_event) is DeletedClient:
+        deleted = delete_client(client_id=argument.arg, uow=argument.addition['uow'])
+        if deleted:
             return f"The client {argument.arg} is deleted."
         else:
             return f"The client {argument.arg} isn't deleted."
