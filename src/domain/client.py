@@ -95,10 +95,20 @@ class ClientWrong(Client):
 class ClientsCollect:
     """Manages a collection of clients."""
 
-    def __init__(self):
+    def __init__(self, clients:list[Client]=None):
+        self.clients=[]
+        if clients is not None:
+            self.clients=clients
 
         self.by_name:dict[str,Client]={}
         self.by_id:dict[int,Client]={}
+
+        c: Client
+        for c in self.clients:
+            if type(c) is Client:
+                self.by_name[c.name]=c
+                if c.client_id!=0:
+                    self.by_id[c.client_id] = c
         self.events:list[Message]=[]
 
     @staticmethod

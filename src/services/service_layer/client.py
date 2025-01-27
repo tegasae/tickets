@@ -6,17 +6,15 @@ from src.viewers.data import ClientView
 
 def save_client(dc: DataClient, uow: AbstractUnitOfWork) -> Client:
     with uow:
-        client_collect=ClientsCollect()
-        client=Client(client_id=dc.client_id,name=dc.name,status=ClientStatusOperation.by_enable(dc.enable))
-        client_check=uow.clients.find_by_name(client.name)
-        client_check = client_collect.put_client(client=client_check)
+        client = Client(client_id=dc.client_id, name=dc.name, status=ClientStatusOperation.by_enable(dc.enable))
+        client_check = uow.clients.find_by_name(client.name)
+        client_collect=ClientsCollect(clients=[client_check])
         client=client_collect.put_client(client=client)
-        if type(client) is ClientAlreadyExists:
+        if type(client) is not Client:
             return client
-        if type(client) is Client:
-            client = uow.clients.save(client=client)
-        else:
-            return client
+
+        client = uow.clients.save(client=client)
+
 
         uow.commit()
         return client
