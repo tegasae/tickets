@@ -19,7 +19,7 @@ class TicketNotFound(CommonException):
     def create_message(self):
         self.base_message = f'The ticket isn\'t found {self.m}'
 
+
 class ErrorWithStore(CommonException):
     def create_message(self):
-        self.base_message = f'The error is occuries with the store {self.m}'
-
+        self.base_message = f'The error is occurred with the store {self.m}'

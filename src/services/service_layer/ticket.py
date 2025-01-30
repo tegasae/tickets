@@ -13,6 +13,7 @@ def create_ticket(data_for_ticket: DataForTicket, uow: AbstractUnitOfWork) -> Ti
         ticket = Ticket(describe=data_for_ticket.describe)
         user.create_ticket(ticket=ticket)
         uow.tickets.save(user_id=user.user_id, ticket=ticket)
+
         uow.commit()
         return ticket
 

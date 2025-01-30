@@ -3,6 +3,7 @@ import abc
 
 from src.adapters import repository
 from src.domain.client import ClientsCollect
+from src.domain.messages import Message
 from src.viewers.clients import AbstractClientViewer
 from src.viewers.tickets import AbstractTicketViewer
 
@@ -17,7 +18,7 @@ class AbstractUnitOfWork(abc.ABC):
 
     def __init__(self):
         self.client_collect=ClientsCollect()
-
+        self.events:list[Message]=[]
     def __enter__(self) -> AbstractUnitOfWork:
         return self
 

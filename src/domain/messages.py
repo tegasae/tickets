@@ -19,30 +19,34 @@ class Command(Message):
 class Event(Message):
     describe = "event"
 
+
 @dataclass(kw_only=True, frozen=True)
 class EventClient(Event):
     describe = "client event"
 
+
 @dataclass(kw_only=True, frozen=True)
 class EventClientCreated(EventClient):
     describe = "client created"
-    client_id:int=0
+    client_id: int = 0
+
 
 @dataclass(kw_only=True, frozen=True)
 class EventClientUpdated(EventClient):
     describe = "client created"
-    client_id:int=0
-
+    client_id: int
 
 @dataclass(kw_only=True, frozen=True)
 class EventClientAlreadyExists(EventClient):
     describe = "client exists"
-    client_id:int=0
+    client_id: int
+
 
 @dataclass(kw_only=True, frozen=True)
 class EventClientWronged(EventClient):
     describe = "client wrong"
-    name:str=""
+    client_id:int
+    name: str
 
 
 @dataclass(kw_only=True, frozen=True)
@@ -53,11 +57,3 @@ class EventClientDeleted(EventClient):
 @dataclass(kw_only=True, frozen=True)
 class EventClientCantDeleted(EventClient):
     describe = "client can't deleted"
-
-
-
-
-
-
-
-

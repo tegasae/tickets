@@ -27,12 +27,11 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
             else:
                 last_id = self.update.set_result(params={'name': client.name, 'is_active': client.status.id,
                                                          'client_id': client.client_id})
-                #if last_id == 0:
+                # if last_id == 0:
                 #    client.client_id = 0
             return client
         except DBOperationError as e:
             raise ErrorWithStore(e)
-
 
     def _get(self, client_id: int) -> Client:
         try:
@@ -42,7 +41,6 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
             return Client(client_id=r[0], name=r[1], status=ClientStatusOperation.by_id(r[2]))
         except DBOperationError as e:
             raise ErrorWithStore(e)
-
 
     def _delete(self, client_id: int) -> bool:
         try:
