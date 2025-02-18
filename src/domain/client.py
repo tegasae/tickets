@@ -1,3 +1,4 @@
+
 from typing import Type
 
 from src.domain.messages import Message, EventClientWronged, EventClientAlreadyExists, EventClientCreated, \
@@ -91,7 +92,7 @@ class ClientWrong(Client):
         super().__init__(client_id=client_id, name=name, status=status)
 
 
-class ClientsCollect:
+class ClientCollection:
     """Manages a collection of clients."""
 
     def __init__(self, clients: list[Client] = None):
@@ -120,6 +121,10 @@ class ClientsCollect:
         if len(prepared_name) == 0:
             return ClientWrong(name=name)
         return Client(client_id=client_id, name=prepared_name, status=status)
+
+    def get_client(self):
+        for c in self.by_name:
+            yield c
 
     def put_client(self, client: Client) -> Client:
         """Add or update a client in the collection."""
@@ -184,15 +189,15 @@ class ClientsCollect:
         try:
             client = self.by_name.get(name, ClientEmpty)
             del (self.by_name[name])
-            #self.events.append(EventClientDeleted())
+            self.events.append(EventClientDeleted())
         except KeyError:
-            #self.events.append(EventClientCantDeleted())
+            self.events.append(EventClientCantDeleted())
             return False
 
         try:
             del(self.by_id[client.client_id])
         finally:
-            #self.events.append(EventClientDeleted())
+            self.events.append(EventClientDeleted())
             return True
 
     def delete_id(self, client_id: int) -> bool:
@@ -201,8 +206,8 @@ class ClientsCollect:
             client = self.by_id.get(client_id, ClientEmpty)
             del(self.by_id[client_id])
             del(self.by_name[client.name])
-            #self.events.append(EventClientDeleted())
+            self.events.append(EventClientDeleted())
             return True
         except KeyError:
-            #self.events.append(EventClientCantDeleted())
+            self.events.append(EventClientCantDeleted())
             return False

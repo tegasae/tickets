@@ -1,6 +1,7 @@
+from src.adapters.repositories.sqlite._clients import SQLiteRepositoryClientCollection
 from src.utils.dbapi.connect import Connection
 
-from src.adapters.repositories.sqlite import SQLiteRepositoryUser, SQLiteRepositoryTicket, SQLiteRepositoryClient
+from src.adapters.repositories.sqlite import SQLiteRepositoryUser, SQLiteRepositoryTicket
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.viewers.sqlite.clients import SQLiteClientViewer
 from src.viewers.sqlite.tickets import SQLiteTicketViewer
@@ -12,7 +13,7 @@ class SQLLiteUnitOfWork(AbstractUnitOfWork):
         self.connection=connection
         self.users=SQLiteRepositoryUser(conn=self.connection)
         self.tickets = SQLiteRepositoryTicket(conn=self.connection)
-        self.clients=SQLiteRepositoryClient(conn=self.connection)
+        self.client_collection_repository=SQLiteRepositoryClientCollection(conn=self.connection)
         self.view_tickets=SQLiteTicketViewer(conn=self.connection)
         self.view_clients = SQLiteClientViewer(conn=self.connection)
 

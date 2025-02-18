@@ -45,8 +45,8 @@ class EventClientAlreadyExists(EventClient):
 @dataclass(kw_only=True, frozen=True)
 class EventClientWronged(EventClient):
     describe = "client wrong"
-    client_id:int
-    name: str
+    client_id:int=0
+    name: str=""
 
 
 @dataclass(kw_only=True, frozen=True)

@@ -1,4 +1,4 @@
-from src.domain.client import Client, ClientWrong, ClientAlreadyExists, ClientsCollect, ClientEmpty, ClientStatus, \
+from src.domain.client import Client, ClientWrong, ClientAlreadyExists, ClientCollection, ClientEmpty, ClientStatus, \
     ClientStatusEnabled, ClientStatusDisabled, ClientStatusOperation
 
 
@@ -31,13 +31,13 @@ def test_client():
 
 
 def test_client_create():
-    client1 = ClientsCollect.create_client(client_id=1, name="name1", status=ClientStatusEnabled())
+    client1 = ClientCollection.create_client(client_id=1, name="name1", status=ClientStatusEnabled())
     assert type(client1) is Client and client1.client_id == 1 and client1.name == "name1"
 
-    client_empty = ClientsCollect.create_client(client_id=1, name="  ", status=ClientStatusEnabled())
+    client_empty = ClientCollection.create_client(client_id=1, name="  ", status=ClientStatusEnabled())
     assert type(client_empty) is ClientWrong and client_empty.name == '  '
 
-    client2 = ClientsCollect.create_client(client_id=1, name=" n ", status=ClientStatusEnabled())
+    client2 = ClientCollection.create_client(client_id=1, name=" n ", status=ClientStatusEnabled())
     assert type(client2) is Client and client2.client_id == 1 and client2.name == "n"
 
 
@@ -45,7 +45,7 @@ def test_client_create():
 
 def test_client_collect():
     # создаем коллекцию
-    client_collect = ClientsCollect()
+    client_collect = ClientCollection()
 
     #пытаемся поместить в коллекскию не Client
     client_emmty=client_collect.put_client(ClientEmpty())

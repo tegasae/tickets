@@ -3,43 +3,37 @@ import abc
 from src.domain.status import TicketStatus, TicketStatusAccepted, TicketStatusConfirmed, TicketStatusExecuted, \
     TicketStatusCancelledUser, TicketStatusCancelledOperator
 from src.domain.ticket import User, Ticket
-from src.domain.client import Client
+from src.domain.client import Client, ClientCollection
 
 
-class AbstractRepositoryClient(abc.ABC):
+class AbstractRepositoryClientCollection(abc.ABC):
     def __init__(self):
         self.seen_clients: dict[int, Client] = {}
 
-    def save(self, client:Client) -> Client:
-        client = self._save(client=client)
-        if client.client_id:
-            self.seen_clients[client.client_id] = client
-        return client
+    def save(self, client_collection:ClientCollection) -> ClientCollection:
 
-    def get(self, client_id: int) -> Client:
-        client = self._get(client_id=client_id)
+        client_collection = self._save(client_collection=client_collection)
 
-        if client.client_id:
-            self.seen_clients[client_id] = client
-        return client
+        return client_collection
+
+    def get(self) -> ClientCollection:
+        client_collection = self._get()
+
+
+        return client_collection
 
     def delete(self, client_id: int)->bool:
         if not self._delete(client_id):
             return False
-        if client_id in self.seen_clients:
-            del (self.seen_clients[client_id])
         return True
 
+
     @abc.abstractmethod
-    def find_by_name(self, name: str) -> Client:
+    def _save(self, client_collection: ClientCollection) -> ClientCollection:
         raise NotImplementedError
 
     @abc.abstractmethod
-    def _save(self, client: Client) -> Client:
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def _get(self, client_id: int) -> Client:
+    def _get(self) -> ClientCollection:
         raise NotImplementedError
 
     @abc.abstractmethod

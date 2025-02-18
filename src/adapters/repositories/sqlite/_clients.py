@@ -1,44 +1,44 @@
-from src.adapters.repository import AbstractRepositoryClient
-from src.domain.client import Client, ClientEmpty, ClientStatusOperation
+from src.adapters.repository import AbstractRepositoryClientCollection
+from src.domain.client import Client, ClientEmpty, ClientStatusOperation, ClientCollection
 from src.domain.exceptions import ErrorWithStore
 from src.utils.dbapi.connect import Connection
 from src.utils.dbapi.exceptions import DBOperationError
 
 
-class SQLiteRepositoryClient(AbstractRepositoryClient):
+class SQLiteRepositoryClientCollection(AbstractRepositoryClientCollection):
 
     def __init__(self, conn: Connection):
         super().__init__()
         self.conn = conn
         self.insert = self.conn.create_query("INSERT INTO clients (name,is_active) VALUES (:name,:is_active)")
         self.update = self.conn.create_query(
-            "UPDATE clients SET name=:name, is_active=:is_active WHERE client_id=:client_id")
-        self.get_id = self.conn.create_query("SELECT c.client_id, c.name, c.is_active "
-                                             "FROM clients c WHERE c.client_id=:client_id",
-                                             params=['id', 'name', 'is_active'])
+                                "UPDATE clients SET name=:name, is_active=:is_active WHERE client_id=:client_id")
+        self.get_all = self.conn.create_query("SELECT c.client_id, c.name, c.is_active FROM clients c")
         self.remove = self.conn.create_query("DELETE FROM clients WHERE client_id=:client_id")
         self.find_name = self.conn.create_query("SELECT client_id, name, is_active client_id "
                                                 "FROM clients WHERE name=:name")
 
-    def _save(self, client: Client) -> Client:
+    def _save(self, client_collection: ClientCollection) -> ClientCollection:
         try:
-            if not client.client_id:
-                client.client_id = self.insert.set_result(params={'name': client.name, 'is_active': client.status.id})
-            else:
-                last_id = self.update.set_result(params={'name': client.name, 'is_active': client.status.id,
-                                                         'client_id': client.client_id})
-                # if last_id == 0:
-                #    client.client_id = 0
-            return client
+            for c in client_collection.get_client():
+                if not c.client_id:
+                    c.client_id = self.insert.set_result(params={'name': c.name, 'is_active': c.status.id})
+                else:
+                    self.update.set_result(params={'name': c.name, 'is_active': c.status.id,
+                                                         'client_id': c.client_id})
+
+                client_collection.put_client(client=c)
+                return client_collection
         except DBOperationError as e:
             raise ErrorWithStore(e)
 
-    def _get(self, client_id: int) -> Client:
+    def _get(self) -> ClientCollection:
         try:
-            r = self.get_id.get_one_result(var={client_id: client_id})
-            if len(r) == 0:
-                return ClientEmpty()
-            return Client(client_id=r[0], name=r[1], status=ClientStatusOperation.by_id(r[2]))
+            client_collection=ClientCollection()
+            r = self.get_all.get_result()
+            for c in r:
+                client_collection.put_client(Client(client_id=c[0], name=c[1], status=ClientStatusOperation.by_id(c[2])))
+            return client_collection
         except DBOperationError as e:
             raise ErrorWithStore(e)
 
@@ -52,12 +52,3 @@ class SQLiteRepositoryClient(AbstractRepositoryClient):
         except DBOperationError as e:
             raise ErrorWithStore(e)
 
-    def find_by_name(self, name: str) -> Client:
-        try:
-            r = self.find_name.get_one_result(params={"name": name})
-            if len(r) == 0:
-                return ClientEmpty()
-            else:
-                return Client(client_id=r[0], name=r[1], status=ClientStatusOperation.by_id(r[2]))
-        except DBOperationError as e:
-            raise ErrorWithStore(e)
