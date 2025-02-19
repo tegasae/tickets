@@ -7,7 +7,7 @@ from src.viewers.data import ClientView
 
 def save_client(dc: DataClient, uow: AbstractUnitOfWork) -> ClientCollection:
     with uow:
-        client = Client(client_id=dc.client_id, name=dc.name, status=ClientStatusOperation.by_enable(dc.enable))
+        client = Client(client_id=dc.client_id, name=dc.name, code=dc.code, status=ClientStatusOperation.by_enable(dc.enable))
 
         client_collection=uow.client_collection_repository.get()
 
@@ -15,7 +15,7 @@ def save_client(dc: DataClient, uow: AbstractUnitOfWork) -> ClientCollection:
         if type(client) is not Client:
             return client_collection
 
-        uow.client_collection_repository.save(client_collection=client_collection)
+        client_collection=uow.client_collection_repository.save(client_collection=client_collection)
         uow.events+=client_collection.events
         client_collection.events.clear()
         uow.commit()

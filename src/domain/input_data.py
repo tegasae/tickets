@@ -20,5 +20,6 @@ class DataClient:
     client_id:int
     name: str
     enable: bool
+    code:str
 
 

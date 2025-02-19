@@ -1,7 +1,7 @@
 
 from src.api.cmd.cmd import command_wrapper
 from src.api.cmd.descriptor import CommandInt, CommandJSON
-from src.domain.client import Client, ClientAlreadyExists
+from src.domain.client import Client
 from src.domain.input_data import DataClient
 from src.services.service_layer.client import get_client, list_clients, save_client, delete_client
 
@@ -26,12 +26,12 @@ def save(argument: CommandJSON) -> str:
     try:
         if str(argument.arg['enable']).lower() == "true":
             status = True
-        dc = DataClient(client_id=argument.arg['id'], name=argument.arg['name'], enable=status)
+        dc = DataClient(client_id=argument.arg['id'], name=argument.arg['name'], enable=status,code=argument.arg['code'])
         client = save_client(dc=dc, uow=argument.addition['uow'])
         if type(client) is Client:
             return str(client.client_id)
-        if type(client) is ClientAlreadyExists:
-            return f"The {argument.arg['name']} is already exsited."
+        #if type(client) is ClientAlreadyExists:
+        #    return f"The {argument.arg['name']} is already exsited."
         return f"The {argument.arg['name']} isn't stored."
     except ValueError:
         return "The data is wrong"

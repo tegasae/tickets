@@ -20,7 +20,7 @@ class SQLiteRepositoryClientCollection(AbstractRepositoryClientCollection):
 
     def _save(self, client_collection: ClientCollection) -> ClientCollection:
         try:
-            for c in client_collection.get_client():
+            for c in client_collection.get_clients():
                 if not c.client_id:
                     c.client_id = self.insert.set_result(params={'name': c.name, 'is_active': c.status.id})
                 else:
@@ -28,7 +28,7 @@ class SQLiteRepositoryClientCollection(AbstractRepositoryClientCollection):
                                                          'client_id': c.client_id})
 
                 client_collection.put_client(client=c)
-                return client_collection
+            return client_collection
         except DBOperationError as e:
             raise ErrorWithStore(e)
 
