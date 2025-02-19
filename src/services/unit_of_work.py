@@ -23,11 +23,16 @@ class AbstractUnitOfWork(abc.ABC):
         return self
 
     def __exit__(self, *args):
+
         self.rollback()
 
     def commit(self):
         print("commit")
+        for event in self.events:
+            print(f"Publishing event: {event}")
+        self.events.clear()
         self._commit()
+        # Simulate publishing events
 
     # def collect_new_events(self):
     #    for user in self.users.seen_users:
@@ -41,4 +46,5 @@ class AbstractUnitOfWork(abc.ABC):
     @abc.abstractmethod
     def rollback(self):
         print("rollback")
+
         raise NotImplementedError

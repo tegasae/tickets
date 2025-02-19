@@ -30,4 +30,5 @@ class SQLLiteUnitOfWork(AbstractUnitOfWork):
         self.connection.c()
 
     def rollback(self):
+
         self.connection.r()

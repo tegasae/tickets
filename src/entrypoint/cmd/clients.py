@@ -28,8 +28,8 @@ def save(argument: CommandJSON) -> str:
             status = True
         dc = DataClient(client_id=argument.arg['id'], name=argument.arg['name'], enable=status,code=argument.arg['code'])
         client = save_client(dc=dc, uow=argument.addition['uow'])
-        if type(client) is Client:
-            return str(client.client_id)
+        #if type(client) is Client:
+        #    return str(client.client_id)
         #if type(client) is ClientAlreadyExists:
         #    return f"The {argument.arg['name']} is already exsited."
         return f"The {argument.arg['name']} isn't stored."
