@@ -30,7 +30,10 @@ class EventClientCreated(EventClient):
     describe = "client created"
     client_id: int = 0
 
-
+@dataclass(kw_only=True, frozen=True)
+class EventClientCantStored(EventClient):
+    describe = "client didn't store"
+    client_id: int = 0
 @dataclass(kw_only=True, frozen=True)
 class EventClientUpdated(EventClient):
     describe = "client created"

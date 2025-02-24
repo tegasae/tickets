@@ -10,6 +10,10 @@ class AbstractRepositoryClientCollection(abc.ABC):
     def __init__(self):
         self.seen_clients: dict[int, Client] = {}
 
+    def add(self, client:Client) -> Client:
+        client = self._add(client=client)
+        return client
+
     def save(self, client_collection:ClientCollection) -> ClientCollection:
 
         client_collection = self._save(client_collection=client_collection)
@@ -30,6 +34,10 @@ class AbstractRepositoryClientCollection(abc.ABC):
 
     @abc.abstractmethod
     def _save(self, client_collection: ClientCollection) -> ClientCollection:
+        raise NotImplementedError
+
+    @abc.abstractmethod
+    def _add(self, client: Client) -> Client:
         raise NotImplementedError
 
     @abc.abstractmethod

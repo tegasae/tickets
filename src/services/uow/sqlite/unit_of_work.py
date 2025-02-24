@@ -13,7 +13,7 @@ class SQLLiteUnitOfWork(AbstractUnitOfWork):
         self.connection=connection
         self.users=SQLiteRepositoryUser(conn=self.connection)
         self.tickets = SQLiteRepositoryTicket(conn=self.connection)
-        self.client_collection_repository=SQLiteRepositoryClientCollection(conn=self.connection)
+        self.client_collection=SQLiteRepositoryClientCollection(conn=self.connection)
         self.view_tickets=SQLiteTicketViewer(conn=self.connection)
         self.view_clients = SQLiteClientViewer(conn=self.connection)
 

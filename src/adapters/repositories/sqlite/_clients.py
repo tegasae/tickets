@@ -16,21 +16,24 @@ class SQLiteRepositoryClientCollection(AbstractRepositoryClientCollection):
         self.get_all = self.conn.create_query("SELECT c.client_id, c.name, c.is_active, c.code1s FROM clients c")
         self.remove = self.conn.create_query("DELETE FROM clients WHERE client_id=:client_id")
 
-
-    def _save(self, client_collection: ClientCollection) -> ClientCollection:
+    def _add(self,client:Client)->Client:
         try:
-            for c in client_collection.get_clients():
-                if not c.client_id:
-                    c.client_id = self.insert.set_result(params={'name': c.name, 'is_active': c.status.id,'code':c.code})
-                    client_collection.put_client(client=c)
-                else:
-                    self.update.set_result(params={'name': c.name, 'is_active': c.status.id,'code':c.code,
-                                                         'client_id': c.client_id})
-
-
-            return client_collection
+            if not client.client_id:
+                client.client_id = self.insert.set_result(params={'name': client.name, 'is_active': client.status.id, 'code': client.code})
+            else:
+                self.update.set_result(params={'name': client.name, 'is_active': client.status.id, 'code': client.code,
+                                           'client_id': client.client_id})
+                if self.update.count==0:
+                    raise ErrorWithStore("The client didn't find")
+            return client
         except DBOperationError as e:
             raise ErrorWithStore(e)
+
+
+    def _save(self, client_collection: ClientCollection) -> ClientCollection:
+        for c in client_collection.get_clients():
+               c=self._add(client=c)
+        return client_collection
 
     def _get(self) -> ClientCollection:
         try:

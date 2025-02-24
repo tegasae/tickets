@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from typing import Type
 
 from src.domain.messages import Message, EventClientWronged, EventClientCreated, EventClientCantDeleted, \
-    EventClientDeleted
+    EventClientDeleted, EventClientUpdated
+
 
 @dataclass(frozen=True)
 class ClientStatus:
@@ -74,53 +75,53 @@ class ClientCollection:
     """Manages a collection of clients."""
 
     def __init__(self, clients: list[Client] = None):
-        self.by_code: dict[str, Client] = {}
+        self.by_id: dict[int, Client] = {}
 
         if type(clients) is list:
             for c in clients:
                 if type(c) is Client and c.code:
-                    self.by_code[c.code] = c
+                    self.by_id[c.client_id] = c
         self.events: list[Message] = []
 
+    def create_client(self,client_id:int, name:str,code:str,status:ClientStatus)->Client:
+        prepared_named = name.strip()
+        if len(prepared_named)==0:
+            self.events.append(EventClientWronged(name=name))
+            return ClientWrong(name=name)
+        return Client(client_id=client_id,name=name,code=code,status=status)
 
     def get_clients(self)->list[Client]:
-        return list(self.by_code.values())
+        return list(self.by_id.values())
 
     def put_client(self, client: Client) -> Client:
         """Add or update a client in the collection."""
-        prepared_named = client.name.strip()
-        if type(client) is not Client or len(prepared_named)==0:
-            self.events.append(EventClientWronged(name=client.name))
-            return ClientWrong(client_id=client.client_id,name=client.name,code=client.code)
-
-        client.name = prepared_named
-        self.by_code[client.code]=client
-        self.events.append(EventClientCreated(client_id=client.client_id))
+        if client.client_id in self.by_id:
+            self.events.append(EventClientUpdated(client_id=client.client_id))
+        else:
+            self.events.append(EventClientCreated(client_id=client.client_id))
+        self.by_id[client.client_id]=client
         return client
 
 
     def disable(self,client_id:int)->Client:
-        for c in self.by_code:
-            if self.by_code[c].client_id==client_id:
-                self.by_code[c].status=ClientStatusDisabled()
-                return self.by_code[c]
-        return ClientEmpty()
-
+        client=self.by_id.get(client_id,ClientEmpty())
+        if type(client) is not ClientEmpty:
+            client.status=ClientStatusDisabled()
+        return client
 
     def enable(self,client_id:int)->Client:
-        for c in self.by_code:
-            if self.by_code[c].client_id==client_id:
-                self.by_code[c].status=ClientStatusEnabled()
-                return self.by_code[c]
-        return ClientEmpty()
+        client = self.by_id.get(client_id, ClientEmpty())
+        if type(client) is not ClientEmpty:
+            client.status = ClientStatusEnabled()
+        return client
 
     def delete_id(self, client_id: int) -> bool:
         """Delete a client by their ID."""
-        for c in self.by_code:
-            if self.by_code[c].client_id==client_id:
-                del(self.by_code[c])
-                self.events.append(EventClientDeleted())
-                return True
-        self.events.append(EventClientCantDeleted())
-        return False
+        try:
+            del(self.by_id[client_id])
+            self.events.append(EventClientDeleted())
+            return True
+        except KeyError:
+            self.events.append(EventClientCantDeleted())
+            return False
 
