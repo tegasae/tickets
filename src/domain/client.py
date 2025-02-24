@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Type
 
 from src.domain.messages import Message, EventClientWronged, EventClientCreated, EventClientCantDeleted, \
-    EventClientDeleted, EventClientUpdated
+    EventClientDeleted, EventClientUpdated, EventClientDisabled
 
 
 @dataclass(frozen=True)
@@ -79,7 +79,7 @@ class ClientCollection:
 
         if type(clients) is list:
             for c in clients:
-                if type(c) is Client and c.code:
+                if type(c) is Client:
                     self.by_id[c.client_id] = c
         self.events: list[Message] = []
 
@@ -105,8 +105,10 @@ class ClientCollection:
 
     def disable(self,client_id:int)->Client:
         client=self.by_id.get(client_id,ClientEmpty())
+
         if type(client) is not ClientEmpty:
             client.status=ClientStatusDisabled()
+            self.events.append(EventClientDisabled(client_id=client_id))
         return client
 
     def enable(self,client_id:int)->Client:

@@ -3,7 +3,7 @@ from src.api.cmd.cmd import command_wrapper
 from src.api.cmd.descriptor import CommandInt, CommandJSON
 from src.domain.client import Client
 from src.domain.input_data import DataClient
-from src.services.service_layer.client import get_client, list_clients, save_client, delete_client
+from src.services.service_layer.client import get_client, list_clients, save_client, delete_client, disable_client
 
 
 @command_wrapper(name="list_client", descriptor=CommandInt)
@@ -56,3 +56,8 @@ def delete(argument: CommandInt):
             return f"The client {argument.arg} is deleted."
         else:
             return f"The client {argument.arg} isn't deleted."
+
+@command_wrapper(name="disable_client", descriptor=CommandInt)
+def disable(argument:CommandInt):
+    client_id=argument.arg
+    disable_client(client_id=client_id,uow=argument.addition['uow'])

@@ -60,3 +60,9 @@ class EventClientDeleted(EventClient):
 @dataclass(kw_only=True, frozen=True)
 class EventClientCantDeleted(EventClient):
     describe = "client can't deleted"
+
+
+@dataclass(kw_only=True, frozen=True)
+class EventClientDisabled(EventClient):
+    describe = "client is disabled"
+    client_id:int

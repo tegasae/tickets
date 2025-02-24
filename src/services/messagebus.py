@@ -1,4 +1,5 @@
-from src.domain.messages import Event, EventClientCreated, EventClientWronged, EventClientCantStored
+from src.domain.messages import Event, EventClientCreated, EventClientWronged, EventClientCantStored, \
+    EventClientDisabled
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.utils.dbapi.connect import logger
 
@@ -55,12 +56,15 @@ def publish_client_create(event: Event,uow:AbstractUnitOfWork):
 def publish_client_dont_create(event: Event,uow:AbstractUnitOfWork):
     print(event)
 
+def publish_client_disable(event: Event,uow:AbstractUnitOfWork):
+    print(event)
 
 
 EVENT_HANDLERS = {
     EventClientCreated: [publish_client_create],
     EventClientWronged: [publish_client_dont_create],
-    EventClientCantStored: [publish_client_dont_create]
+    EventClientCantStored: [publish_client_dont_create],
+    EventClientDisabled: [publish_client_disable]
 }
 #EVENT_HANDLERS = {
 #    events.Allocated: [

@@ -1,6 +1,6 @@
 from src.domain.exceptions import ErrorWithStore
 from src.domain.input_data import DataClient
-from src.domain.client import Client, ClientStatusOperation, ClientCollection
+from src.domain.client import Client, ClientStatusOperation, ClientCollection, ClientEmpty
 from src.domain.messages import EventClientCreated, EventClientCantStored
 from src.services import messagebus
 from src.services.unit_of_work import AbstractUnitOfWork
@@ -43,5 +43,15 @@ def delete_client(client_id: int, uow: AbstractUnitOfWork) -> bool:
         else:
             uow.events += client_collection.events
             return False
+        uow.commit()
+    return True
+
+def disable_client(client_id:int,uow:AbstractUnitOfWork)->bool:
+    with uow:
+        client_collection=uow.client_collection.get()
+        client=client_collection.disable(client_id=client_id)
+        if type(client) is ClientEmpty:
+            return False
+        uow.client_collection.save(client_collection)
         uow.commit()
     return True
