@@ -3,8 +3,6 @@ from src.domain.messages import Event, EventClientCreated, EventClientWronged, E
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.utils.dbapi.connect import logger
 
-#Message = Union[Command, Event]
-#Message=Union[Event]
 
 
 def handle(message: Event, uow: AbstractUnitOfWork):
