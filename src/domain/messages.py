@@ -16,6 +16,14 @@ class Command(Message):
 
 
 @dataclass(kw_only=True, frozen=True)
+class CreateClient(Command):
+    name: str
+    code1s: str
+    enable: bool
+
+
+
+@dataclass(kw_only=True, frozen=True)
 class Event(Message):
     describe = "event"
 
