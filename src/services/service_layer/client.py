@@ -1,26 +1,24 @@
 from src.domain.exceptions import ErrorWithStore
-from src.domain.input_data import DataClient
 from src.domain.client import Client, ClientStatusOperation, ClientCollection, ClientEmpty
-from src.domain.messages import EventClientCreated, EventClientCantStored
-from src.services import messagebus
+from src.domain.messages import EventClientCreated, EventClientCantStored, CreateClient, ViewClient
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.viewers.data import ClientView
 
 
-def save_client(dc: DataClient, uow: AbstractUnitOfWork) -> ClientCollection:
+def save_client(cmd: CreateClient, uow: AbstractUnitOfWork) -> ClientCollection:
     with uow:
         try:
             client_collection = uow.client_collection.get()
-            client = client_collection.create_client(client_id=dc.client_id, name=dc.name, code=dc.code,
-                                                     status=ClientStatusOperation.by_enable(dc.enable))
+            client = client_collection.create_client(client_id=0, name=cmd.name, code=cmd.code1s,
+                                                     status=ClientStatusOperation.by_enable(cmd.enable))
             if type(client) is Client:
                 client = uow.client_collection.add(client=client)
                 client_collection.put_client(client=client)
 
             uow.events += client_collection.events
             client_collection.events.clear()
-
-            messagebus.handle(EventClientCantStored(), uow)
+            uow.events.append(ViewClient())
+            #messagebus.handle(EventClientCreated(client_id=client.client_id), uow)
             uow.commit()
         except ErrorWithStore:
             client_collection.delete_id(client_id=client.client_id)

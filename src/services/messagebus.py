@@ -1,13 +1,15 @@
+from typing import Union
+
 from src.domain import messages
 from src.domain.input_data import DataClient
 from src.domain.messages import Event, EventClientCreated, EventClientWronged, EventClientCantStored, \
-    EventClientDisabled, Command, Message, CreateClient
+    EventClientDisabled, Command, Message, CreateClient, ViewClient
 from src.services.service_layer.client import save_client
 from src.services.unit_of_work import AbstractUnitOfWork
 from src.utils.dbapi.connect import logger
 
 
-def handle(message: Event, uow: AbstractUnitOfWork):
+def handle(message: Union[Event,Command], uow: AbstractUnitOfWork):
     queue = [message]
     while queue:
         message = queue.pop(0)
@@ -51,7 +53,7 @@ def handle_command(
 
 
 def publish_client_create(event: Event, uow: AbstractUnitOfWork):
-    print(event)
+    return event
 
 
 def publish_client_dont_create(event: Event, uow: AbstractUnitOfWork):
@@ -63,10 +65,11 @@ def publish_client_disable(event: Event, uow: AbstractUnitOfWork):
 
 
 def create_client(command: CreateClient, uow: AbstractUnitOfWork):
-    dc=DataClient(name=command.name,code=command.code1s,enable=command.enable,client_id=0)
-    cc=save_client(dc=dc,uow=uow)
+    cc=save_client(cmd=command,uow=uow)
     print(cc)
 
+def view_client(command: ViewClient,uow:AbstractUnitOfWork):
+    return {}
 
 
 EVENT_HANDLERS = {
@@ -89,6 +92,7 @@ EVENT_HANDLERS = {
 # COMMAND_HANDLERS = {}
 COMMAND_HANDLERS = {
     messages.CreateClient: create_client,
+    messages.ViewClient: view_client,
     #    commands.CreateBatch: handlers.add_batch,
     #    commands.ChangeBatchQuantity: handlers.change_batch_quantity,
 }

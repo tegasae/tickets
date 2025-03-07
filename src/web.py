@@ -14,10 +14,10 @@ from src.viewers.sqlite.clients import SQLiteClientViewer
 
 
 class ClientHTTP(BaseModel):
-    client_id:int=0
-    name:str
-    code1s:str=""
-    enable:bool
+    client_id: int = 0
+    name: str
+    code1s: str = ""
+    enable: bool
 
 
 app = FastAPI()
@@ -28,8 +28,6 @@ client_viewer = SQLiteClientViewer(conn=conn)
 logging.basicConfig(format='%(asctime)s %(filename)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-
-
 
 
 @app.get("/")
@@ -59,10 +57,11 @@ async def read_client_name(code1s: str):
 
 
 @app.post('/clients/')
-async def create_client(client_http:ClientHTTP):
-    cmd=messages.CreateClient(name=client_http.name,code1s=client_http.code1s,enable=client_http.enable)
-    messagebus.handle(cmd,uow)
-    return client_http
+async def create_client(client_http: ClientHTTP):
+    cmd = messages.CreateClient(name=client_http.name, code1s=client_http.code1s, enable=client_http.enable)
+    messagebus.handle(cmd, uow)
+    print("11111111")
+    #return client_http
 
 
 if __name__ == "__main__":

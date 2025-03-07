@@ -22,6 +22,15 @@ class CreateClient(Command):
     enable: bool
 
 
+@dataclass(kw_only=True, frozen=True)
+class ViewClient(Command):
+    client_id:int=0
+    name: str="111"
+    code1s: str=""
+    enable: bool=True
+
+
+
 
 @dataclass(kw_only=True, frozen=True)
 class Event(Message):
