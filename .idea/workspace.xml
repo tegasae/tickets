@@ -4,29 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="86ed0daa-dbde-42fd-9800-fbd6f327cf55" name="Changes" comment="dp api in repository">
-      <change afterPath="$PROJECT_DIR$/src/domain/client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/fabric_client.py" afterDir="false" />
+    <list default="true" id="86ed0daa-dbde-42fd-9800-fbd6f327cf55" name="Changes" comment="new clients">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/tickets.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/tickets.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_clients.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_clients.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_users.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapters/repositories/sqlite/_users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapters/repositories/sqlite/repository_sqlite.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapters/repositories/sqlite/repository_sqlite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/adapters/repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/adapters/repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/cmd/cmd.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/cmd/cmd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cmd.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cmd.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/exceptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/exceptions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/messages.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/messages.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/status.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/status.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/ticket.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entrypoint/cmd/clients.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entrypoint/cmd/clients.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_layer/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_layer/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/unit_of_work.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/unit_of_work.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/dbapi/connect.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dbapi/connect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/dbapi/query.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/dbapi/query.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewers/sqlite/clients.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewers/sqlite/clients.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/unit/domain/test_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/unit/domain/test_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/uow/sqlite/unit_of_work.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/uow/sqlite/unit_of_work.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,19 +52,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.cmd.executor": "Debug",
-    "Python.main.executor": "Run",
-    "Python.messages.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "uow-with-db-api",
-    "last_opened_file_path": "/home/sae/project/tickets/src/domain/fabric_client.py"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.cmd.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.messages.executor&quot;: &quot;Run&quot;,
+    &quot;Python.web.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;uow-with-db-api&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sae/project/telegram-user-develop&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Python.cmd">
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/old_tests" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.web">
     <configuration name="cmd" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tickets" />
       <option name="ENV_FILES" value="" />
@@ -99,6 +86,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/cmd.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tickets" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -151,9 +160,33 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="web" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tickets" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/web.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.web" />
         <item itemvalue="Python.cmd" />
+        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.messages" />
         <item itemvalue="Python.main" />
       </list>
@@ -199,7 +232,71 @@
       <option name="project" value="LOCAL" />
       <updated>1737037256231</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="events for clients">
+      <option name="closed" value="true" />
+      <created>1737384130949</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737384130949</updated>
+    </task>
+    <task id="LOCAL-00005" summary="new clients">
+      <option name="closed" value="true" />
+      <created>1737467233494</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737467233494</updated>
+    </task>
+    <task id="LOCAL-00006" summary="new clients">
+      <option name="closed" value="true" />
+      <created>1737552622293</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737552622293</updated>
+    </task>
+    <task id="LOCAL-00007" summary="new clients">
+      <option name="closed" value="true" />
+      <created>1737553339611</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1737553339611</updated>
+    </task>
+    <task id="LOCAL-00008" summary="new clients">
+      <option name="closed" value="true" />
+      <created>1737640250669</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1737640250669</updated>
+    </task>
+    <task id="LOCAL-00009" summary="new clients">
+      <option name="closed" value="true" />
+      <created>1738246018520</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738246018520</updated>
+    </task>
+    <task id="LOCAL-00010" summary="new clients">
+      <option name="closed" value="true" />
+      <created>1741357345069</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741357345069</updated>
+    </task>
+    <task id="LOCAL-00011" summary="new clients">
+      <option name="closed" value="true" />
+      <created>1741360731281</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1741360731281</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -216,30 +313,47 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="db api" />
     <MESSAGE value="dp api in repository" />
-    <option name="LAST_COMMIT_MESSAGE" value="dp api in repository" />
+    <MESSAGE value="events for clients" />
+    <MESSAGE value="new clients" />
+    <option name="LAST_COMMIT_MESSAGE" value="new clients" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/utils/dbapi/query.py</url>
-          <line>30</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/utils/dbapi/main.py</url>
           <line>15</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/adapters/repositories/sqlite/_clients.py</url>
-          <line>21</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/entrypoint/cmd/clients.py</url>
           <line>28</line>
           <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/service_layer/client.py</url>
+          <line>9</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/messagebus.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/messagebus.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/web.py</url>
+          <line>61</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/service_layer/client.py</url>
+          <line>19</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
