@@ -1,7 +1,7 @@
 import sqlite3
 
 from src.domain.input_data import DataForTicket, DataCancelTicket
-from src.domain.status import TicketStatusConfirmed, TicketStatusAccepted
+from src.domain.ticket import TicketStatusAccepted, TicketStatusConfirmed
 #from src.services.service_layer import create_ticket, cancel_ticket
 from src.services.uow.sqlite.unit_of_work import SQLLiteUnitOfWork
 

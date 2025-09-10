@@ -1,8 +1,8 @@
-from typing import List
+from __future__ import annotations
 
-from src.domain.client import Client
-from src.domain.status import TicketStatus, TicketStatusConfirmed, TicketStatusCancelledUser, \
-    TicketStatusAccepted, UserStatus, UserStatusEnabled, UserStatusDisabled
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import List
 
 
 class Ticket:
@@ -11,7 +11,7 @@ class Ticket:
     def __init__(self, ticket_id: int = 0, describe: str = "", statuses: List[TicketStatus] | None = None):
         """Иницилизация. Если список статусов пуст, то создается статус Принято"""
         self.ticket_id = ticket_id
-
+        self._describe = ""  # Приватное поле
         self.describe = describe
         self.statuses = []
         if statuses is None or not statuses:
@@ -23,6 +23,8 @@ class Ticket:
         return hash(self.ticket_id)
 
     def __eq__(self, other):
+        if not isinstance(other, Ticket):
+            return False
         if self.ticket_id == other.ticket_id:
             return True
         else:
@@ -45,50 +47,86 @@ class Ticket:
         else:
             return False
 
+    @property
+    def describe(self) -> str:
+        return self._describe
+
+    @describe.setter
+    def describe(self, value: str) -> None:
+        if not value or not value.strip():
+            raise ValueError("Описание заявки не может быть пустым")
+        self._describe = value.strip()
+
     @classmethod
     def empty_ticket(cls):
-        return cls(ticket_id=0, describe="", statuses=[])
+        """Create an empty ticket instance that bypasses normal validation"""
+        instance = cls.__new__(cls)
+        instance.ticket_id = 0
+        instance._describe = ""
+        instance.statuses = []
+        return instance
 
 
-class User:
-    """Класс пользователь. Может создавать заявки и отменять их"""
 
-    def __init__(self, user_id: int, name: str, client: Client, status: UserStatus, tickets: list[Ticket] = None):
-        self.user_id = user_id
-        self.name = name
-        self.client = client
-        self.tickets = {}
-        if tickets:
-            for t in tickets:
-                self.tickets[t.ticket_id] = t
 
-        self.status = status
+@dataclass(frozen=True, kw_only=True)
+class TicketStatus:
+    """Базовый класс статусов заявок"""
+    id = 0
+    name: str = "Ticket status"
+    date: datetime = field(default_factory=datetime.now)
+    comment: str = ""
 
-    def is_active(self):
-        if self.client.is_active() and type(self.status) is UserStatusEnabled:
-            return True
-        else:
-            return False
 
-    def create_ticket(self, ticket: Ticket) -> bool:
-        if ticket.describe.lstrip() == "":
-            return False
-        if not self.is_active():
-            return False
+@dataclass(frozen=True, kw_only=True)
+class TicketStatusAccepted(TicketStatus):
+    """Заявка принята"""
+    id = 1
+    name: str = "Accepted"
 
-        self.tickets[ticket.ticket_id] = ticket
-        return True
 
-    def add_tickets(self, tickets: list[Ticket]):
-        for t in tickets:
-            self.create_ticket(t)
+@dataclass(frozen=True)
+class TicketStatusConfirmed(TicketStatus):
+    """Заявка подтверждена оператором"""
+    id = 2
+    name: str = "Confirmed by an operator"
 
-    def cancel_ticket(self, ticket_id: int, comment: str) -> Ticket:
-        if ticket_id in self.tickets:
-            self.tickets[ticket_id].cancelled_by_user(comment=comment)
-            return self.tickets[ticket_id]
-        return Ticket(ticket_id=0, describe="", statuses=[])
 
-    @classmethod
-    def empty_user(cls):
-        return cls(user_id=0, name="", client=Client.empty_client(), tickets=[], status=UserStatusDisabled())
+@dataclass(frozen=True)
+class TicketStatusExecuted(TicketStatus):
+    """Заявка выполнена"""
+    id = 3
+    name: str = "Executed"
+
+
+@dataclass(frozen=True, kw_only=True)
+class TicketStatusCancelledUser(TicketStatus):
+    """Заявка снята пользователем"""
+    id = 4
+    name: str = "Cancelled by an user"
+    comment: str
+
+
+@dataclass(frozen=True, kw_only=True)
+class TicketStatusCancelledOperator(TicketStatus):
+    """Заявка снята оператором"""
+    id = 5
+    name: str = "Cancelled by an operator"
+    comment: str
+
+
+_status_map = {
+     TicketStatus.id: TicketStatus,
+     TicketStatusAccepted.id: TicketStatusAccepted,
+     TicketStatusConfirmed.id:TicketStatusConfirmed,
+     TicketStatusExecuted.id:TicketStatusExecuted,
+     TicketStatusCancelledUser.id:TicketStatusCancelledUser,
+     TicketStatusCancelledOperator.id:TicketStatusCancelledOperator
+}
+
+def get_status_by_id(status_id: int) -> type[TicketStatus]:
+    return _status_map.get(status_id, TicketStatus)
+
+
+def get_id_by_status(status: TicketStatus) -> int:
+    return status.id

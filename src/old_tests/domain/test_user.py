@@ -1,9 +1,8 @@
 import pytest
 
 from src.domain.exceptions import InvalidStatus, TicketNotFound, UserCantCreate
-from src.domain.status import UserStatusEnabled, UserStatusDisabled, \
-    TicketStatusAccepted, TicketStatusCancelledUser, TicketStatusExecuted
-from src.domain.ticket import User, Ticket
+from src.domain.ticket import Ticket, TicketStatusAccepted, TicketStatusExecuted, TicketStatusCancelledUser
+from src.domain.user import User, UserStatusEnabled, UserStatusDisabled
 from src.domain.client import Client, ClientStatusEnabled, ClientStatusDisabled
 
 

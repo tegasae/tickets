@@ -3,12 +3,8 @@ import datetime
 import pytest
 
 from src.domain.exceptions import InvalidTicket, InvalidStatus
-from src.domain.ticket import Ticket
-from src.domain.status import TicketStatusAccepted, TicketStatusConfirmed, \
-    TicketStatusExecuted, TicketStatusCancelledUser
-
-
-
+from src.domain.ticket import Ticket, TicketStatusAccepted, TicketStatusConfirmed, TicketStatusExecuted, \
+    TicketStatusCancelledUser
 
 
 def test_ticket_initial_status_default():

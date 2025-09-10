@@ -1,11 +1,8 @@
 import pytest
 
-
-from src.domain.status import (
-    UserStatus, UserStatusEnabled, UserStatusDisabled,
-    TicketStatus, TicketStatusAccepted, TicketStatusConfirmed,
-    TicketStatusExecuted, TicketStatusCancelledUser, TicketStatusCancelledOperator
-)
+from src.domain.ticket import TicketStatus, TicketStatusAccepted, TicketStatusConfirmed, TicketStatusExecuted, \
+    TicketStatusCancelledUser, TicketStatusCancelledOperator
+from src.domain.user import UserStatus, UserStatusEnabled, UserStatusDisabled
 from src.domain.client import ClientStatus, ClientStatusEnabled, ClientStatusDisabled
 from datetime import datetime
 

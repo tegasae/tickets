@@ -2,8 +2,8 @@ import pytest
 
 from src.domain.exceptions import UserNotFound, TicketNotFound
 from src.domain.input_data import DataForTicket, DataCancelTicket
-from src.domain.status import UserStatusEnabled
-from src.domain.ticket import Ticket, User
+from src.domain.ticket import Ticket
+from src.domain.user import User, UserStatusEnabled
 from src.services.service_layer import create_ticket, cancel_ticket
 from src.services.uow.sqlite.unit_of_work import SQLLiteUnitOfWork
 from tests.conftest import get_client

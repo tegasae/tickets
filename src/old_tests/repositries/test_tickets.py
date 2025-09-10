@@ -5,8 +5,8 @@ import pytest
 from src.adapters.repositories.sqlite import SQLiteRepositoryTicket
 from src.adapters.repository import _RepositoryStatus
 from src.domain.exceptions import TicketNotFound
-from src.domain.status import TicketStatusAccepted, TicketStatusConfirmed, TicketStatusCancelledUser, TicketStatus
-from src.domain.ticket import Ticket
+from src.domain.ticket import Ticket, TicketStatus, TicketStatusAccepted, TicketStatusConfirmed, \
+    TicketStatusCancelledUser
 
 
 def test_add_new_ticket(create_conn):

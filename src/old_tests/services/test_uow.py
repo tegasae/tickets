@@ -1,5 +1,4 @@
-from src.domain.status import UserStatusEnabled
-from src.domain.ticket import User
+from src.domain.user import User, UserStatusEnabled
 from src.services.uow.sqlite.unit_of_work import SQLLiteUnitOfWork
 
 from tests.conftest import get_client

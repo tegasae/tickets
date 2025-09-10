@@ -2,8 +2,7 @@ import sqlite3
 
 import pytest
 
-from src.domain.status import UserStatusEnabled
-from src.domain.ticket import User
+from src.domain.user import User, UserStatusEnabled
 from src.domain.client import Client, ClientStatusEnabled
 
 

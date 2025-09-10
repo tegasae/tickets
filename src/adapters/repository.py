@@ -1,8 +1,8 @@
 import abc
 
-from src.domain.status import TicketStatus, TicketStatusAccepted, TicketStatusConfirmed, TicketStatusExecuted, \
+from src.domain.ticket import Ticket, TicketStatus, TicketStatusAccepted, TicketStatusConfirmed, TicketStatusExecuted, \
     TicketStatusCancelledUser, TicketStatusCancelledOperator
-from src.domain.ticket import User, Ticket
+from src.domain.user import User
 from src.domain.client import Client, ClientCollection
 
 

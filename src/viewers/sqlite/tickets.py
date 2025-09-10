@@ -1,5 +1,4 @@
-
-from src.domain.status import get_status_by_id
+from src.domain.ticket import get_status_by_id
 from src.utils.dbapi.connect import Connection
 from src.viewers.data import TicketView, ListTicketView, StatusView
 from src.viewers.tickets import AbstractTicketViewer

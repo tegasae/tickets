@@ -3,6 +3,7 @@ from typing import Type
 
 from src.domain.messages import Message, EventClientWronged, EventClientCreated, EventClientCantDeleted, \
     EventClientDeleted, EventClientUpdated, EventClientDisabled
+from src.domain.user import User
 
 
 @dataclass(frozen=True)
@@ -126,4 +127,20 @@ class ClientCollection:
         except KeyError:
             self.events.append(EventClientCantDeleted())
             return False
+
+
+class ClientAggregate:
+    client:Client
+    users: list[User]
+    status: ClientStatus
+    def __init__(self,client:Client,users:list[User],status:ClientStatus):
+        self.client=client
+        self.users=users
+        self.status=status
+
+    def disable(self):
+        self.status=ClientStatusDisabled()
+        #for u in self.users:
+        #    u.
+
 
